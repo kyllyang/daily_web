@@ -397,3 +397,12 @@ export const setTitle = (routeItem, vm) => {
   const resTitle = pageTitle ? `${title} - ${pageTitle}` : title
   window.document.title = resTitle
 }
+
+export const formatDate = (date) => {
+  const y = date.getFullYear()
+  let m = date.getMonth() + 1
+  m = m < 10 ? '0' + m : m
+  let d = date.getDate()
+  d = d < 10 ? ('0' + d) : d
+  return y + '-' + m + '-' + d
+}

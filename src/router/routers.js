@@ -1,5 +1,4 @@
 import Main from '@/components/main'
-import parentView from '@/components/parent-view'
 
 /**
  * iview-admin中meta除了原生参数外可配置的参数:
@@ -51,34 +50,6 @@ export default [
     ]
   },
   {
-    path: '',
-    name: 'doc',
-    meta: {
-      title: '文档',
-      href: 'https://lison16.github.io/iview-admin-doc/#/',
-      icon: 'ios-book'
-    }
-  },
-  {
-    path: '/join',
-    name: 'join',
-    component: Main,
-    meta: {
-      hideInBread: true
-    },
-    children: [
-      {
-        path: 'join_page',
-        name: 'join_page',
-        meta: {
-          icon: '_qq',
-          title: 'QQ群'
-        },
-        component: () => import('@/view/join-page.vue')
-      }
-    ]
-  },
-  {
     path: '/message',
     name: 'message',
     component: Main,
@@ -99,336 +70,224 @@ export default [
     ]
   },
   {
-    path: '/components',
-    name: 'components',
+    path: '/my-work',
+    name: 'my_work',
     meta: {
-      icon: 'logo-buffer',
-      title: '组件'
+      icon: 'md-menu',
+      title: '我的工作'
     },
     component: Main,
     children: [
       {
-        path: 'tree_select_page',
-        name: 'tree_select_page',
+        path: 'edit_worklog',
+        name: 'edit_worklog',
         meta: {
-          icon: 'md-arrow-dropdown-circle',
-          title: '树状下拉选择器'
-        },
-        component: () => import('@/view/components/tree-select/index.vue')
-      },
-      {
-        path: 'count_to_page',
-        name: 'count_to_page',
-        meta: {
-          icon: 'md-trending-up',
-          title: '数字渐变'
-        },
-        component: () => import('@/view/components/count-to/count-to.vue')
-      },
-      {
-        path: 'drag_list_page',
-        name: 'drag_list_page',
-        meta: {
-          icon: 'ios-infinite',
-          title: '拖拽列表'
-        },
-        component: () => import('@/view/components/drag-list/drag-list.vue')
-      },
-      {
-        path: 'drag_drawer_page',
-        name: 'drag_drawer_page',
-        meta: {
-          icon: 'md-list',
-          title: '可拖拽抽屉'
-        },
-        component: () => import('@/view/components/drag-drawer')
-      },
-      {
-        path: 'org_tree_page',
-        name: 'org_tree_page',
-        meta: {
-          icon: 'ios-people',
-          title: '组织结构树'
-        },
-        component: () => import('@/view/components/org-tree')
-      },
-      {
-        path: 'tree_table_page',
-        name: 'tree_table_page',
-        meta: {
-          icon: 'md-git-branch',
-          title: '树状表格'
-        },
-        component: () => import('@/view/components/tree-table/index.vue')
-      },
-      {
-        path: 'cropper_page',
-        name: 'cropper_page',
-        meta: {
-          icon: 'md-crop',
-          title: '图片裁剪'
-        },
-        component: () => import('@/view/components/cropper/cropper.vue')
-      },
-      {
-        path: 'tables_page',
-        name: 'tables_page',
-        meta: {
-          icon: 'md-grid',
-          title: '多功能表格'
-        },
-        component: () => import('@/view/components/tables/tables.vue')
-      },
-      {
-        path: 'split_pane_page',
-        name: 'split_pane_page',
-        meta: {
-          icon: 'md-pause',
-          title: '分割窗口'
-        },
-        component: () => import('@/view/components/split-pane/split-pane.vue')
-      },
-      {
-        path: 'markdown_page',
-        name: 'markdown_page',
-        meta: {
-          icon: 'logo-markdown',
-          title: 'Markdown编辑器'
-        },
-        component: () => import('@/view/components/markdown/markdown.vue')
-      },
-      {
-        path: 'editor_page',
-        name: 'editor_page',
-        meta: {
-          icon: 'ios-create',
-          title: '富文本编辑器'
-        },
-        component: () => import('@/view/components/editor/editor.vue')
-      },
-      {
-        path: 'icons_page',
-        name: 'icons_page',
-        meta: {
-          icon: '_bear',
-          title: '自定义图标'
-        },
-        component: () => import('@/view/components/icons/icons.vue')
-      }
-    ]
-  },
-  {
-    path: '/update',
-    name: 'update',
-    meta: {
-      icon: 'md-cloud-upload',
-      title: '数据上传'
-    },
-    component: Main,
-    children: [
-      {
-        path: 'update_table_page',
-        name: 'update_table_page',
-        meta: {
-          icon: 'ios-document',
-          title: '上传Csv'
-        },
-        component: () => import('@/view/update/update-table.vue')
-      },
-      {
-        path: 'update_paste_page',
-        name: 'update_paste_page',
-        meta: {
-          icon: 'md-clipboard',
-          title: '粘贴表格数据'
-        },
-        component: () => import('@/view/update/update-paste.vue')
-      }
-    ]
-  },
-  {
-    path: '/excel',
-    name: 'excel',
-    meta: {
-      icon: 'ios-stats',
-      title: 'EXCEL导入导出'
-    },
-    component: Main,
-    children: [
-      {
-        path: 'upload-excel',
-        name: 'upload-excel',
-        meta: {
-          icon: 'md-add',
-          title: '导入EXCEL'
+          icon: 'md-funnel',
+          title: '日报填写'
         },
         component: () => import('@/view/excel/upload-excel.vue')
       },
       {
-        path: 'export-excel',
-        name: 'export-excel',
+        path: 'my_process',
+        name: 'my_process',
         meta: {
-          icon: 'md-download',
-          title: '导出EXCEL'
+          icon: 'md-funnel',
+          title: '我的申请'
+        },
+        component: () => import('@/view/excel/export-excel.vue')
+      },
+      {
+        path: 'my_task',
+        name: 'my_task',
+        meta: {
+          icon: 'md-funnel',
+          title: '我的任务'
         },
         component: () => import('@/view/excel/export-excel.vue')
       }
     ]
   },
   {
-    path: '/tools_methods',
-    name: 'tools_methods',
+    path: '/organization',
+    name: 'organization',
     meta: {
-      hideInBread: true
+      icon: 'md-menu',
+      title: '组织机构管理'
     },
     component: Main,
     children: [
       {
-        path: 'tools_methods_page',
-        name: 'tools_methods_page',
+        path: 'org_employee',
+        name: 'org_employee',
         meta: {
-          icon: 'ios-hammer',
-          title: '工具方法',
-          beforeCloseName: 'before_close_normal'
+          icon: 'md-funnel',
+          title: '员工管理'
         },
-        component: () => import('@/view/tools-methods/tools-methods.vue')
+        component: () => import('@/view/daily/org-employee-table.vue')
+      },
+      {
+        path: 'org_team',
+        name: 'org_team',
+        meta: {
+          icon: 'md-funnel',
+          title: '团队管理'
+        },
+        component: () => import('@/view/excel/export-excel.vue')
       }
     ]
   },
   {
-    path: '/i18n',
-    name: 'i18n',
+    path: '/customer',
+    name: 'customer',
     meta: {
-      hideInBread: true
+      icon: 'md-menu',
+      title: '客户管理'
     },
     component: Main,
     children: [
       {
-        path: 'i18n_page',
-        name: 'i18n_page',
+        path: 'customer_company',
+        name: 'customer_company',
         meta: {
-          icon: 'md-planet',
-          title: 'i18n - {{ i18n_page }}'
+          icon: 'md-funnel',
+          title: '客户公司管理'
         },
-        component: () => import('@/view/i18n/i18n-page.vue')
+        component: () => import('@/view/excel/upload-excel.vue')
+      },
+      {
+        path: 'customer_employee',
+        name: 'customer_employee',
+        meta: {
+          icon: 'md-funnel',
+          title: '客户员工管理'
+        },
+        component: () => import('@/view/excel/export-excel.vue')
       }
     ]
   },
   {
-    path: '/error_store',
-    name: 'error_store',
+    path: '/project',
+    name: 'project',
     meta: {
-      hideInBread: true
+      icon: 'md-menu',
+      title: '项目管理'
     },
     component: Main,
     children: [
       {
-        path: 'error_store_page',
-        name: 'error_store_page',
+        path: 'project_page',
+        name: 'project_page',
         meta: {
-          icon: 'ios-bug',
-          title: '错误收集'
-        },
-        component: () => import('@/view/error-store/error-store.vue')
-      }
-    ]
-  },
-  {
-    path: '/error_logger',
-    name: 'error_logger',
-    meta: {
-      hideInBread: true,
-      hideInMenu: true
-    },
-    component: Main,
-    children: [
-      {
-        path: 'error_logger_page',
-        name: 'error_logger_page',
-        meta: {
-          icon: 'ios-bug',
-          title: '错误收集'
-        },
-        component: () => import('@/view/single-page/error-logger.vue')
-      }
-    ]
-  },
-  {
-    path: '/directive',
-    name: 'directive',
-    meta: {
-      hideInBread: true
-    },
-    component: Main,
-    children: [
-      {
-        path: 'directive_page',
-        name: 'directive_page',
-        meta: {
-          icon: 'ios-navigate',
-          title: '指令'
+          icon: 'md-funnel',
+          title: '项目管理'
         },
         component: () => import('@/view/directive/directive.vue')
       }
     ]
   },
   {
-    path: '/multilevel',
-    name: 'multilevel',
+    path: '/statistics',
+    name: 'statistics',
     meta: {
       icon: 'md-menu',
-      title: '多级菜单'
+      title: '统计分析'
     },
     component: Main,
     children: [
       {
-        path: 'level_2_1',
-        name: 'level_2_1',
+        path: 'worklog_summary',
+        name: 'worklog_summary',
         meta: {
           icon: 'md-funnel',
-          title: '二级-1'
+          title: '日报汇总'
         },
-        component: () => import('@/view/multilevel/level-2-1.vue')
+        component: () => import('@/view/excel/upload-excel.vue')
       },
       {
-        path: 'level_2_2',
-        name: 'level_2_2',
+        path: 'worklog_finished',
+        name: 'worklog_finished',
         meta: {
-          access: ['super_admin'],
           icon: 'md-funnel',
-          showAlways: true,
-          title: '二级-2'
+          title: '已填写日报'
         },
-        component: parentView,
-        children: [
-          {
-            path: 'level_2_2_1',
-            name: 'level_2_2_1',
-            meta: {
-              icon: 'md-funnel',
-              title: '三级'
-            },
-            component: () => import('@/view/multilevel/level-2-2/level-2-2-1.vue')
-          },
-          {
-            path: 'level_2_2_2',
-            name: 'level_2_2_2',
-            meta: {
-              icon: 'md-funnel',
-              title: '三级'
-            },
-            component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
-          }
-        ]
+        component: () => import('@/view/excel/export-excel.vue')
       },
       {
-        path: 'level_2_3',
-        name: 'level_2_3',
+        path: 'worklog_missing',
+        name: 'worklog_missing',
         meta: {
           icon: 'md-funnel',
-          title: '二级-3'
+          title: '未填写日报'
         },
-        component: () => import('@/view/multilevel/level-2-3.vue')
+        component: () => import('@/view/excel/export-excel.vue')
+      },
+      {
+        path: 'worklog_approved',
+        name: 'worklog_approved',
+        meta: {
+          icon: 'md-funnel',
+          title: '已审批日报'
+        },
+        component: () => import('@/view/excel/export-excel.vue')
+      },
+      {
+        path: 'worklog_noapproved',
+        name: 'worklog_noapproved',
+        meta: {
+          icon: 'md-funnel',
+          title: '未审批日报'
+        },
+        component: () => import('@/view/excel/export-excel.vue')
+      }
+    ]
+  },
+  {
+    path: '/workload',
+    name: 'workload',
+    meta: {
+      icon: 'md-menu',
+      title: '工作量整理'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'workload_page',
+        name: 'workload_page',
+        meta: {
+          icon: 'md-funnel',
+          title: '工作量整理'
+        },
+        component: () => import('@/view/directive/directive.vue')
+      }
+    ]
+  },
+  {
+    path: '/system',
+    name: 'system',
+    meta: {
+      icon: 'md-menu',
+      title: '系统管理',
+      access: ['super_admin']
+    },
+    component: Main,
+    children: [
+      {
+        path: 'permission',
+        name: 'permission',
+        meta: {
+          icon: 'md-funnel',
+          title: '权限管理'
+        },
+        component: () => import('@/view/excel/upload-excel.vue')
+      },
+      {
+        path: 'holidays',
+        name: 'holidays',
+        meta: {
+          icon: 'md-funnel',
+          title: '假日管理'
+        },
+        component: () => import('@/view/excel/export-excel.vue')
       }
     ]
   },
