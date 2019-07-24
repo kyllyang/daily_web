@@ -12,7 +12,7 @@
               <Input type="text" v-model="formData.name"></Input>
             </FormItem>
             <FormItem label="性别" prop="sex">
-              <Select v-model="formData.sex">
+              <Select v-model="formData.sex" placeholder="全部" clearable>
                 <Option v-for="(option, index) in dataDicts" :value="option.value" :key="index">{{option.label}}</Option>
               </Select>
             </FormItem>
@@ -189,7 +189,7 @@ export default {
             label: item.value
           }
         })
-        this.dataDicts = [{ value: '', label: '全部' }].concat(dataList)
+        this.dataDicts = dataList
       })
     },
     handleSubmit () {
