@@ -8,7 +8,7 @@
       <Card icon="log-in" title="欢迎登录" :bordered="false">
         <div class="form-con">
           <login-form @on-success-valid="handleSubmit"></login-form>
-          <p class="login-tip">输入任意用户名和密码即可</p>
+          <p class="login-tip">{{ loginTip }}</p>
         </div>
       </Card>
     </div>
@@ -19,6 +19,11 @@
 import LoginForm from '_c/login-form'
 import { mapActions } from 'vuex'
 export default {
+  data () {
+    return {
+      loginTip: '请输入用户名和密码'
+    }
+  },
   components: {
     LoginForm
   },
@@ -34,6 +39,8 @@ export default {
             name: this.$config.homeName
           })
         })
+      }).catch(err => {
+        this.loginTip = '登录失败: ' + err.response.status + ':' + err.response.data.code + ':' + err.response.data.message
       })
     }
   }
