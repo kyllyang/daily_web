@@ -14,7 +14,7 @@ export const login = ({ username, password }) => {
 
 export const getUserInfo = () => {
   return axios.request({
-    url: '/daily/organization/org-employee/info',
+    url: '/daily/organization/org-employee/user/info',
     method: 'get'
   })
 }

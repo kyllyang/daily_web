@@ -215,10 +215,12 @@ export default {
     handleQuery () {
       this.$refs['formData'].validate((valid) => {
         if (valid) {
-          console.log(this.$refs['formData'])
           this.loadData()
         } else {
-          this.$Message.error('查询条件验证失败!')
+          this.$Modal.warning({
+            title: '警告',
+            content: '查询条件验证失败！'
+          })
         }
       })
     },

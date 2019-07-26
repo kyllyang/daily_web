@@ -178,6 +178,7 @@
 <script>
 import { getDataDictByCode } from '@/api/daily/evo-datadict'
 import { listOrgTeam } from '@/api/daily/org-team'
+import { createOrgEmployee } from '@/api/daily/org-employee'
 import IMG_SEX00001 from '@/assets/images/daily/SEX00001.png'
 import IMG_SEX00002 from '@/assets/images/daily/SEX00002.png'
 
@@ -329,9 +330,25 @@ export default {
     handleSubmit () {
       this.$refs['formData'].validate((valid) => {
         if (valid) {
-          this.$Message.success('Success!')
+          createOrgEmployee(this.formData).then(res => {
+            this.$Modal.success({
+              title: '成功',
+              content: '保存成功！',
+              onOk: () => {
+                this.$router.push({ name: 'org_employee' })
+              }
+            })
+          }).catch(err => {
+            this.$Modal.error({
+              title: '错误',
+              content: '保存失败！<br/>' + err.response.status + ':' + err.response.data.code + ':' + err.response.data.message
+            })
+          })
         } else {
-          this.$Message.error('Fail!')
+          this.$Modal.warning({
+            title: '警告',
+            content: '表单验证失败，请检查！'
+          })
         }
       })
     },

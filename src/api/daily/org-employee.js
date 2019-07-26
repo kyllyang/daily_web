@@ -7,3 +7,11 @@ export const pageOrgEmployee = (query) => {
     method: 'post'
   })
 }
+
+export const createOrgEmployee = (formData) => {
+  return axios.request({
+    url: '/daily/organization/org-employee',
+    data: formData,
+    method: 'post'
+  })
+}
