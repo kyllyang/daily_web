@@ -39,6 +39,7 @@ export default {
   system: '系统管理',
   permission: '权限管理',
   holidays: '假日管理',
+  org_employee_edit: '员工编辑',
   level_1: 'Level-1',
   level_2: 'Level-2',
   level_2_1: 'Level-2-1',

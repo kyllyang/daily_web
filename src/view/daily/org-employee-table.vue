@@ -13,7 +13,7 @@
             </FormItem>
             <FormItem label="性别" prop="sex">
               <Select v-model="formData.sex" placeholder="全部" clearable>
-                <Option v-for="(option, index) in dataDicts" :value="option.value" :key="index">{{option.label}}</Option>
+                <Option v-for="(item, index) in dataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
               </Select>
             </FormItem>
             <FormItem label="邮箱" prop="mailbox">
@@ -23,7 +23,7 @@
               <Input type="text" v-model="formData.phone"></Input>
             </FormItem>
             <FormItem>
-              <Button type="primary" @click="handleSubmit()">
+              <Button type="primary" @click="handleQuery()">
                 <Icon type="ios-search-outline" />
                 查询
               </Button>
@@ -38,26 +38,26 @@
     </Collapse>
     <br/>
     <ButtonGroup>
-      <Button type="primary">
+      <Button type="primary" @click="handleCreate()">
         <Icon type="ios-add" />
         新增
       </Button>
-      <Button type="primary">
+      <Button type="primary" @click="handleModify()">
         <Icon type="ios-create-outline" />
         修改
       </Button>
-      <Button type="primary">
+      <Button type="primary" @click="handleView()">
         <Icon type="ios-paper-outline" />
         查看
       </Button>
-      <Button type="primary">
+      <Button type="primary" @click="handleDelete()">
         <Icon type="ios-trash-outline"/>
         删除
       </Button>
     </ButtonGroup>
     <br/>
     <br/>
-    <Table :data="data" :columns="columns" :loading="loading" size="small" stripe></Table>
+    <Table ref="dataTable" :data="data" :columns="columns" :loading="loading" size="small" stripe></Table>
     <div style="margin: 10px;overflow: hidden">
       <div style="float: right;">
         <Page :total="totalRecord" :current.sync="pageNo" :page-size="pageSize" show-elevator show-sizer show-total @on-change="loadData" @on-page-size-change="changeSize"></Page>
@@ -91,10 +91,10 @@ export default {
           { type: 'string', max: 10, message: '最大长度不能超过100个字符', trigger: 'blur' }
         ],
         mailbox: [
-          { type: 'string', max: 10, message: '最大长度不能超过100个字符', trigger: 'blur' }
+          { type: 'string', max: 100, message: '最大长度不能超过100个字符', trigger: 'blur' }
         ],
         phone: [
-          { type: 'string', max: 10, message: '最大长度不能超过100个字符', trigger: 'blur' }
+          { type: 'string', max: 20, message: '最大长度不能超过20个字符', trigger: 'blur' }
         ]
       },
       columns: [
@@ -181,18 +181,38 @@ export default {
     }
   },
   methods: {
-    loadDataDict () {
-      getDataDictByCode('SEX').then(res => {
-        const dataList = res.data.map(item => {
-          return {
-            value: item.key,
-            label: item.value
-          }
-        })
-        this.dataDicts = dataList
-      })
+    handleCreate () {
+      this.$router.push({ name: 'org_employee_edit' })
     },
-    handleSubmit () {
+    handleModify () {
+      if (this.$refs.dataTable.getSelection().length === 1) {
+      } else {
+        this.$Modal.warning({
+          title: '警告',
+          content: '请选择一条记录！'
+        })
+      }
+    },
+    handleView () {
+      if (this.$refs.dataTable.getSelection().length === 1) {
+      } else {
+        this.$Modal.warning({
+          title: '警告',
+          content: '请选择一条记录！'
+        })
+      }
+    },
+    handleDelete () {
+      if (this.$refs.dataTable.getSelection().length > 0) {
+
+      } else {
+        this.$Modal.warning({
+          title: '警告',
+          content: '请选择一条记录！'
+        })
+      }
+    },
+    handleQuery () {
       this.$refs['formData'].validate((valid) => {
         if (valid) {
           console.log(this.$refs['formData'])
@@ -205,6 +225,11 @@ export default {
     handleReset () {
       this.$refs['formData'].resetFields()
       this.loadData()
+    },
+    loadDataDict () {
+      getDataDictByCode('SEX').then(res => {
+        this.dataDicts = res.data
+      })
     },
     loadData () {
       if (this.loading) return

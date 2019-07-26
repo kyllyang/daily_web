@@ -292,6 +292,22 @@ export default [
     ]
   },
   {
+    path: '/organization_form',
+    name: 'organization_form',
+    component: Main,
+    children: [
+      {
+        path: '/org_employee_edit',
+        name: 'org_employee_edit',
+        meta: {
+          icon: 'ios-create-outline',
+          title: '员工编辑'
+        },
+        component: () => import('@/view/daily/org-employee-form.vue')
+      }
+    ]
+  },
+  {
     path: '/argu',
     name: 'argu',
     meta: {
