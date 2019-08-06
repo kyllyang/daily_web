@@ -30,7 +30,9 @@
     <Row v-show="formComponent.password.show">
       <Col span="12">
         <FormItem label="密码" prop="password">
-          <Input type="password" v-model="formData.password"></Input>
+          <Tooltip content="默认密码123456" placement="top-start">
+            <Input type="password" v-model="formData.password"></Input>
+          </Tooltip>
         </FormItem>
       </Col>
       <Col span="12">
