@@ -2,6 +2,7 @@ import Cookies from 'js-cookie'
 // cookie保存的天数
 import config from '@/config'
 import { forEach, hasOneOf, objEqual } from '@/libs/tools'
+import { pinyin } from '@/libs/pinyin'
 const { title, cookieExpires, useI18n } = config
 
 export const TOKEN_KEY = 'token'
@@ -405,4 +406,30 @@ export const formatDate = (date) => {
   let d = date.getDate()
   d = d < 10 ? ('0' + d) : d
   return y + '-' + m + '-' + d
+}
+
+export const pinyinFull = (chinese) => {
+  let result = ''
+  let reg = new RegExp('[a-zA-Z0-9]')
+  for (let i = 0; i < chinese.length; i++) {
+    let val = chinese.substr(i, 1)
+
+    let word = false
+    for (let letter in pinyin) {
+      if (pinyin[letter].indexOf(val) !== -1) {
+        word = letter.substr(0, 1) + letter.substr(1, letter.length)
+      }
+    }
+
+    if (reg.test(val)) {
+      result += val
+    } else if (word !== false) {
+      result += word
+    }
+  }
+  result = result.replace(/ /g, '-')
+  while (result.indexOf('--') > 0) {
+    result = result.replace('--', '-')
+  }
+  return result
 }

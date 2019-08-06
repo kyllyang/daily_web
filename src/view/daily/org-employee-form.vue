@@ -9,11 +9,25 @@
       </Col>
       <Col span="12">
         <FormItem label="姓名" prop="name">
-          <Input type="text" v-model="formData.name"></Input>
+          <Input type="text" v-model="formData.name" @on-keyup="generateUsername()"></Input>
         </FormItem>
       </Col>
     </Row>
     <Row>
+      <Col span="12">
+        <FormItem label="用户名称" prop="username">
+          <Input type="text" v-model="formData.username"></Input>
+        </FormItem>
+      </Col>
+      <Col span="12">
+        <FormItem label="员工状态" prop="status">
+          <Select v-model="formData.status" clearable>
+            <Option v-for="(item, index) in statusDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
+          </Select>
+        </FormItem>
+      </Col>
+    </Row>
+    <Row v-show="formComponent.password.show">
       <Col span="12">
         <FormItem label="密码" prop="password">
           <Input type="password" v-model="formData.password"></Input>
@@ -43,7 +57,7 @@
     </Row>
     <Row>
       <Col span="12">
-        <FormItem label="电话" prop="phone">
+        <FormItem label="手机" prop="phone">
           <Input type="text" v-model="formData.phone"></Input>
         </FormItem>
       </Col>
@@ -62,15 +76,6 @@
       <Col span="12">
         <FormItem label="离职时间" prop="outTime">
           <DatePicker :value="formData.outTime" format="yyyy年MM月dd日" type="date"></DatePicker>
-        </FormItem>
-      </Col>
-    </Row>
-    <Row>
-      <Col span="12">
-        <FormItem label="员工状态" prop="status">
-          <Select v-model="formData.status" clearable>
-            <Option v-for="(item, index) in statusDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
-          </Select>
         </FormItem>
       </Col>
     </Row>
@@ -178,7 +183,8 @@
 <script>
 import { getDataDictByCode } from '@/api/daily/evo-datadict'
 import { listOrgTeam } from '@/api/daily/org-team'
-import { createOrgEmployee } from '@/api/daily/org-employee'
+import { checkByBackend, createOrgEmployee, updateOrgEmployee, getOrgEmployee } from '@/api/daily/org-employee'
+import { pinyinFull } from '@/libs/util'
 import IMG_SEX00001 from '@/assets/images/daily/SEX00001.png'
 import IMG_SEX00002 from '@/assets/images/daily/SEX00002.png'
 
@@ -213,8 +219,11 @@ export default {
       educationDataDicts: [],
       teamList: [],
       formData: {
+        id: null,
         code: '',
         name: '',
+        userId: null,
+        username: '',
         password: '123456',
         confirmPassword: '123456',
         sex: 'SEX00002',
@@ -229,7 +238,7 @@ export default {
         education: '',
         university: '',
         major: '',
-        operationYears: '',
+        operationYears: null,
         goodAtTool: '',
         goodAtBusiness: '',
         qualifications: '',
@@ -239,12 +248,20 @@ export default {
         address: '',
         ancestralAddress: ''
       },
+      formComponent: {
+        password: {
+          show: true
+        }
+      },
       formRule: {
         code: [
           { type: 'string', required: true, max: 10, message: '不能为空，且最大长度不能超过10个字符', trigger: 'blur' }
         ],
         name: [
           { type: 'string', required: true, max: 10, message: '不能为空，且最大长度不能超过10个字符', trigger: 'blur' }
+        ],
+        username: [
+          { type: 'string', required: true, max: 30, message: '不能为空，且最大长度不能超过30个字符', trigger: 'blur' }
         ],
         password: [
           { type: 'string', required: true, min: 6, max: 20, message: '不能为空，且长度必须6到20个字符', trigger: 'blur' }
@@ -253,6 +270,7 @@ export default {
           { type: 'string', required: true, validator: confirmPasswordValidator, trigger: 'blur' }
         ],
         phone: [
+          { type: 'string', required: true, max: 20, message: '不能为空，且最大长度不能超过20个字符', trigger: 'blur' },
           { type: 'string', validator: phoneValidator, trigger: 'blur' }
         ],
         mailbox: [
@@ -295,6 +313,9 @@ export default {
     }
   },
   methods: {
+    generateUsername () {
+      this.formData.username = pinyinFull(this.formData.name)
+    },
     loadSexDataDict () {
       getDataDictByCode('SEX').then(res => {
         const dataList = res.data.map(item => {
@@ -327,17 +348,46 @@ export default {
         this.teamList = res.data
       })
     },
+    loadForm () {
+      getOrgEmployee(this.$route.params.id).then(res => {
+        this.formData = res.data
+      })
+    },
     handleSubmit () {
       this.$refs['formData'].validate((valid) => {
         if (valid) {
-          createOrgEmployee(this.formData).then(res => {
-            this.$Modal.success({
-              title: '成功',
-              content: '保存成功！',
-              onOk: () => {
-                this.$router.push({ name: 'org_employee' })
-              }
-            })
+          checkByBackend(this.formData).then(res => {
+            if (this.$route.params.id) {
+              updateOrgEmployee(this.formData).then(res => {
+                this.$Modal.success({
+                  title: '成功',
+                  content: '保存成功！',
+                  onOk: () => {
+                    this.$router.push({ name: 'org_employee' })
+                  }
+                })
+              }).catch(err => {
+                this.$Modal.error({
+                  title: '错误',
+                  content: '保存失败！<br/>' + err.response.status + ':' + err.response.data.code + ':' + err.response.data.message
+                })
+              })
+            } else {
+              createOrgEmployee(this.formData).then(res => {
+                this.$Modal.success({
+                  title: '成功',
+                  content: '保存成功！',
+                  onOk: () => {
+                    this.$router.push({ name: 'org_employee' })
+                  }
+                })
+              }).catch(err => {
+                this.$Modal.error({
+                  title: '错误',
+                  content: '保存失败！<br/>' + err.response.status + ':' + err.response.data.code + ':' + err.response.data.message
+                })
+              })
+            }
           }).catch(err => {
             this.$Modal.error({
               title: '错误',
@@ -362,6 +412,13 @@ export default {
     this.loadTeamRoleDataDict()
     this.loadEducationDataDict()
     this.loadTeamList()
+
+    if (this.$route.params.id) {
+      this.formComponent.password.show = false
+      this.formRule.password = null
+      this.formRule.confirmPassword = null
+      this.loadForm()
+    }
   }
 }
 </script>

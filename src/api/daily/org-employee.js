@@ -8,10 +8,40 @@ export const pageOrgEmployee = (query) => {
   })
 }
 
-export const createOrgEmployee = (formData) => {
+export const checkByBackend = (formData) => {
   return axios.request({
-    url: '/daily/organization/org-employee',
+    url: '/daily/organization/org-employee/check',
     data: formData,
     method: 'post'
+  })
+}
+
+export const createOrgEmployee = (formData) => {
+  return axios.request({
+    url: '/daily/organization/org-employee/info',
+    data: formData,
+    method: 'post'
+  })
+}
+
+export const updateOrgEmployee = (formData) => {
+  return axios.request({
+    url: '/daily/organization/org-employee/info',
+    data: formData,
+    method: 'put'
+  })
+}
+
+export const getOrgEmployee = (id) => {
+  return axios.request({
+    url: '/daily/organization/org-employee/info/' + id,
+    method: 'get'
+  })
+}
+
+export const deleteOrgEmployee = (id) => {
+  return axios.request({
+    url: '/daily/organization/org-employee/' + id,
+    method: 'delete'
   })
 }

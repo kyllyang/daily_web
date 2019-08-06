@@ -67,7 +67,7 @@
 </template>
 <script>
 import { getDataDictByCode } from '@/api/daily/evo-datadict'
-import { pageOrgEmployee } from '@/api/daily/org-employee'
+import { pageOrgEmployee, deleteOrgEmployee } from '@/api/daily/org-employee'
 import IMG_SEX00001 from '@/assets/images/daily/SEX00001.png'
 import IMG_SEX00002 from '@/assets/images/daily/SEX00002.png'
 
@@ -101,13 +101,15 @@ export default {
         {
           type: 'selection',
           align: 'center',
-          width: 60
+          width: 60,
+          key: 'id'
         },
         {
           type: 'index',
           align: 'center',
           width: 60,
           title: '序号',
+          key: 'id',
           indexMethod: (row) => {
             return (row._index + 1) + (this.pageSize * this.pageNo) - this.pageSize
           }
@@ -186,6 +188,7 @@ export default {
     },
     handleModify () {
       if (this.$refs.dataTable.getSelection().length === 1) {
+        this.$router.push({ name: 'org_employee_edit', params: { id: this.$refs.dataTable.getSelection()[0].id } })
       } else {
         this.$Modal.warning({
           title: '警告',
@@ -195,6 +198,10 @@ export default {
     },
     handleView () {
       if (this.$refs.dataTable.getSelection().length === 1) {
+        this.$Modal.warning({
+          title: '警告',
+          content: '此功能暂未实现！'
+        })
       } else {
         this.$Modal.warning({
           title: '警告',
@@ -204,7 +211,15 @@ export default {
     },
     handleDelete () {
       if (this.$refs.dataTable.getSelection().length > 0) {
-
+        this.$Modal.confirm({
+          title: '确认',
+          content: '是否删除此记录？',
+          onOk: () => {
+            deleteOrgEmployee(this.$refs.dataTable.getSelection()[0].id).then(res => {
+              this.loadData()
+            })
+          }
+        })
       } else {
         this.$Modal.warning({
           title: '警告',
