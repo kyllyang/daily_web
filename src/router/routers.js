@@ -123,7 +123,7 @@ export default [
           icon: 'md-funnel',
           title: '员工管理'
         },
-        component: () => import('@/view/daily/org-employee-table.vue')
+        component: () => import('@/view/daily/organization/org-employee-table.vue')
       },
       {
         path: 'org_team',
@@ -132,7 +132,7 @@ export default [
           icon: 'md-funnel',
           title: '团队管理'
         },
-        component: () => import('@/view/excel/export-excel.vue')
+        component: () => import('@/view/daily/organization/org-team-table.vue')
       }
     ]
   },
@@ -303,7 +303,7 @@ export default [
           icon: 'ios-create-outline',
           title: '员工编辑'
         },
-        component: () => import('@/view/daily/org-employee-form.vue')
+        component: () => import('@/view/daily/organization/org-employee-form.vue')
       }
     ]
   },

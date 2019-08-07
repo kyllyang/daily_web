@@ -2,7 +2,7 @@ import axios from '@/libs/api.request'
 
 export const pageOrgEmployee = (query) => {
   return axios.request({
-    url: '/daily/organization/org-employee/page',
+    url: '/daily/organization/org-employee/page/info',
     data: query,
     method: 'post'
   })
@@ -13,6 +13,13 @@ export const checkByBackend = (formData) => {
     url: '/daily/organization/org-employee/check',
     data: formData,
     method: 'post'
+  })
+}
+
+export const getOrgEmployee = (id) => {
+  return axios.request({
+    url: '/daily/organization/org-employee/info/' + id,
+    method: 'get'
   })
 }
 
@@ -29,13 +36,6 @@ export const updateOrgEmployee = (formData) => {
     url: '/daily/organization/org-employee/info',
     data: formData,
     method: 'put'
-  })
-}
-
-export const getOrgEmployee = (id) => {
-  return axios.request({
-    url: '/daily/organization/org-employee/info/' + id,
-    method: 'get'
   })
 }
 
