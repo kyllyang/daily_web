@@ -72,7 +72,7 @@
     <Row>
       <Col span="12">
         <FormItem label="入职时间" prop="inTime">
-          <DatePicker :value="formData.inTime" format="yyyy-MM-dd" type="date" @on-change="getInTimeTime" ref="inTime"></DatePicker>
+          <DatePicker :value="formData.inTime" format="yyyy-MM-dd" type="date" @on-change="getInTimeTime"></DatePicker>
         </FormItem>
       </Col>
       <Col span="12">
@@ -183,6 +183,7 @@
   </Form>
 </template>
 <script>
+import { mapMutations } from 'vuex'
 import { getDataDictByCode } from '@/api/daily/evo-datadict'
 import { listOrgTeam } from '@/api/daily/org-team'
 import { checkByBackend, createOrgEmployee, updateOrgEmployee, getOrgEmployee } from '@/api/daily/org-employee'
@@ -315,6 +316,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+      'closeTag'
+    ]),
     generateUsername () {
       this.formData.username = pinyinFull(this.formData.name)
     },
@@ -374,7 +378,12 @@ export default {
                   title: '成功',
                   content: '保存成功！',
                   onOk: () => {
-                    this.$router.push({ name: 'org_employee' })
+                    this.closeTag({
+                      name: this.$router.currentRoute.name,
+                      params: {
+                        id: this.$route.params.id
+                      }
+                    })
                   }
                 })
               }).catch(err => {
@@ -389,7 +398,9 @@ export default {
                   title: '成功',
                   content: '保存成功！',
                   onOk: () => {
-                    this.$router.push({ name: 'org_employee' })
+                    this.closeTag({
+                      name: this.$router.currentRoute.name
+                    })
                   }
                 })
               }).catch(err => {
