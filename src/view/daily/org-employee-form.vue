@@ -53,7 +53,7 @@
       </Col>
       <Col span="12">
         <FormItem label="生日" prop="birth">
-          <DatePicker :value="formData.birth" format="yyyy年MM月dd日" type="date"></DatePicker>
+          <DatePicker :value="formData.birth" format="yyyy-MM-dd" type="date" @on-change="getBirthTime"></DatePicker>
         </FormItem>
       </Col>
     </Row>
@@ -72,12 +72,12 @@
     <Row>
       <Col span="12">
         <FormItem label="入职时间" prop="inTime">
-          <DatePicker :value="formData.inTime" format="yyyy年MM月dd日" type="date"></DatePicker>
+          <DatePicker :value="formData.inTime" format="yyyy-MM-dd" type="date" @on-change="getInTimeTime" ref="inTime"></DatePicker>
         </FormItem>
       </Col>
       <Col span="12">
         <FormItem label="离职时间" prop="outTime">
-          <DatePicker :value="formData.outTime" format="yyyy年MM月dd日" type="date"></DatePicker>
+          <DatePicker :value="formData.outTime" format="yyyy-MM-dd" type="date" @on-change="getOutTimeTime"></DatePicker>
         </FormItem>
       </Col>
     </Row>
@@ -232,7 +232,7 @@ export default {
         birth: '',
         phone: '',
         mailbox: '',
-        inTime: '',
+        inTime: new Date(),
         outTime: '',
         status: '',
         teamCode: '',
@@ -317,6 +317,15 @@ export default {
   methods: {
     generateUsername () {
       this.formData.username = pinyinFull(this.formData.name)
+    },
+    getBirthTime (time) {
+      this.formData.birth = time
+    },
+    getInTimeTime (time) {
+      this.formData.inTime = time
+    },
+    getOutTimeTime (time) {
+      this.formData.outTime = time
     },
     loadSexDataDict () {
       getDataDictByCode('SEX').then(res => {
