@@ -298,7 +298,7 @@ export default {
           { type: 'string', max: 200, message: '最大长度不能超过200个字符', trigger: 'blur' }
         ],
         beforeWork: [
-          { type: 'string', max: 200, message: '最大长度不能超过200个字符', trigger: 'blur' }
+          { type: 'string', max: 400, message: '最大长度不能超过400个字符', trigger: 'blur' }
         ],
         standbyContacts: [
           { type: 'string', max: 200, message: '最大长度不能超过200个字符', trigger: 'blur' }
