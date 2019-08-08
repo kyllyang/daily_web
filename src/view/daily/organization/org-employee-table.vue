@@ -55,6 +55,12 @@
         删除
       </Button>
     </ButtonGroup>
+    <ButtonGroup>
+      <Button type="primary" @click="handleChangePassword()" style="margin-left: 8px">
+        <Icon type="ios-create-outline"/>
+        修改密码
+      </Button>
+    </ButtonGroup>
     <br/>
     <br/>
     <Table ref="dataTable" :data="data" :columns="columns" :loading="loading" size="small" stripe border></Table>
@@ -67,7 +73,7 @@
 </template>
 <script>
 import { getDataDictByCode } from '@/api/daily/evo-datadict'
-import { pageOrgEmployee, deleteOrgEmployee } from '@/api/daily/org-employee'
+import { pageOrgEmployee, deleteOrgEmployee, updateOrgEmployeePassowrd } from '@/api/daily/org-employee'
 import IMG_SEX00001 from '@/assets/images/daily/SEX00001.png'
 import IMG_SEX00002 from '@/assets/images/daily/SEX00002.png'
 
@@ -76,6 +82,7 @@ export default {
     return {
       collapse: '1',
       dataDicts: [],
+      newPassword: '123456',
       formData: {
         code: '',
         name: '',
@@ -214,6 +221,41 @@ export default {
           onOk: () => {
             deleteOrgEmployee(this.$refs.dataTable.getSelection()[0].id).then(res => {
               this.loadData()
+            })
+          }
+        })
+      } else {
+        this.$Modal.warning({
+          title: '警告',
+          content: '请选择一条记录！'
+        })
+      }
+    },
+    handleChangePassword () {
+      if (this.$refs.dataTable.getSelection().length === 1) {
+        this.$Modal.confirm({
+          title: '修改密码',
+          render: (h) => {
+            return h('Input', {
+              props: {
+                type: 'password',
+                value: this.newPassword,
+                autofocus: true,
+                placeholder: '请输入新密码'
+              },
+              on: {
+                input: (val) => {
+                  this.newPassword = val
+                }
+              }
+            })
+          },
+          onOk: () => {
+            updateOrgEmployeePassowrd(this.$refs.dataTable.getSelection()[0].userId, this.newPassword).then(res => {
+              this.$Modal.success({
+                title: '成功',
+                content: '修改成功！'
+              })
             })
           }
         })

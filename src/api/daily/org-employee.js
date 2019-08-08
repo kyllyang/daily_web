@@ -39,6 +39,17 @@ export const updateOrgEmployee = (formData) => {
   })
 }
 
+export const updateOrgEmployeePassowrd = (id, password) => {
+  return axios.request({
+    url: '/sys/user/password',
+    data: {
+      id,
+      password
+    },
+    method: 'put'
+  })
+}
+
 export const deleteOrgEmployee = (id) => {
   return axios.request({
     url: '/daily/organization/org-employee/' + id,
