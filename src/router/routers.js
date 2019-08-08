@@ -295,6 +295,9 @@ export default [
     path: '/organization_form',
     name: 'organization_form',
     component: Main,
+    meta: {
+      hideInMenu: true
+    },
     children: [
       {
         path: '/org_employee_edit',
@@ -304,6 +307,15 @@ export default [
           title: '员工编辑'
         },
         component: () => import('@/view/daily/organization/org-employee-form.vue')
+      },
+      {
+        path: '/org_team_edit',
+        name: 'org_team_edit',
+        meta: {
+          icon: 'ios-create-outline',
+          title: '团队编辑'
+        },
+        component: () => import('@/view/daily/organization/org-team-form.vue')
       }
     ]
   },

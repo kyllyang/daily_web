@@ -127,7 +127,7 @@ export default {
           title: '性质',
           key: 'property',
           render: (h, params) => {
-            let text = '未知'
+            let text = ''
             for (let index in this.propertyDataDicts) {
               if (params.row.property === this.propertyDataDicts[index].key) {
                 text = this.propertyDataDicts[index].value
@@ -143,7 +143,7 @@ export default {
           title: '状态',
           key: 'status',
           render: (h, params) => {
-            let text = '未知'
+            let text = ''
             for (let index in this.statusDataDicts) {
               if (params.row.status === this.statusDataDicts[index].key) {
                 text = this.statusDataDicts[index].value

@@ -181,7 +181,14 @@ export default {
   },
   methods: {
     handleCreate () {
-      this.$router.push({ name: 'org_employee_edit' })
+      const route = {
+        name: 'org_employee_edit',
+        meta: {
+          title: `动态路由`
+        }
+      }
+      this.$router.push(route)
+      // this.$router.push({ name: 'org_employee_edit' })
     },
     handleModify () {
       if (this.$refs.dataTable.getSelection().length === 1) {

@@ -15,6 +15,37 @@ export const listOrgTeam = () => {
   })
 }
 
+export const checkByBackend = (formData) => {
+  return axios.request({
+    url: '/daily/organization/org-team/check',
+    data: formData,
+    method: 'post'
+  })
+}
+
+export const getOrgTeam = (id) => {
+  return axios.request({
+    url: '/daily/organization/org-team/info/' + id,
+    method: 'get'
+  })
+}
+
+export const createOrgTeam = (formData) => {
+  return axios.request({
+    url: '/daily/organization/org-team/info',
+    data: formData,
+    method: 'post'
+  })
+}
+
+export const updateOrgTeam = (formData) => {
+  return axios.request({
+    url: '/daily/organization/org-team/info',
+    data: formData,
+    method: 'put'
+  })
+}
+
 export const deleteOrgTeam = (id) => {
   return axios.request({
     url: '/daily/organization/org-team/' + id,
