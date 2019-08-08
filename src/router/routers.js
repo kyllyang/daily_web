@@ -74,7 +74,8 @@ export default [
     name: 'my_work',
     meta: {
       icon: 'md-menu',
-      title: '我的工作'
+      title: '我的工作',
+      access: ['EMPLOYEE']
     },
     component: Main,
     children: [
@@ -83,7 +84,8 @@ export default [
         name: 'edit_worklog',
         meta: {
           icon: 'md-funnel',
-          title: '日报填写'
+          title: '日报填写',
+          access: ['EMPLOYEE']
         },
         component: () => import('@/view/excel/upload-excel.vue')
       },
@@ -92,7 +94,8 @@ export default [
         name: 'my_process',
         meta: {
           icon: 'md-funnel',
-          title: '我的申请'
+          title: '我的申请',
+          access: ['EMPLOYEE']
         },
         component: () => import('@/view/excel/export-excel.vue')
       },
@@ -101,7 +104,8 @@ export default [
         name: 'my_task',
         meta: {
           icon: 'md-funnel',
-          title: '我的任务'
+          title: '我的任务',
+          access: ['EMPLOYEE']
         },
         component: () => import('@/view/excel/export-excel.vue')
       }
@@ -112,7 +116,8 @@ export default [
     name: 'organization',
     meta: {
       icon: 'md-menu',
-      title: '组织机构管理'
+      title: '组织机构管理',
+      access: ['COMPANY_ADMIN']
     },
     component: Main,
     children: [
@@ -121,7 +126,8 @@ export default [
         name: 'org_employee',
         meta: {
           icon: 'md-funnel',
-          title: '员工管理'
+          title: '员工管理',
+          access: ['COMPANY_ADMIN']
         },
         component: () => import('@/view/daily/organization/org-employee-table.vue')
       },
@@ -130,7 +136,8 @@ export default [
         name: 'org_team',
         meta: {
           icon: 'md-funnel',
-          title: '团队管理'
+          title: '团队管理',
+          access: ['COMPANY_ADMIN']
         },
         component: () => import('@/view/daily/organization/org-team-table.vue')
       }
@@ -141,7 +148,8 @@ export default [
     name: 'customer',
     meta: {
       icon: 'md-menu',
-      title: '客户管理'
+      title: '客户管理',
+      access: ['COMPANY_ADMIN']
     },
     component: Main,
     children: [
@@ -150,7 +158,8 @@ export default [
         name: 'customer_company',
         meta: {
           icon: 'md-funnel',
-          title: '客户公司管理'
+          title: '客户公司管理',
+          access: ['COMPANY_ADMIN']
         },
         component: () => import('@/view/excel/upload-excel.vue')
       },
@@ -159,7 +168,8 @@ export default [
         name: 'customer_employee',
         meta: {
           icon: 'md-funnel',
-          title: '客户员工管理'
+          title: '客户员工管理',
+          access: ['COMPANY_ADMIN']
         },
         component: () => import('@/view/excel/export-excel.vue')
       }
@@ -170,7 +180,8 @@ export default [
     name: 'project',
     meta: {
       icon: 'md-menu',
-      title: '项目管理'
+      title: '项目管理',
+      access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
     },
     component: Main,
     children: [
@@ -179,7 +190,8 @@ export default [
         name: 'project_page',
         meta: {
           icon: 'md-funnel',
-          title: '项目管理'
+          title: '项目管理',
+          access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
         },
         component: () => import('@/view/directive/directive.vue')
       }
@@ -190,7 +202,8 @@ export default [
     name: 'statistics',
     meta: {
       icon: 'md-menu',
-      title: '统计分析'
+      title: '统计分析',
+      access: ['COMPANY_ADMIN']
     },
     component: Main,
     children: [
@@ -199,7 +212,8 @@ export default [
         name: 'worklog_summary',
         meta: {
           icon: 'md-funnel',
-          title: '日报汇总'
+          title: '日报汇总',
+          access: ['COMPANY_ADMIN']
         },
         component: () => import('@/view/excel/upload-excel.vue')
       },
@@ -208,7 +222,8 @@ export default [
         name: 'worklog_finished',
         meta: {
           icon: 'md-funnel',
-          title: '已填写日报'
+          title: '已填写日报',
+          access: ['COMPANY_ADMIN']
         },
         component: () => import('@/view/excel/export-excel.vue')
       },
@@ -217,7 +232,8 @@ export default [
         name: 'worklog_missing',
         meta: {
           icon: 'md-funnel',
-          title: '未填写日报'
+          title: '未填写日报',
+          access: ['COMPANY_ADMIN']
         },
         component: () => import('@/view/excel/export-excel.vue')
       },
@@ -226,7 +242,8 @@ export default [
         name: 'worklog_approved',
         meta: {
           icon: 'md-funnel',
-          title: '已审批日报'
+          title: '已审批日报',
+          access: ['COMPANY_ADMIN']
         },
         component: () => import('@/view/excel/export-excel.vue')
       },
@@ -235,7 +252,8 @@ export default [
         name: 'worklog_noapproved',
         meta: {
           icon: 'md-funnel',
-          title: '未审批日报'
+          title: '未审批日报',
+          access: ['COMPANY_ADMIN']
         },
         component: () => import('@/view/excel/export-excel.vue')
       }
@@ -246,7 +264,8 @@ export default [
     name: 'workload',
     meta: {
       icon: 'md-menu',
-      title: '工作量整理'
+      title: '工作量整理',
+      access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
     },
     component: Main,
     children: [
@@ -255,7 +274,8 @@ export default [
         name: 'workload_page',
         meta: {
           icon: 'md-funnel',
-          title: '工作量整理'
+          title: '工作量整理',
+          access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
         },
         component: () => import('@/view/directive/directive.vue')
       }
@@ -267,7 +287,7 @@ export default [
     meta: {
       icon: 'md-menu',
       title: '系统管理',
-      access: ['super_admin']
+      access: ['SYSTEM_ADMIN']
     },
     component: Main,
     children: [
@@ -276,7 +296,8 @@ export default [
         name: 'permission',
         meta: {
           icon: 'md-funnel',
-          title: '权限管理'
+          title: '权限管理',
+          access: ['SYSTEM_ADMIN']
         },
         component: () => import('@/view/excel/upload-excel.vue')
       },
@@ -285,7 +306,8 @@ export default [
         name: 'holidays',
         meta: {
           icon: 'md-funnel',
-          title: '假日管理'
+          title: '假日管理',
+          access: ['SYSTEM_ADMIN']
         },
         component: () => import('@/view/excel/export-excel.vue')
       }
