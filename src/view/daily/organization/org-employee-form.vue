@@ -43,6 +43,18 @@
     </Row>
     <Row>
       <Col span="12">
+        <FormItem label="手机" prop="phone">
+          <Input type="text" v-model="formData.phone"></Input>
+        </FormItem>
+      </Col>
+      <Col span="12">
+        <FormItem label="邮箱" prop="mailbox">
+          <Input type="text" v-model="formData.mailbox"></Input>
+        </FormItem>
+      </Col>
+    </Row>
+    <Row>
+      <Col span="12">
         <FormItem label="性别" prop="sex">
           <RadioGroup v-model="formData.sex">
             <Radio v-for="(item, index) in sexDataDicts" :label="item.key" :key="index">
@@ -59,18 +71,6 @@
     </Row>
     <Row>
       <Col span="12">
-        <FormItem label="手机" prop="phone">
-          <Input type="text" v-model="formData.phone"></Input>
-        </FormItem>
-      </Col>
-      <Col span="12">
-        <FormItem label="邮箱" prop="mailbox">
-          <Input type="text" v-model="formData.mailbox"></Input>
-        </FormItem>
-      </Col>
-    </Row>
-    <Row>
-      <Col span="12">
         <FormItem label="入职时间" prop="inTime">
           <DatePicker :value="formData.inTime" format="yyyy-MM-dd" type="date" @on-change="getInTimeTime"></DatePicker>
         </FormItem>
@@ -78,6 +78,14 @@
       <Col span="12">
         <FormItem label="离职时间" prop="outTime">
           <DatePicker :value="formData.outTime" format="yyyy-MM-dd" type="date" @on-change="getOutTimeTime"></DatePicker>
+        </FormItem>
+      </Col>
+    </Row>
+    <Divider>权限信息</Divider>
+    <Row>
+      <Col span="12">
+        <FormItem label="系统权限" prop="roleCodes">
+          <Transfer :data="roleList" :target-keys="formData.roleCodes" :render-format="roleRender" @on-change="getRoleCodesTransfer"></Transfer>
         </FormItem>
       </Col>
     </Row>
@@ -185,6 +193,7 @@
 <script>
 import { mapMutations } from 'vuex'
 import { getDataDictByCode } from '@/api/daily/evo-datadict'
+import { listRole } from '@/api/daily/evo-sys'
 import { listOrgTeam } from '@/api/daily/org-team'
 import { checkByBackend, createOrgEmployee, updateOrgEmployee, getOrgEmployee } from '@/api/daily/org-employee'
 import { pinyinFull } from '@/libs/util'
@@ -220,6 +229,7 @@ export default {
       statusDataDicts: [],
       teamRoleDataDicts: [],
       educationDataDicts: [],
+      roleList: [],
       teamList: [],
       formData: {
         id: null,
@@ -236,6 +246,7 @@ export default {
         inTime: new Date(),
         outTime: '',
         status: '',
+        roleCodes: ['EMPLOYEE'],
         teamCode: '',
         teamRole: '',
         education: '',
@@ -331,6 +342,9 @@ export default {
     getOutTimeTime (time) {
       this.formData.outTime = time
     },
+    getRoleCodesTransfer (newTargetKeys, direction, moveKeys) {
+      this.formData.roleCodes = newTargetKeys
+    },
     loadSexDataDict () {
       getDataDictByCode('SEX').then(res => {
         const dataList = res.data.map(item => {
@@ -358,6 +372,19 @@ export default {
         this.educationDataDicts = res.data
       })
     },
+    loadRoleList () {
+      listRole().then(res => {
+        const dataList = res.data.map(item => {
+          return {
+            key: item.code,
+            label: item.name,
+            description: item.name,
+            disabled: false
+          }
+        })
+        this.roleList = dataList
+      })
+    },
     loadTeamList () {
       listOrgTeam().then(res => {
         this.teamList = res.data
@@ -367,6 +394,9 @@ export default {
       getOrgEmployee(this.$route.params.id).then(res => {
         this.formData = res.data
       })
+    },
+    roleRender (item) {
+      return item.label
     },
     handleSubmit () {
       this.$refs['formData'].validate((valid) => {
@@ -433,6 +463,7 @@ export default {
     this.loadStatusDataDict()
     this.loadTeamRoleDataDict()
     this.loadEducationDataDict()
+    this.loadRoleList()
     this.loadTeamList()
 
     if (this.$route.params.id) {
