@@ -41,6 +41,8 @@ export default {
   holidays: '假日管理',
   org_employee_edit: '员工编辑',
   org_team_edit: '团队编辑',
+  customer_company_edit: '客户公司编辑',
+  customer_employee_edit: '客户员工编辑',
   level_1: 'Level-1',
   level_2: 'Level-2',
   level_2_1: 'Level-2-1',

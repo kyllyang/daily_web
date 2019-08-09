@@ -161,7 +161,7 @@ export default [
           title: '客户公司管理',
           access: ['COMPANY_ADMIN']
         },
-        component: () => import('@/view/excel/upload-excel.vue')
+        component: () => import('@/view/daily/customer/customer-company-table.vue')
       },
       {
         path: 'customer_employee',
@@ -171,7 +171,7 @@ export default [
           title: '客户员工管理',
           access: ['COMPANY_ADMIN']
         },
-        component: () => import('@/view/excel/export-excel.vue')
+        component: () => import('@/view/daily/customer/customer-employee-table.vue')
       }
     ]
   },
@@ -338,6 +338,34 @@ export default [
           title: '团队编辑'
         },
         component: () => import('@/view/daily/organization/org-team-form.vue')
+      }
+    ]
+  },
+  {
+    path: '/customer_form',
+    name: 'customer_form',
+    component: Main,
+    meta: {
+      hideInMenu: true
+    },
+    children: [
+      {
+        path: '/customer_company_edit',
+        name: 'customer_company_edit',
+        meta: {
+          icon: 'ios-create-outline',
+          title: '客户公司编辑'
+        },
+        component: () => import('@/view/daily/customer/customer-company-form.vue')
+      },
+      {
+        path: '/customer_employee_edit',
+        name: 'customer_employee_edit',
+        meta: {
+          icon: 'ios-create-outline',
+          title: '客户员工编辑'
+        },
+        component: () => import('@/view/daily/customer/customer-employee-form.vue')
       }
     ]
   },
