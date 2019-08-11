@@ -4,32 +4,46 @@
       <Panel name="1">
         客户公司列表
         <p slot="content">
-        <Form ref="formData" :model="formData" :rules="formRule" :label-width="80" inline>
-          <FormItem label="编号" prop="code">
-            <Input type="text" v-model="formData.code"></Input>
-          </FormItem>
-          <FormItem label="名称" prop="name">
-            <Input type="text" v-model="formData.name"></Input>
-          </FormItem>
-          <FormItem label="办公地点" prop="address">
-            <Input type="text" v-model="formData.address"></Input>
-          </FormItem>
-          <FormItem label="服务模式" prop="serviceMode">
-            <Select v-model="formData.serviceMode" placeholder="全部" clearable>
-              <Option v-for="(item, index) in serviceModeDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
-            </Select>
-          </FormItem>
-          <FormItem>
-            <Button type="primary" @click="handleQuery()">
-              <Icon type="ios-search-outline" />
-              查询
-            </Button>
-            <Button type="primary" @click="handleReset()" style="margin-left: 8px">
-              <Icon type="ios-repeat" />
-              重置
-            </Button>
-          </FormItem>
-        </Form>
+          <Form ref="formData" :model="formData" :rules="formRule" :label-width="80" inline>
+            <Row>
+              <Col span="8">
+                <FormItem label="编号" prop="code">
+                  <Input type="text" v-model="formData.code"></Input>
+                </FormItem>
+              </Col>
+              <Col span="8">
+                <FormItem label="名称" prop="name">
+                  <Input type="text" v-model="formData.name"></Input>
+                </FormItem>
+              </Col>
+              <Col span="8">
+                <FormItem label="办公地点" prop="address">
+                  <Input type="text" v-model="formData.address"></Input>
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="8">
+                <FormItem label="服务模式" prop="serviceMode">
+                  <Select v-model="formData.serviceMode" placeholder="全部" clearable>
+                    <Option v-for="(item, index) in serviceModeDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
+                  </Select>
+                </FormItem>
+              </Col>
+              <Col span="8" offset="8">
+                <FormItem>
+                  <Button type="primary" @click="handleQuery()">
+                    <Icon type="ios-search-outline" />
+                    查询
+                  </Button>
+                  <Button type="primary" @click="handleReset()" style="margin-left: 8px">
+                    <Icon type="ios-repeat" />
+                    重置
+                  </Button>
+                </FormItem>
+              </Col>
+            </Row>
+          </Form>
         </p>
       </Panel>
     </Collapse>

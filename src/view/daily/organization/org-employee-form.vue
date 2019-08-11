@@ -93,7 +93,7 @@
     <Row>
       <Col span="12">
         <FormItem label="所属团队" prop="teamCode">
-          <Select v-model="formData.teamCode">
+          <Select v-model="formData.teamCode" clearable>
             <Option v-for="(item, index) in teamList" :value="item.code" :label="item.name" :key="index">
               <span>{{ item.name }}</span>
               <span style="float:right;color:#ccc">{{ item.principalName }}</span>

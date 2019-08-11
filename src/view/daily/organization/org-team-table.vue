@@ -4,37 +4,53 @@
       <Panel name="1">
         团队列表
         <p slot="content">
-        <Form ref="formData" :model="formData" :rules="formRule" :label-width="80" inline>
-          <FormItem label="编号" prop="code">
-            <Input type="text" v-model="formData.code"></Input>
-          </FormItem>
-          <FormItem label="名称" prop="name">
-            <Input type="text" v-model="formData.name"></Input>
-          </FormItem>
-          <FormItem label="负责人" prop="principalName">
-            <Input type="text" v-model="formData.principalName"></Input>
-          </FormItem>
-          <FormItem label="性质" prop="property">
-            <Select v-model="formData.property" placeholder="全部" clearable>
-              <Option v-for="(item, index) in propertyDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
-            </Select>
-          </FormItem>
-          <FormItem label="状态" prop="status">
-            <Select v-model="formData.status" placeholder="全部" clearable>
-              <Option v-for="(item, index) in statusDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
-            </Select>
-          </FormItem>
-          <FormItem>
-            <Button type="primary" @click="handleQuery()">
-              <Icon type="ios-search-outline" />
-              查询
-            </Button>
-            <Button type="primary" @click="handleReset()" style="margin-left: 8px">
-              <Icon type="ios-repeat" />
-              重置
-            </Button>
-          </FormItem>
-        </Form>
+          <Form ref="formData" :model="formData" :rules="formRule" :label-width="80" inline>
+            <Row>
+              <Col span="8">
+                <FormItem label="编号" prop="code">
+                  <Input type="text" v-model="formData.code"></Input>
+                </FormItem>
+              </Col>
+              <Col span="8">
+                <FormItem label="名称" prop="name">
+                  <Input type="text" v-model="formData.name"></Input>
+                </FormItem>
+              </Col>
+              <Col span="8">
+                <FormItem label="负责人" prop="principalName">
+                  <Input type="text" v-model="formData.principalName"></Input>
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="8">
+                <FormItem label="性质" prop="property">
+                  <Select v-model="formData.property" placeholder="全部" clearable>
+                    <Option v-for="(item, index) in propertyDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
+                  </Select>
+                </FormItem>
+              </Col>
+              <Col span="8">
+                <FormItem label="状态" prop="status">
+                  <Select v-model="formData.status" placeholder="全部" clearable>
+                    <Option v-for="(item, index) in statusDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
+                  </Select>
+                </FormItem>
+              </Col>
+              <Col span="8">
+                <FormItem>
+                  <Button type="primary" @click="handleQuery()">
+                    <Icon type="ios-search-outline" />
+                    查询
+                  </Button>
+                  <Button type="primary" @click="handleReset()" style="margin-left: 8px">
+                    <Icon type="ios-repeat" />
+                    重置
+                  </Button>
+                </FormItem>
+              </Col>
+            </Row>
+          </Form>
         </p>
       </Panel>
     </Collapse>

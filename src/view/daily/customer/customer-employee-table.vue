@@ -4,34 +4,48 @@
       <Panel name="1">
         客户员工列表
         <p slot="content">
-        <Form ref="formData" :model="formData" :rules="formRule" :label-width="80" inline>
-          <FormItem label="编号" prop="code">
-            <Input type="text" v-model="formData.code"></Input>
-          </FormItem>
-          <FormItem label="姓名" prop="name">
-            <Input type="text" v-model="formData.name"></Input>
-          </FormItem>
-          <FormItem label="职位" prop="job">
-            <Input type="text" v-model="formData.job"></Input>
-          </FormItem>
-          <FormItem label="所属公司" prop="companyCode">
-            <Select v-model="formData.companyCode">
-              <Option v-for="(item, index) in companyList" :value="item.code" :label="item.name" :key="index">
-                <span>{{ item.name }}</span>
-              </Option>
-            </Select>
-          </FormItem>
-          <FormItem>
-            <Button type="primary" @click="handleQuery()">
-              <Icon type="ios-search-outline" />
-              查询
-            </Button>
-            <Button type="primary" @click="handleReset()" style="margin-left: 8px">
-              <Icon type="ios-repeat" />
-              重置
-            </Button>
-          </FormItem>
-        </Form>
+          <Form ref="formData" :model="formData" :rules="formRule" :label-width="80" inline>
+            <Row>
+              <Col span="8">
+                <FormItem label="编号" prop="code">
+                  <Input type="text" v-model="formData.code"></Input>
+                </FormItem>
+              </Col>
+              <Col span="8">
+                <FormItem label="姓名" prop="name">
+                  <Input type="text" v-model="formData.name"></Input>
+                </FormItem>
+              </Col>
+              <Col span="8">
+                <FormItem label="职位" prop="job">
+                  <Input type="text" v-model="formData.job"></Input>
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="8">
+                <FormItem label="所属公司" prop="companyCode">
+                  <Select v-model="formData.companyCode">
+                    <Option v-for="(item, index) in companyList" :value="item.code" :label="item.name" :key="index">
+                      <span>{{ item.name }}</span>
+                    </Option>
+                  </Select>
+                </FormItem>
+              </Col>
+              <Col span="8" offset="8">
+                <FormItem>
+                  <Button type="primary" @click="handleQuery()">
+                    <Icon type="ios-search-outline" />
+                    查询
+                  </Button>
+                  <Button type="primary" @click="handleReset()" style="margin-left: 8px">
+                    <Icon type="ios-repeat" />
+                    重置
+                  </Button>
+                </FormItem>
+              </Col>
+            </Row>
+          </Form>
         </p>
       </Panel>
     </Collapse>

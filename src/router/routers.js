@@ -180,20 +180,30 @@ export default [
     name: 'project',
     meta: {
       icon: 'md-menu',
-      title: '项目管理',
+      title: '项目建设',
       access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
     },
     component: Main,
     children: [
       {
-        path: 'project_page',
-        name: 'project_page',
+        path: 'project_system',
+        name: 'project_system',
+        meta: {
+          icon: 'md-funnel',
+          title: '系统管理',
+          access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
+        },
+        component: () => import('@/view/daily/project/project-system-table.vue')
+      },
+      {
+        path: 'project_system_item',
+        name: 'project_system_item',
         meta: {
           icon: 'md-funnel',
           title: '项目管理',
           access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
         },
-        component: () => import('@/view/directive/directive.vue')
+        component: () => import('@/view/daily/project/project-system-item-table.vue')
       }
     ]
   },
@@ -366,6 +376,34 @@ export default [
           title: '客户员工编辑'
         },
         component: () => import('@/view/daily/customer/customer-employee-form.vue')
+      }
+    ]
+  },
+  {
+    path: '/project_form',
+    name: 'project_form',
+    component: Main,
+    meta: {
+      hideInMenu: true
+    },
+    children: [
+      {
+        path: '/project_system_edit',
+        name: 'project_system_edit',
+        meta: {
+          icon: 'ios-create-outline',
+          title: '系统编辑'
+        },
+        component: () => import('@/view/daily/project/project-system-form.vue')
+      },
+      {
+        path: '/project_system_item_edit',
+        name: 'project_system_item_edit',
+        meta: {
+          icon: 'ios-create-outline',
+          title: '项目编辑'
+        },
+        component: () => import('@/view/daily/project/project-system-item-form.vue')
       }
     ]
   },
