@@ -170,6 +170,16 @@ export default {
           width: 120,
           title: '废弃时间',
           key: 'offTime'
+        },
+        {
+          align: 'left',
+          title: '服务公司',
+          key: 'companyNameText'
+        },
+        {
+          align: 'left',
+          title: '维护团队',
+          key: 'teamName'
         }
       ],
       data: [],

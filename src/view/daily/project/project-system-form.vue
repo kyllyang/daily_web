@@ -34,6 +34,27 @@
       </Col>
     </Row>
     <Row>
+      <Col span="12">
+        <FormItem label="服务公司" prop="companyCodes">
+          <Select v-model="formData.companyCodes" multiple>
+            <Option v-for="(item, index) in companyList" :value="item.code" :label="item.name" :key="index">
+              <span>{{ item.name }}</span>
+            </Option>
+          </Select>
+        </FormItem>
+      </Col>
+      <Col span="12">
+        <FormItem label="维护团队" prop="teamCode">
+          <Select v-model="formData.teamCode" clearable>
+            <Option v-for="(item, index) in teamList" :value="item.code" :label="item.name" :key="index">
+              <span>{{ item.name }}</span>
+              <span style="float:right;color:#ccc">{{ item.principalName }}</span>
+            </Option>
+          </Select>
+        </FormItem>
+      </Col>
+    </Row>
+    <Row>
       <Col span="24">
         <FormItem label="SVN信息" prop="svnInfo">
           <Input type="textarea" :rows="4" v-model="formData.svnInfo"></Input>
@@ -83,6 +104,8 @@
 import { mapMutations } from 'vuex'
 import { getDataDictByCode } from '@/api/daily/evo-datadict'
 import { listCustomerEmployee } from '@/api/daily/customer-employee'
+import { listCustomerCompany } from '@/api/daily/customer-company'
+import { listOrgTeam } from '@/api/daily/org-team'
 import { checkByBackend, createProjectSystem, updateProjectSystem, getProjectSystem } from '@/api/daily/project-system'
 
 export default {
@@ -90,6 +113,8 @@ export default {
     return {
       statusDataDicts: [],
       customerPrincipalList: [],
+      companyList: [],
+      teamList: [],
       formData: {
         id: null,
         code: '',
@@ -101,7 +126,9 @@ export default {
         businessInfo: '',
         frameworkInfo: '',
         onTime: '',
-        offTime: ''
+        offTime: '',
+        companyCodes: [],
+        teamCode: ''
       },
       formRule: {
         code: [
@@ -143,6 +170,16 @@ export default {
     loadCustomerPrincipalList () {
       listCustomerEmployee().then(res => {
         this.customerPrincipalList = res.data
+      })
+    },
+    loadCompanyList () {
+      listCustomerCompany().then(res => {
+        this.companyList = res.data
+      })
+    },
+    loadTeamList () {
+      listOrgTeam().then(res => {
+        this.teamList = res.data
       })
     },
     loadForm () {
@@ -213,6 +250,8 @@ export default {
   mounted () {
     this.loadStatusDataDict()
     this.loadCustomerPrincipalList()
+    this.loadCompanyList()
+    this.loadTeamList()
 
     if (this.$route.params.id) {
       this.loadForm()
