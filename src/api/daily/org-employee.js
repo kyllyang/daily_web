@@ -8,6 +8,13 @@ export const pageOrgEmployee = (query) => {
   })
 }
 
+export const listOrgEmployee = (query) => {
+  return axios.request({
+    url: '/daily/organization/org-employee/all',
+    method: 'get'
+  })
+}
+
 export const checkByBackend = (formData) => {
   return axios.request({
     url: '/daily/organization/org-employee/check',
