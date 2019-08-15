@@ -112,6 +112,38 @@ export default [
     ]
   },
   {
+    path: '/worklog',
+    name: 'worklog',
+    meta: {
+      icon: 'md-menu',
+      title: '工作记录',
+      access: ['COMPANY_ADMIN', 'TEAM_ADMIN', 'EMPLOYEE']
+    },
+    component: Main,
+    children: [
+      {
+        path: 'worklog_daily_record',
+        name: 'worklog_daily_record',
+        meta: {
+          icon: 'md-funnel',
+          title: '日报管理',
+          access: ['COMPANY_ADMIN']
+        },
+        component: () => import('@/view/daily/worklog/worklog-daily-record-table.vue')
+      },
+      {
+        path: 'worklog_sign_in',
+        name: 'worklog_sign_in',
+        meta: {
+          icon: 'md-funnel',
+          title: '签到记录',
+          access: ['COMPANY_ADMIN']
+        },
+        component: () => import('@/view/daily/worklog/worklog-daily-record-table.vue')
+      }
+    ]
+  },
+  {
     path: '/organization',
     name: 'organization',
     meta: {
@@ -404,6 +436,25 @@ export default [
           title: '项目编辑'
         },
         component: () => import('@/view/daily/project/project-system-item-form.vue')
+      }
+    ]
+  },
+  {
+    path: '/worklog_form',
+    name: 'worklog_form',
+    component: Main,
+    meta: {
+      hideInMenu: true
+    },
+    children: [
+      {
+        path: '/worklog_daily_record_edit',
+        name: 'worklog_daily_record_edit',
+        meta: {
+          icon: 'ios-create-outline',
+          title: '日报编辑'
+        },
+        component: () => import('@/view/daily/worklog/worklog-daily-record-form.vue')
       }
     ]
   },

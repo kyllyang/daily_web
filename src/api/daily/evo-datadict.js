@@ -6,3 +6,10 @@ export const getDataDictByCode = (code) => {
     method: 'get'
   })
 }
+
+export const getDataDictByCodeForChildren = (code) => {
+  return axios.request({
+    url: '/datadict/code/' + code + '/children',
+    method: 'get'
+  })
+}
