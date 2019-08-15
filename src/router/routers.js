@@ -87,7 +87,7 @@ export default [
           title: '日报填写',
           access: ['EMPLOYEE']
         },
-        component: () => import('@/view/excel/upload-excel.vue')
+        component: () => import('@/view/daily/worklog/my-daily-record-form.vue')
       },
       {
         path: 'my_process',

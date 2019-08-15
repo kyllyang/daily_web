@@ -13,6 +13,8 @@ import { setToken, getToken } from '@/libs/util'
 
 export default {
   state: {
+    employeeCode: '',
+    employeeName: '',
     username: '',
     userId: '',
     avatarImgPath: '',
@@ -26,6 +28,12 @@ export default {
     messageContentStore: {}
   },
   mutations: {
+    setEmployeeCode (state, employeeCode) {
+      state.employeeCode = employeeCode
+    },
+    setEmployeeName (state, employeeName) {
+      state.employeeName = employeeName
+    },
     setAvatar (state, avatarPath) {
       state.avatarImgPath = avatarPath
     },
@@ -111,6 +119,8 @@ export default {
         try {
           getUserInfo().then(res => {
             const data = res.data
+            commit('setEmployeeCode', data.employeeCode)
+            commit('setEmployeeName', data.employeeName)
             commit('setAvatar', data.avatar)
             commit('setUserName', data.name)
             commit('setUserId', data.userId)
