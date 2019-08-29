@@ -2,7 +2,9 @@
   <div class="user-avatar-dropdown">
     <Dropdown @on-click="handleClick">
       <Badge :dot="!!messageUnreadCount">
-        <Avatar :src="userAvatar"/>
+        <!--<Avatar :src="userAvatar"/>-->
+        <span>{{ this.$store.state.user.employeeName }}</span>
+        <span style="margin-left: 8px">{{ this.$store.state.user.employeeCode }}</span>
       </Badge>
       <Icon :size="18" type="md-arrow-dropdown"></Icon>
       <DropdownMenu slot="list">
