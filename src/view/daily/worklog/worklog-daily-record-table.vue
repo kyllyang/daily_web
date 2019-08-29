@@ -317,7 +317,8 @@ export default {
 
       pageWorklogDailyRecord({
         employeeCode: this.formData.employeeCode,
-        workDate: this.formData.workDate,
+        startWorkDate: this.formData.workDate[0],
+        endWorkDate: this.formData.workDate[1],
         systemItemCode: this.formData.systemItemCode,
         moduleName: this.formData.moduleName,
         taskCategory: this.formData.taskCategory,

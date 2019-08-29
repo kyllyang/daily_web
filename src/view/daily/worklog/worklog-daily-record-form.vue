@@ -67,6 +67,13 @@ import { checkByBackend, createWorklogDailyRecord, updateWorklogDailyRecord, get
 
 export default {
   data () {
+    const workDateValidator = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('不能为空'))
+      } else {
+        callback()
+      }
+    }
     const taskCategorysValidator = (rule, value, callback) => {
       if (value[0] === '' || value[1] === '') {
         callback(new Error('不能为空'))
@@ -108,7 +115,7 @@ export default {
           { type: 'string', required: true, message: '不能为空', trigger: 'blur' }
         ],
         workDate: [
-          { type: 'string', required: true, message: '不能为空', trigger: 'blur' }
+          { type: 'string', validator: workDateValidator, trigger: 'blur' }
         ],
         systemItemCode: [
           { type: 'string', required: true, message: '不能为空', trigger: 'blur' }

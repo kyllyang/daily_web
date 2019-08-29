@@ -433,3 +433,8 @@ export const pinyinFull = (chinese) => {
   }
   return result
 }
+
+export const addHour = (currentHour, num) => {
+  let str = '0' + (parseInt(currentHour.split(':')[0]) + num)
+  return str.substring(str.length - 2) + ':' + currentHour.split(':')[1]
+}

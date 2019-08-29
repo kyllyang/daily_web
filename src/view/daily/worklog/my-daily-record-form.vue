@@ -3,117 +3,233 @@
     <Row>
       <Col span="24">
         <FormItem label="当前日期" prop="workDate">
-          <DatePicker :value="formData.workDate" format="yyyy-MM-dd" type="date" @on-change="getWorkDateTime"></DatePicker>
+          <DatePicker :value="formData.workDate" format="yyyy-MM-dd" type="date" :clearable="false" @on-change="getWorkDateTime"></DatePicker>
         </FormItem>
       </Col>
     </Row>
-    <Table ref="dataTable" :data="formData.items" :columns="columns" :loading="loading" size="small" stripe border></Table>
+    <Row>
+      <Col span="12">
+        <FormItem label="项目名称" prop="systemItemCode">
+          <Select v-model="formData.systemItemCode" filterable clearable>
+            <Option v-for="(item, index) in systemItemList" :value="item.code" :label="item.name" :key="index">
+              <span>{{ item.name }}</span>
+              <span style="float:right;color:#ccc">{{ item.systemName }}</span>
+            </Option>
+          </Select>
+        </FormItem>
+      </Col>
+      <Col span="12">
+        <FormItem label="模块名称" prop="moduleName">
+          <Input type="text" v-model="formData.moduleName"></Input>
+        </FormItem>
+      </Col>
+    </Row>
+    <Row>
+      <Col span="12">
+        <FormItem label="任务分类" prop="taskCategorys">
+          <Cascader v-model="formData.taskCategorys" :data="taskCategoryDataDicts" trigger="hover"></Cascader>
+        </FormItem>
+      </Col>
+      <Col span="12">
+        <FormItem label="工作时间" prop="workTimes">
+          <TimePicker type="timerange" format="HH:mm" v-model="formData.workTimes" :clearable="false"></TimePicker>
+        </FormItem>
+      </Col>
+    </Row>
+    <Row>
+      <Col span="24">
+        <FormItem label="备注" prop="remark">
+          <Input type="textarea" :rows="4" v-model="formData.remark"></Input>
+        </FormItem>
+      </Col>
+    </Row>
     <FormItem>
       <Button type="primary" @click="handleSubmit()">保存</Button>
-      <Button type="primary" @click="handleReset()" style="margin-left: 8px">重置</Button>
     </FormItem>
+    <Table ref="dataTable" :data="data" :columns="columns" :loading="loading" size="small" stripe border></Table>
   </Form>
 </template>
 <script>
 import { mapMutations } from 'vuex'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
+import { getDataDictByCodeForChildren } from '@/api/daily/evo-datadict'
+import { pageWorklogDailyRecord, checkByBackend, createWorklogDailyRecord, updateWorklogDailyRecord, getWorklogDailyRecord, deleteWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
+import { formatDate, addHour } from '@/libs/util'
 
 export default {
   data () {
+    const workDateValidator = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('不能为空'))
+      } else {
+        callback()
+      }
+    }
+    const taskCategorysValidator = (rule, value, callback) => {
+      if (value[0] === '' || value[1] === '') {
+        callback(new Error('不能为空'))
+      } else if (value.length < 2) {
+        callback(new Error('必须同时选择任务大类和任务小类'))
+      } else {
+        callback()
+      }
+    }
+    const workTimesValidator = (rule, value, callback) => {
+      if (value[0] === '' || value[1] === '') {
+        callback(new Error('不能为空'))
+      } else if (value[0] === value[1]) {
+        callback(new Error('开始时间不能等于结束时间'))
+      } else {
+        callback()
+      }
+    }
+
     return {
+      taskCategoryDataDicts: [],
       systemItemList: [],
       formData: {
         id: null,
         employeeCode: this.$store.state.user.employeeCode,
         workDate: new Date(),
-        items: [{
-          rownum: 1, id: 1, workTime: ['08:00', '12:00']
-        }]
+        systemItemCode: '',
+        moduleName: '',
+        taskCategory: '',
+        startTime: '',
+        endTime: '',
+        remark: '',
+        taskCategorys: [],
+        workTimes: ['08:00', '09:00']
       },
       formRule: {
+        workDate: [
+          { type: 'string', required: true, validator: workDateValidator, trigger: 'blur' }
+        ],
+        systemItemCode: [
+          { type: 'string', required: true, message: '不能为空', trigger: 'blur' }
+        ],
+        moduleName: [
+          { type: 'string', required: true, max: 20, message: '不能为空，且最大长度不能超过20个字符', trigger: 'blur' }
+        ],
+        taskCategorys: [
+          { type: 'array', required: true, trigger: 'blur' },
+          { type: 'string', validator: taskCategorysValidator, trigger: 'blur' }
+        ],
+        workTimes: [
+          { type: 'array', required: true, trigger: 'blur' },
+          { type: 'string', validator: workTimesValidator, trigger: 'blur' }
+        ],
+        remark: [
+          { type: 'string', required: true, max: 100, message: '不能为空，且最大长度不能超过100个字符', trigger: 'blur' }
+        ]
       },
       columns: [
         {
+          type: 'index',
           align: 'center',
           width: 70,
           title: '序号',
-          key: 'rownum'
+          key: 'id',
+          indexMethod: (row) => {
+            return (row._index + 1) + (this.pageSize * this.pageNo) - this.pageSize
+          }
         },
         {
           align: 'left',
-          width: 120,
+          width: 200,
           title: '系统名称',
           key: 'systemName'
         },
         {
           align: 'left',
-          width: 120,
+          width: 200,
           title: '项目名称',
-          key: 'systemItemCode',
-          render: (h, params) => {
-            return h('Select', {
-            },
-            [
-              h('Option', {
-                props: {
-                  value: '1'
-                }
-              }, 'option1'),
-              h('Option', {
-                props: {
-                  value: '2'
-                }
-              }, 'option2')
-            ])
-          }
+          key: 'systemItemName'
         },
         {
           align: 'left',
+          width: 200,
           title: '模块名称',
-          key: 'moduleName',
-          render: (h, params) => {
-            return h('Input', {
-              props: {
-                type: 'text'
-              }
-            })
-          }
+          key: 'moduleName'
         },
         {
           align: 'left',
-          width: 120,
+          width: 150,
           title: '任务分类',
-          key: 'taskCategory'
+          key: 'taskCategory',
+          render: (h, params) => {
+            let text = ''
+            for (let findex in this.taskCategoryDataDicts) {
+              for (let sindex in this.taskCategoryDataDicts[findex].children) {
+                if (params.row.taskCategory === this.taskCategoryDataDicts[findex].children[sindex].value) {
+                  text = this.taskCategoryDataDicts[findex].label + '/' + this.taskCategoryDataDicts[findex].children[sindex].label
+                  break
+                }
+              }
+              if (text !== '') {
+                break
+              }
+            }
+            return h('div', text)
+          }
         },
         {
           align: 'center',
-          width: 160,
-          title: '工作时间',
-          key: 'workTime',
-          render: (h, params) => {
-            return h('TimePicker', {
-              props: {
-                type: 'timerange',
-                format: 'HH:mm',
-                value: ['08:00', '12:00']
-              }
-            })
-          }
+          width: 120,
+          title: '开始时间',
+          key: 'startTime'
+        },
+        {
+          align: 'center',
+          width: 120,
+          title: '结束时间',
+          key: 'endTime'
         },
         {
           align: 'left',
           title: '备注',
-          key: 'remark',
+          key: 'remark'
+        },
+        {
+          title: '操作',
+          key: 'action',
+          width: 150,
+          align: 'center',
           render: (h, params) => {
-            return h('Input', {
-              props: {
-                type: 'text'
-              }
-            })
+            return h('div', [
+              h('Button', {
+                props: {
+                  type: 'primary',
+                  size: 'small'
+                },
+                style: {
+                  marginRight: '5px'
+                },
+                on: {
+                  click: () => {
+                    this.handleModify(params.row.id)
+                  }
+                }
+              }, '修改'),
+              h('Button', {
+                props: {
+                  type: 'primary',
+                  size: 'small'
+                },
+                on: {
+                  click: () => {
+                    this.handleDelete(params.row.id)
+                  }
+                }
+              }, '删除')
+            ])
           }
         }
       ],
-      loading: false
+      data: [],
+      loading: false,
+      totalRecord: 0,
+      pageNo: 1,
+      pageSize: 20
     }
   },
   methods: {
@@ -122,15 +238,129 @@ export default {
     ]),
     getWorkDateTime (time) {
       this.formData.workDate = time
+      this.formData.id = null
+      this.loadData()
+    },
+    loadTaskCategoryDataDicts () {
+      getDataDictByCodeForChildren('TASK_FIRST_CATEGORY').then(res => {
+        let dataList = []
+        for (let findex in res.data) {
+          let cdtatList = []
+          for (let sindex in res.data[findex].children) {
+            cdtatList.push({
+              value: res.data[findex].children[sindex].key,
+              label: res.data[findex].children[sindex].value
+            })
+          }
+          dataList.push({
+            value: res.data[findex].key,
+            label: res.data[findex].value,
+            children: cdtatList
+          })
+        }
+        this.taskCategoryDataDicts = dataList
+      })
     },
     loadSystemItemList () {
       listProjectSystemItem().then(res => {
         this.systemItemList = res.data
       })
+    },
+    loadData () {
+      if (this.loading) return
+      this.loading = true
+      pageWorklogDailyRecord({
+        employeeCode: this.formData.employeeCode,
+        currentWorkDate: typeof this.formData.workDate === 'string' ? this.formData.workDate : formatDate(this.formData.workDate),
+        pageNo: 1,
+        pageSize: 65535,
+        pageSort: 'code',
+        pageOrder: 'asc'
+      }).then(res => {
+        this.data = res.data.dataList
+        this.totalRecord = res.data.totalRecord
+        this.loading = false
+      })
+    },
+    loadForm (id) {
+      getWorklogDailyRecord(id).then(res => {
+        this.formData = res.data
+      })
+    },
+    handleSubmit () {
+      this.$refs['formData'].validate((valid) => {
+        if (valid) {
+          this.formData.taskCategory = this.formData.taskCategorys[1]
+          this.formData.startTime = this.formData.workTimes[0]
+          this.formData.endTime = this.formData.workTimes[1]
+
+          checkByBackend(this.formData).then(res => {
+            if (this.formData.id) {
+              updateWorklogDailyRecord(this.formData).then(res => {
+                this.$Modal.success({
+                  title: '成功',
+                  content: '保存成功！',
+                  onOk: () => {
+                    this.loadData()
+                  }
+                })
+              }).catch(err => {
+                this.$Modal.error({
+                  title: '错误',
+                  content: '保存失败！<br/>' + err.response.status + ':' + err.response.data.code + ':' + err.response.data.message
+                })
+              })
+            } else {
+              createWorklogDailyRecord(this.formData).then(res => {
+                this.$Modal.success({
+                  title: '成功',
+                  content: '保存成功！',
+                  onOk: () => {
+                    this.loadData()
+
+                    this.formData.workTimes = [this.formData.workTimes[1], addHour(this.formData.workTimes[1], 1)]
+                  }
+                })
+              }).catch(err => {
+                this.$Modal.error({
+                  title: '错误',
+                  content: '保存失败！<br/>' + err.response.status + ':' + err.response.data.code + ':' + err.response.data.message
+                })
+              })
+            }
+          }).catch(err => {
+            this.$Modal.error({
+              title: '错误',
+              content: '保存失败！<br/>' + err.response.status + ':' + err.response.data.code + ':' + err.response.data.message
+            })
+          })
+        } else {
+          this.$Modal.warning({
+            title: '警告',
+            content: '表单验证失败，请检查！'
+          })
+        }
+      })
+    },
+    handleModify (id) {
+      this.loadForm(id)
+    },
+    handleDelete (id) {
+      this.$Modal.confirm({
+        title: '确认',
+        content: '是否删除此记录？',
+        onOk: () => {
+          deleteWorklogDailyRecord(id).then(res => {
+            this.loadData()
+          })
+        }
+      })
     }
   },
   mounted () {
+    this.loadTaskCategoryDataDicts()
     this.loadSystemItemList()
+    this.loadData()
   }
 }
 </script>
