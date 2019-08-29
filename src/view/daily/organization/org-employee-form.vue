@@ -217,7 +217,7 @@ export default {
       }
     }
     const mailboxValidator = (rule, value, callback) => {
-      if (value !== '' && !/^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/.test(value)) {
+      if (value !== '' && !/^[A-Za-zd]+([-_.][A-Za-zd]+)*@([A-Za-zd]+[-.])+[A-Za-zd]{2,5}$/.test(value)) {
         callback(new Error('请输入有效的邮箱'))
       } else {
         callback()
