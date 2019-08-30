@@ -75,7 +75,7 @@ export default [
     meta: {
       icon: 'md-menu',
       title: '我的工作',
-      access: ['EMPLOYEE']
+      access: ['COMPANY_ADMIN', 'TEAM_ADMIN', 'EMPLOYEE']
     },
     component: Main,
     children: [
@@ -85,7 +85,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '日报填写',
-          access: ['EMPLOYEE']
+          access: ['COMPANY_ADMIN', 'TEAM_ADMIN', 'EMPLOYEE']
         },
         component: () => import('@/view/daily/worklog/my-daily-record-form.vue')
       },
@@ -95,9 +95,9 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '我的申请',
-          access: ['EMPLOYEE']
+          access: ['COMPANY_ADMIN', 'TEAM_ADMIN', 'EMPLOYEE']
         },
-        component: () => import('@/view/excel/export-excel.vue')
+        component: () => import('@/view/daily/blank.vue')
       },
       {
         path: 'my_task',
@@ -105,9 +105,9 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '我的任务',
-          access: ['EMPLOYEE']
+          access: ['COMPANY_ADMIN', 'TEAM_ADMIN', 'EMPLOYEE']
         },
-        component: () => import('@/view/excel/export-excel.vue')
+        component: () => import('@/view/daily/blank.vue')
       }
     ]
   },
@@ -122,14 +122,34 @@ export default [
     component: Main,
     children: [
       {
-        path: 'worklog_daily_record',
-        name: 'worklog_daily_record',
+        path: 'company_admin_worklog_daily_record',
+        name: 'company_admin_worklog_daily_record',
         meta: {
           icon: 'md-funnel',
           title: '日报管理',
           access: ['COMPANY_ADMIN']
         },
-        component: () => import('@/view/daily/worklog/worklog-daily-record-table.vue')
+        component: () => import('@/view/daily/worklog/company-admin-worklog-daily-record-table.vue')
+      },
+      {
+        path: 'team_admin_worklog_daily_record',
+        name: 'team_admin_worklog_daily_record',
+        meta: {
+          icon: 'md-funnel',
+          title: '日报管理',
+          access: ['TEAM_ADMIN']
+        },
+        component: () => import('@/view/daily/worklog/team-admin-worklog-daily-record-table.vue')
+      },
+      {
+        path: 'employee_worklog_daily_record',
+        name: 'employee_worklog_daily_record',
+        meta: {
+          icon: 'md-funnel',
+          title: '日报管理',
+          access: ['EMPLOYEE']
+        },
+        component: () => import('@/view/daily/worklog/employee-worklog-daily-record-table.vue')
       },
       {
         path: 'worklog_sign_in',
@@ -137,9 +157,9 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '签到记录',
-          access: ['COMPANY_ADMIN']
+          access: ['COMPANY_ADMIN', 'TEAM_ADMIN', 'EMPLOYEE']
         },
-        component: () => import('@/view/daily/worklog/worklog-daily-record-table.vue')
+        component: () => import('@/view/daily/blank.vue')
       }
     ]
   },
@@ -319,7 +339,7 @@ export default [
           title: '工作量整理',
           access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
         },
-        component: () => import('@/view/directive/directive.vue')
+        component: () => import('@/view/daily/blank.vue')
       }
     ]
   },

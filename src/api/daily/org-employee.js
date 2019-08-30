@@ -15,6 +15,13 @@ export const listOrgEmployee = (query) => {
   })
 }
 
+export const listOrgEmployeeSelfMember = (code) => {
+  return axios.request({
+    url: '/daily/organization/org-employee/self-member/info/' + code,
+    method: 'get'
+  })
+}
+
 export const checkByBackend = (formData) => {
   return axios.request({
     url: '/daily/organization/org-employee/check',

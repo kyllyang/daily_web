@@ -1,10 +1,24 @@
 <template>
   <Form ref="formData" :model="formData" :rules="formRule" :label-width="100">
     <Row>
-      <Col span="24">
+      <Col span="12">
         <FormItem label="当前日期" prop="workDate">
           <DatePicker :value="formData.workDate" format="yyyy-MM-dd" type="date" :clearable="false" @on-change="getWorkDateTime"></DatePicker>
+          <ButtonGroup style="margin-left: 8px">
+            <Button type="primary" @click="handlePrevWorkDate()">
+              <Icon type="ios-arrow-back"></Icon>
+            </Button>
+            <Button type="primary" @click="handleNextWorkDate()">
+              <Icon type="ios-arrow-forward"></Icon>
+            </Button>
+          </ButtonGroup>
         </FormItem>
+      </Col>
+      <Col span="12" align="right">
+        <Tag type="dot" color="primary">已填写{{ filledMinute }}分钟</Tag>
+        <Tag type="dot" color="success">剩余{{ residueMinute }}分钟</Tag>
+        <!--<Tag type="dot" color="error">加班{{ overTimeMinute }}分钟</Tag>-->
+        <!--<Tag type="dot" color="warning">空闲{{ freeMinute }}分钟</Tag>-->
       </Col>
     </Row>
     <Row>
@@ -53,8 +67,8 @@
 import { mapMutations } from 'vuex'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
 import { getDataDictByCodeForChildren } from '@/api/daily/evo-datadict'
-import { pageWorklogDailyRecord, checkByBackend, createWorklogDailyRecord, updateWorklogDailyRecord, getWorklogDailyRecord, deleteWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
-import { formatDate, addHour } from '@/libs/util'
+import { pageWorklogDailyRecordSelfStatistics, checkByBackend, createWorklogDailyRecord, updateWorklogDailyRecord, getWorklogDailyRecord, deleteWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
+import { formatDate, newDate, addHour, addDate } from '@/libs/util'
 
 export default {
   data () {
@@ -85,12 +99,16 @@ export default {
     }
 
     return {
+      filledMinute: 0,
+      residueMinute: 0,
+      overTimeMinute: 0,
+      freeMinute: 0,
       taskCategoryDataDicts: [],
       systemItemList: [],
       formData: {
         id: null,
         employeeCode: this.$store.state.user.employeeCode,
-        workDate: new Date(),
+        workDate: formatDate(new Date()),
         systemItemCode: '',
         moduleName: '',
         taskCategory: '',
@@ -269,16 +287,21 @@ export default {
     loadData () {
       if (this.loading) return
       this.loading = true
-      pageWorklogDailyRecord({
+
+      pageWorklogDailyRecordSelfStatistics({
         employeeCode: this.formData.employeeCode,
-        currentWorkDate: typeof this.formData.workDate === 'string' ? this.formData.workDate : formatDate(this.formData.workDate),
+        currentWorkDate: this.formData.workDate,
         pageNo: 1,
         pageSize: 65535,
         pageSort: 'code',
         pageOrder: 'asc'
       }).then(res => {
-        this.data = res.data.dataList
-        this.totalRecord = res.data.totalRecord
+        this.data = res.data.pageList.dataList
+        this.totalRecord = res.data.pageList.totalRecord
+        this.filledMinute = res.data.filledMinute
+        this.residueMinute = res.data.residueMinute
+        this.overTimeMinute = res.data.overTimeMinute
+        this.freeMinute = res.data.freeMinute
         this.loading = false
       })
     },
@@ -286,6 +309,16 @@ export default {
       getWorklogDailyRecord(id).then(res => {
         this.formData = res.data
       })
+    },
+    handlePrevWorkDate () {
+      this.formData.workDate = formatDate(addDate(newDate(this.formData.workDate), -1))
+      this.formData.id = null
+      this.loadData()
+    },
+    handleNextWorkDate () {
+      this.formData.workDate = formatDate(addDate(newDate(this.formData.workDate), 1))
+      this.formData.id = null
+      this.loadData()
     },
     handleSubmit () {
       this.$refs['formData'].validate((valid) => {

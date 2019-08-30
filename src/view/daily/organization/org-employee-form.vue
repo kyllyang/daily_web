@@ -217,7 +217,7 @@ export default {
       }
     }
     const mailboxValidator = (rule, value, callback) => {
-      if (value !== '' && !/^[A-Za-zd]+([-_.][A-Za-zd]+)*@([A-Za-zd]+[-.])+[A-Za-zd]{2,5}$/.test(value)) {
+      if (value !== '' && !/^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/.test(value)) {
         callback(new Error('请输入有效的邮箱'))
       } else {
         callback()
@@ -292,6 +292,9 @@ export default {
         ],
         status: [
           { type: 'string', required: true, message: '不能为空' }
+        ],
+        roleCodes: [
+          { type: 'array', required: true, min: 1, max: 1, message: '目前仅支持单一角色' }
         ],
         university: [
           { type: 'string', max: 30, message: '最大长度不能超过30个字符', trigger: 'blur' }

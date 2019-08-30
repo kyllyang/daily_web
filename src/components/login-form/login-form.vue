@@ -1,7 +1,7 @@
 <template>
   <Form ref="loginForm" :model="form" :rules="rules" @keydown.enter.native="handleSubmit">
     <FormItem prop="username">
-      <Input v-model="form.username" placeholder="请输入用户名">
+      <Input v-model="form.username" placeholder="请输入用户名" :autofocus="true">
         <span slot="prepend">
           <Icon :size="16" type="ios-person"></Icon>
         </span>

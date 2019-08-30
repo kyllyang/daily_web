@@ -1,0 +1,350 @@
+<template>
+  <div>
+    <Collapse v-model="collapse">
+      <Panel name="1">
+        日报列表
+        <p slot="content">
+          <Form ref="formData" :model="formData" :rules="formRule" :label-width="80" inline>
+            <Row>
+              <Col span="8">
+                <FormItem label="员工姓名" prop="employeeCode">
+                  <Select v-model="formData.employeeCode" filterable clearable>
+                    <Option v-for="(item, index) in employeeList" :value="item.code" :label="item.name" :key="index">
+                      <span>{{ item.name }}</span>
+                    </Option>
+                  </Select>
+                </FormItem>
+              </Col>
+              <Col span="8">
+                <FormItem label="日期" prop="workDate">
+                  <DatePicker :value="formData.workDate" format="yyyy-MM-dd" type="daterange" @on-change="getWorkDateTime" show-week-numbers></DatePicker>
+                </FormItem>
+              </Col>
+              <Col span="8">
+                <FormItem label="项目名称" prop="systemItemCode">
+                  <Select v-model="formData.systemItemCode" filterable clearable>
+                    <Option v-for="(item, index) in systemItemList" :value="item.code" :label="item.name" :key="index">
+                      <span>{{ item.name }}</span>
+                      <span style="float:right;color:#ccc">{{ item.systemName }}</span>
+                    </Option>
+                  </Select>
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="8">
+                <FormItem label="模块名称" prop="moduleName">
+                  <Input type="text" v-model="formData.moduleName"></Input>
+                </FormItem>
+              </Col>
+              <Col span="8">
+                <FormItem label="任务分类" prop="taskCategory">
+                  <Cascader :data="taskCategoryDataDicts" trigger="hover" change-on-select></Cascader>
+                </FormItem>
+              </Col>
+              <Col span="8">
+                <FormItem label="备注" prop="remark">
+                  <Input type="text" v-model="formData.remark"></Input>
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="8" offset="16">
+                <FormItem>
+                  <Button type="primary" @click="handleQuery()">
+                    <Icon type="ios-search-outline" />
+                    查询
+                  </Button>
+                  <Button type="primary" @click="handleReset()" style="margin-left: 8px">
+                    <Icon type="ios-repeat" />
+                    重置
+                  </Button>
+                </FormItem>
+              </Col>
+            </Row>
+          </Form>
+        </p>
+      </Panel>
+    </Collapse>
+    <br/>
+    <ButtonGroup>
+      <Button type="primary" @click="handleCreate()">
+        <Icon type="ios-add" />
+        新增
+      </Button>
+      <Button type="primary" @click="handleModify()">
+        <Icon type="ios-create-outline" />
+        修改
+      </Button>
+      <Button type="primary" @click="handleView()">
+        <Icon type="ios-paper-outline" />
+        查看
+      </Button>
+      <Button type="primary" @click="handleDelete()">
+        <Icon type="ios-trash-outline"/>
+        删除
+      </Button>
+    </ButtonGroup>
+    <br/>
+    <br/>
+    <Table ref="dataTable" :data="data" :columns="columns" :loading="loading" size="small" stripe border></Table>
+    <div style="margin: 10px;overflow: hidden">
+      <div style="float: right;">
+        <Page :total="totalRecord" :current.sync="pageNo" :page-size="pageSize" show-elevator show-sizer show-total @on-change="loadData" @on-page-size-change="changeSize"></Page>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import { getDataDictByCodeForChildren } from '@/api/daily/evo-datadict'
+import { listOrgEmployeeSelfMember } from '@/api/daily/org-employee'
+import { listProjectSystemItem } from '@/api/daily/project-system-item'
+import { pageWorklogDailyRecordSelfMember, deleteWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
+
+export default {
+  data () {
+    return {
+      collapse: '1',
+      taskCategoryDataDicts: [],
+      employeeList: [],
+      systemItemList: [],
+      formData: {
+        employeeCode: '',
+        workDate: '',
+        systemItemCode: '',
+        moduleName: '',
+        taskCategory: '',
+        remark: ''
+      },
+      formRule: {
+        moduleName: [
+          { type: 'string', max: 20, message: '最大长度不能超过20个字符', trigger: 'blur' }
+        ],
+        remark: [
+          { type: 'string', max: 100, message: '最大长度不能超过100个字符', trigger: 'blur' }
+        ]
+      },
+      columns: [
+        {
+          type: 'selection',
+          align: 'center',
+          width: 60,
+          key: 'id'
+        },
+        {
+          type: 'index',
+          align: 'center',
+          width: 70,
+          title: '序号',
+          key: 'id',
+          indexMethod: (row) => {
+            return (row._index + 1) + (this.pageSize * this.pageNo) - this.pageSize
+          }
+        },
+        {
+          align: 'left',
+          width: 120,
+          title: '员工姓名',
+          key: 'employeeName'
+        },
+        {
+          align: 'left',
+          width: 120,
+          title: '日期',
+          key: 'workDate'
+        },
+        {
+          align: 'left',
+          width: 120,
+          title: '系统名称',
+          key: 'systemName'
+        },
+        {
+          align: 'left',
+          width: 120,
+          title: '项目名称',
+          key: 'systemItemName'
+        },
+        {
+          align: 'left',
+          width: 120,
+          title: '模块名称',
+          key: 'moduleName'
+        },
+        {
+          align: 'left',
+          width: 120,
+          title: '任务分类',
+          key: 'taskCategory',
+          render: (h, params) => {
+            let text = ''
+            for (let findex in this.taskCategoryDataDicts) {
+              for (let sindex in this.taskCategoryDataDicts[findex].children) {
+                if (params.row.taskCategory === this.taskCategoryDataDicts[findex].children[sindex].value) {
+                  text = this.taskCategoryDataDicts[findex].label + '/' + this.taskCategoryDataDicts[findex].children[sindex].label
+                  break
+                }
+              }
+              if (text !== '') {
+                break
+              }
+            }
+            return h('div', text)
+          }
+        },
+        {
+          align: 'center',
+          width: 120,
+          title: '开始时间',
+          key: 'startTime'
+        },
+        {
+          align: 'center',
+          width: 120,
+          title: '结束时间',
+          key: 'endTime'
+        },
+        {
+          align: 'left',
+          title: '备注',
+          key: 'remark'
+        }
+      ],
+      data: [],
+      loading: false,
+      totalRecord: 0,
+      pageNo: 1,
+      pageSize: 20
+    }
+  },
+  methods: {
+    handleCreate () {
+      this.$router.push({ name: 'worklog_daily_record_edit' })
+    },
+    handleModify () {
+      if (this.$refs.dataTable.getSelection().length === 1) {
+        this.$router.push({ name: 'worklog_daily_record_edit', params: { id: this.$refs.dataTable.getSelection()[0].id } })
+      } else {
+        this.$Modal.warning({
+          title: '警告',
+          content: '请选择一条记录！'
+        })
+      }
+    },
+    handleView () {
+      if (this.$refs.dataTable.getSelection().length === 1) {
+        this.$Modal.warning({
+          title: '警告',
+          content: '此功能暂未实现！'
+        })
+      } else {
+        this.$Modal.warning({
+          title: '警告',
+          content: '请选择一条记录！'
+        })
+      }
+    },
+    handleDelete () {
+      if (this.$refs.dataTable.getSelection().length > 0) {
+        this.$Modal.confirm({
+          title: '确认',
+          content: '是否删除此记录？',
+          onOk: () => {
+            deleteWorklogDailyRecord(this.$refs.dataTable.getSelection()[0].id).then(res => {
+              this.loadData()
+            })
+          }
+        })
+      } else {
+        this.$Modal.warning({
+          title: '警告',
+          content: '请选择一条记录！'
+        })
+      }
+    },
+    handleQuery () {
+      this.$refs['formData'].validate((valid) => {
+        if (valid) {
+          this.loadData()
+        } else {
+          this.$Modal.warning({
+            title: '警告',
+            content: '查询条件验证失败！'
+          })
+        }
+      })
+    },
+    handleReset () {
+      this.$refs['formData'].resetFields()
+      this.loadData()
+    },
+    getWorkDateTime (time) {
+      this.formData.workDate = time
+    },
+    loadTaskCategoryDataDicts () {
+      getDataDictByCodeForChildren('TASK_FIRST_CATEGORY').then(res => {
+        const dataList = []
+        for (let findex in res.data) {
+          const cdtatList = []
+          for (let sindex in res.data[findex].children) {
+            cdtatList.push({
+              value: res.data[findex].children[sindex].key,
+              label: res.data[findex].children[sindex].value
+            })
+          }
+          dataList.push({
+            value: res.data[findex].key,
+            label: res.data[findex].value,
+            children: cdtatList
+          })
+        }
+        this.taskCategoryDataDicts = dataList
+      })
+    },
+    loadEmployeeList () {
+      listOrgEmployeeSelfMember(this.$store.state.user.employeeCode).then(res => {
+        this.employeeList = res.data
+      })
+    },
+    loadSystemItemList () {
+      listProjectSystemItem().then(res => {
+        this.systemItemList = res.data
+      })
+    },
+    loadData () {
+      if (this.loading) return
+      this.loading = true
+
+      pageWorklogDailyRecordSelfMember({
+        employeeCode: this.formData.employeeCode,
+        startWorkDate: this.formData.workDate[0],
+        endWorkDate: this.formData.workDate[1],
+        systemItemCode: this.formData.systemItemCode,
+        moduleName: this.formData.moduleName,
+        taskCategory: this.formData.taskCategory,
+        remark: this.formData.remark,
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+        pageSort: 'code',
+        pageOrder: 'asc'
+      }).then(res => {
+        this.data = res.data.dataList
+        this.totalRecord = res.data.totalRecord
+        this.loading = false
+      })
+    },
+    changeSize (value) {
+      this.pageSize = value
+      this.$nextTick(() => {
+        this.loadData()
+      })
+    }
+  },
+  mounted () {
+    this.loadTaskCategoryDataDicts()
+    this.loadEmployeeList()
+    this.loadSystemItemList()
+    this.loadData()
+  }
+}
+</script>

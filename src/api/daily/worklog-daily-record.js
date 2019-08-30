@@ -8,6 +8,30 @@ export const pageWorklogDailyRecord = (query) => {
   })
 }
 
+export const pageWorklogDailyRecordSelf = (query) => {
+  return axios.request({
+    url: '/daily/worklog/worklog-daily-record/self/page/info',
+    data: query,
+    method: 'post'
+  })
+}
+
+export const pageWorklogDailyRecordSelfMember = (query) => {
+  return axios.request({
+    url: '/daily/worklog/worklog-daily-record/self-member/page/info',
+    data: query,
+    method: 'post'
+  })
+}
+
+export const pageWorklogDailyRecordSelfStatistics = (query) => {
+  return axios.request({
+    url: '/daily/worklog/worklog-daily-record/self/page/info/statistics',
+    data: query,
+    method: 'post'
+  })
+}
+
 export const checkByBackend = (formData) => {
   return axios.request({
     url: '/daily/worklog/worklog-daily-record/check',

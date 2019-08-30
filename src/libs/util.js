@@ -408,6 +408,10 @@ export const formatDate = (date) => {
   return y + '-' + m + '-' + d
 }
 
+export const newDate = (dateStr) => {
+  return new Date(dateStr.replace(/-/g, '/'))
+}
+
 export const pinyinFull = (chinese) => {
   let result = ''
   let reg = new RegExp('[a-zA-Z0-9]')
@@ -437,4 +441,9 @@ export const pinyinFull = (chinese) => {
 export const addHour = (currentHour, num) => {
   let str = '0' + (parseInt(currentHour.split(':')[0]) + num)
   return str.substring(str.length - 2) + ':' + currentHour.split(':')[1]
+}
+
+export const addDate = (currentDate, num) => {
+  currentDate.setDate(currentDate.getDate() + num)
+  return currentDate
 }
