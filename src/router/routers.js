@@ -87,7 +87,7 @@ export default [
           title: '日报填写',
           access: ['COMPANY_ADMIN', 'TEAM_ADMIN', 'EMPLOYEE']
         },
-        component: () => import('@/view/daily/worklog/my-daily-record-form.vue')
+        component: () => import('@/view/daily/worklog/my-worklog-daily-record-form.vue')
       },
       {
         path: 'my_process',
@@ -277,7 +277,7 @@ export default [
           title: '日报汇总',
           access: ['COMPANY_ADMIN']
         },
-        component: () => import('@/view/excel/upload-excel.vue')
+        component: () => import('@/view/daily/blank.vue')
       },
       {
         path: 'worklog_finished',
@@ -287,7 +287,7 @@ export default [
           title: '已填写日报',
           access: ['COMPANY_ADMIN']
         },
-        component: () => import('@/view/excel/export-excel.vue')
+        component: () => import('@/view/daily/blank.vue')
       },
       {
         path: 'worklog_missing',
@@ -297,7 +297,7 @@ export default [
           title: '未填写日报',
           access: ['COMPANY_ADMIN']
         },
-        component: () => import('@/view/excel/export-excel.vue')
+        component: () => import('@/view/daily/blank.vue')
       },
       {
         path: 'worklog_approved',
@@ -307,7 +307,7 @@ export default [
           title: '已审批日报',
           access: ['COMPANY_ADMIN']
         },
-        component: () => import('@/view/excel/export-excel.vue')
+        component: () => import('@/view/daily/blank.vue')
       },
       {
         path: 'worklog_noapproved',
@@ -317,7 +317,7 @@ export default [
           title: '未审批日报',
           access: ['COMPANY_ADMIN']
         },
-        component: () => import('@/view/excel/export-excel.vue')
+        component: () => import('@/view/daily/blank.vue')
       }
     ]
   },
@@ -361,7 +361,7 @@ export default [
           title: '权限管理',
           access: ['SYSTEM_ADMIN']
         },
-        component: () => import('@/view/excel/upload-excel.vue')
+        component: () => import('@/view/daily/blank.vue')
       },
       {
         path: 'holidays',
@@ -371,7 +371,7 @@ export default [
           title: '假日管理',
           access: ['SYSTEM_ADMIN']
         },
-        component: () => import('@/view/excel/export-excel.vue')
+        component: () => import('@/view/daily/blank.vue')
       }
     ]
   },
@@ -468,13 +468,34 @@ export default [
     },
     children: [
       {
-        path: '/worklog_daily_record_edit',
-        name: 'worklog_daily_record_edit',
+        path: '/company_admin_worklog_daily_record_edit',
+        name: 'company_admin_worklog_daily_record_edit',
         meta: {
           icon: 'ios-create-outline',
-          title: '日报编辑'
+          title: '日报编辑',
+          access: ['COMPANY_ADMIN']
         },
-        component: () => import('@/view/daily/worklog/worklog-daily-record-form.vue')
+        component: () => import('@/view/daily/worklog/company-admin-worklog-daily-record-form.vue')
+      },
+      {
+        path: '/team_admin_worklog_daily_record_edit',
+        name: 'team_admin_worklog_daily_record_edit',
+        meta: {
+          icon: 'ios-create-outline',
+          title: '日报编辑',
+          access: ['TEAM_ADMIN']
+        },
+        component: () => import('@/view/daily/worklog/team-admin-worklog-daily-record-form.vue')
+      },
+      {
+        path: '/employee_worklog_daily_record_edit',
+        name: 'employee_worklog_daily_record_edit',
+        meta: {
+          icon: 'ios-create-outline',
+          title: '日报编辑',
+          access: ['EMPLOYEE']
+        },
+        component: () => import('@/view/daily/worklog/employee-worklog-daily-record-form.vue')
       }
     ]
   },

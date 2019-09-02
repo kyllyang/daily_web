@@ -219,11 +219,11 @@ export default {
   },
   methods: {
     handleCreate () {
-      this.$router.push({ name: 'worklog_daily_record_edit' })
+      this.$router.push({ name: 'team_admin_worklog_daily_record_edit' })
     },
     handleModify () {
       if (this.$refs.dataTable.getSelection().length === 1) {
-        this.$router.push({ name: 'worklog_daily_record_edit', params: { id: this.$refs.dataTable.getSelection()[0].id } })
+        this.$router.push({ name: 'team_admin_worklog_daily_record_edit', params: { id: this.$refs.dataTable.getSelection()[0].id } })
       } else {
         this.$Modal.warning({
           title: '警告',
