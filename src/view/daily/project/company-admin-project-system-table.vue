@@ -18,18 +18,26 @@
               </Col>
               <Col span="8">
                 <FormItem label="IT部负责人" prop="customerPrincipalCode">
-                  <Tooltip content="指甲方系统负责人" placement="top-start">
-                    <Select v-model="formData.customerPrincipalCode" filterable clearable>
-                      <Option v-for="(item, index) in customerPrincipalList" :value="item.code" :label="item.name" :key="index">
-                        <span>{{ item.name }}</span>
-                        <span style="float:right;color:#ccc">{{ item.companyName }}</span>
-                      </Option>
-                    </Select>
-                  </Tooltip>
+                  <Select v-model="formData.customerPrincipalCode" filterable clearable>
+                    <Option v-for="(item, index) in customerPrincipalList" :value="item.code" :label="item.name" :key="index">
+                      <span>{{ item.name }}</span>
+                      <span style="float:right;color:#ccc">{{ item.companyName }}</span>
+                    </Option>
+                  </Select>
                 </FormItem>
               </Col>
             </Row>
             <Row>
+              <Col span="8">
+                <FormItem label="维护团队" prop="teamCode">
+                  <Select v-model="formData.teamCode" filterable clearable>
+                    <Option v-for="(item, index) in teamList" :value="item.code" :label="item.name" :key="index">
+                      <span>{{ item.name }}</span>
+                      <span style="float:right;color:#ccc">{{ item.principalName }}</span>
+                    </Option>
+                  </Select>
+                </FormItem>
+              </Col>
               <Col span="8">
                 <FormItem label="状态" prop="status">
                   <Select v-model="formData.status" placeholder="全部" clearable>
@@ -37,7 +45,7 @@
                   </Select>
                 </FormItem>
               </Col>
-              <Col span="8" offset="8">
+              <Col span="8">
                 <FormItem>
                   <Button type="primary" @click="handleQuery()">
                     <Icon type="ios-search-outline" />
@@ -86,6 +94,7 @@
 <script>
 import { getDataDictByCode } from '@/api/daily/evo-datadict'
 import { listCustomerEmployee } from '@/api/daily/customer-employee'
+import { listOrgTeam } from '@/api/daily/org-team'
 import { pageProjectSystem, deleteProjectSystem } from '@/api/daily/project-system'
 
 export default {
@@ -94,10 +103,12 @@ export default {
       collapse: '1',
       statusDataDicts: [],
       customerPrincipalList: [],
+      teamList: [],
       formData: {
         code: '',
         name: '',
         customerPrincipalCode: '',
+        teamCode: '',
         status: ''
       },
       formRule: {
@@ -191,11 +202,11 @@ export default {
   },
   methods: {
     handleCreate () {
-      this.$router.push({ name: 'project_system_edit' })
+      this.$router.push({ name: 'company_admin_project_system_edit' })
     },
     handleModify () {
       if (this.$refs.dataTable.getSelection().length === 1) {
-        this.$router.push({ name: 'project_system_edit', params: { id: this.$refs.dataTable.getSelection()[0].id } })
+        this.$router.push({ name: 'company_admin_project_system_edit', params: { id: this.$refs.dataTable.getSelection()[0].id } })
       } else {
         this.$Modal.warning({
           title: '警告',
@@ -260,6 +271,11 @@ export default {
         this.customerPrincipalList = res.data
       })
     },
+    loadTeamList () {
+      listOrgTeam().then(res => {
+        this.teamList = res.data
+      })
+    },
     loadData () {
       if (this.loading) return
       this.loading = true
@@ -268,6 +284,7 @@ export default {
         code: this.formData.code,
         name: this.formData.name,
         customerPrincipalCode: this.formData.customerPrincipalCode,
+        teamCode: this.formData.teamCode,
         status: this.formData.status,
         pageNo: this.pageNo,
         pageSize: this.pageSize,
@@ -289,6 +306,7 @@ export default {
   mounted () {
     this.loadStatusDataDict()
     this.loadCustomerPrincipalList()
+    this.loadTeamList()
     this.loadData()
   }
 }

@@ -8,6 +8,14 @@ export const pageProjectSystem = (query) => {
   })
 }
 
+export const pageProjectSystemSelf = (query) => {
+  return axios.request({
+    url: '/daily/project/project-system/self/page/info',
+    data: query,
+    method: 'post'
+  })
+}
+
 export const listProjectSystem = () => {
   return axios.request({
     url: '/daily/project/project-system/all',

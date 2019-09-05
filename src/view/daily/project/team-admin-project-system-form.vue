@@ -15,14 +15,12 @@
     <Row>
       <Col span="12">
         <FormItem label="IT部负责人" prop="customerPrincipalCode">
-          <Tooltip content="指甲方系统负责人" placement="top-start">
-            <Select v-model="formData.customerPrincipalCode" filterable clearable>
-              <Option v-for="(item, index) in customerPrincipalList" :value="item.code" :label="item.name" :key="index">
-                <span>{{ item.name }}</span>
-                <span style="float:right;color:#ccc">{{ item.companyName }}</span>
-              </Option>
-            </Select>
-          </Tooltip>
+          <Select v-model="formData.customerPrincipalCode" filterable clearable>
+            <Option v-for="(item, index) in customerPrincipalList" :value="item.code" :label="item.name" :key="index">
+              <span>{{ item.name }}</span>
+              <span style="float:right;color:#ccc">{{ item.companyName }}</span>
+            </Option>
+          </Select>
         </FormItem>
       </Col>
       <Col span="12">
@@ -36,7 +34,7 @@
     <Row>
       <Col span="12">
         <FormItem label="服务公司" prop="companyCodes">
-          <Select v-model="formData.companyCodes" multiple>
+          <Select v-model="formData.companyCodes" multiple filterable clearable>
             <Option v-for="(item, index) in companyList" :value="item.code" :label="item.name" :key="index">
               <span>{{ item.name }}</span>
             </Option>
@@ -105,7 +103,7 @@ import { mapMutations } from 'vuex'
 import { getDataDictByCode } from '@/api/daily/evo-datadict'
 import { listCustomerEmployee } from '@/api/daily/customer-employee'
 import { listCustomerCompany } from '@/api/daily/customer-company'
-import { listOrgTeam } from '@/api/daily/org-team'
+import { listOrgTeamSelf } from '@/api/daily/org-team'
 import { checkByBackend, createProjectSystem, updateProjectSystem, getProjectSystem } from '@/api/daily/project-system'
 
 export default {
@@ -178,7 +176,7 @@ export default {
       })
     },
     loadTeamList () {
-      listOrgTeam().then(res => {
+      listOrgTeamSelf(this.$store.state.user.employeeCode).then(res => {
         this.teamList = res.data
       })
     },

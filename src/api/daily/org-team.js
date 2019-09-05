@@ -15,6 +15,13 @@ export const listOrgTeam = () => {
   })
 }
 
+export const listOrgTeamSelf = (employeeCode) => {
+  return axios.request({
+    url: '/daily/organization/org-team/self/info/' + employeeCode,
+    method: 'get'
+  })
+}
+
 export const checkByBackend = (formData) => {
   return axios.request({
     url: '/daily/organization/org-team/check',
