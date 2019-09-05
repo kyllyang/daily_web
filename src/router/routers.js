@@ -258,14 +258,24 @@ export default [
         component: () => import('@/view/daily/project/team-admin-project-system-table.vue')
       },
       {
-        path: 'project_system_item',
-        name: 'project_system_item',
+        path: 'company_admin_project_system_item',
+        name: 'company_admin_project_system_item',
         meta: {
           icon: 'md-funnel',
           title: '项目管理',
-          access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
+          access: ['COMPANY_ADMIN']
         },
-        component: () => import('@/view/daily/project/project-system-item-table.vue')
+        component: () => import('@/view/daily/project/company-admin-project-system-item-table.vue')
+      },
+      {
+        path: 'team_admin_project_system_item',
+        name: 'team_admin_project_system_item',
+        meta: {
+          icon: 'md-funnel',
+          title: '项目管理',
+          access: ['TEAM_ADMIN']
+        },
+        component: () => import('@/view/daily/project/team-admin-project-system-item-table.vue')
       }
     ]
   },
@@ -470,13 +480,24 @@ export default [
         component: () => import('@/view/daily/project/team-admin-project-system-form.vue')
       },
       {
-        path: '/project_system_item_edit',
-        name: 'project_system_item_edit',
+        path: '/company_admin_project_system_item_edit',
+        name: 'company_admin_project_system_item_edit',
         meta: {
           icon: 'ios-create-outline',
-          title: '项目编辑'
+          title: '项目编辑',
+          access: ['COMPANY_ADMIN']
         },
-        component: () => import('@/view/daily/project/project-system-item-form.vue')
+        component: () => import('@/view/daily/project/company-admin-project-system-item-form.vue')
+      },
+      {
+        path: '/team_admin_project_system_item_edit',
+        name: 'team_admin_project_system_item_edit',
+        meta: {
+          icon: 'ios-create-outline',
+          title: '项目编辑',
+          access: ['TEAM_ADMIN']
+        },
+        component: () => import('@/view/daily/project/team-admin-project-system-item-form.vue')
       }
     ]
   },

@@ -142,13 +142,16 @@ export default {
       },
       formRule: {
         code: [
-          { type: 'string', required: true, max: 10, message: '不能为空，且最大长度不能超过10个字符', trigger: 'blur' }
+          { type: 'string', required: true, max: 100, message: '不能为空，且最大长度不能超过100个字符', trigger: 'blur' }
         ],
         name: [
-          { type: 'string', required: true, max: 10, message: '不能为空，且最大长度不能超过10个字符', trigger: 'blur' }
+          { type: 'string', required: true, max: 50, message: '不能为空，且最大长度不能超过50个字符', trigger: 'blur' }
+        ],
+        systemCode: [
+          { type: 'string', required: true, message: '不能为空', trigger: 'blur' }
         ],
         fromDepartment: [
-          { type: 'string', max: 10, message: '最大长度不能超过10个字符', trigger: 'blur' }
+          { type: 'string', max: 50, message: '最大长度不能超过10个字符', trigger: 'blur' }
         ],
         remark: [
           { type: 'string', max: 200, message: '最大长度不能超过200个字符', trigger: 'blur' }

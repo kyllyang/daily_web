@@ -134,13 +134,13 @@ export default {
       },
       formRule: {
         code: [
-          { type: 'string', max: 10, message: '最大长度不能超过10个字符', trigger: 'blur' }
+          { type: 'string', max: 100, message: '最大长度不能超过100个字符', trigger: 'blur' }
         ],
         name: [
-          { type: 'string', max: 10, message: '最大长度不能超过10个字符', trigger: 'blur' }
+          { type: 'string', max: 50, message: '最大长度不能超过50个字符', trigger: 'blur' }
         ],
         fromDepartment: [
-          { type: 'string', max: 10, message: '最大长度不能超过10个字符', trigger: 'blur' }
+          { type: 'string', max: 50, message: '最大长度不能超过50个字符', trigger: 'blur' }
         ]
       },
       columns: [
@@ -249,11 +249,11 @@ export default {
   },
   methods: {
     handleCreate () {
-      this.$router.push({ name: 'project_system_item_edit' })
+      this.$router.push({ name: 'company_admin_project_system_item_edit' })
     },
     handleModify () {
       if (this.$refs.dataTable.getSelection().length === 1) {
-        this.$router.push({ name: 'project_system_item_edit', params: { id: this.$refs.dataTable.getSelection()[0].id } })
+        this.$router.push({ name: 'company_admin_project_system_item_edit', params: { id: this.$refs.dataTable.getSelection()[0].id } })
       } else {
         this.$Modal.warning({
           title: '警告',

@@ -135,6 +135,9 @@ export default {
         name: [
           { type: 'string', required: true, max: 10, message: '不能为空，且最大长度不能超过10个字符', trigger: 'blur' }
         ],
+        teamCode: [
+          { type: 'string', required: true, message: '不能为空', trigger: 'blur' }
+        ],
         svnInfo: [
           { type: 'string', max: 400, message: '最大长度不能超过400个字符', trigger: 'blur' }
         ],
