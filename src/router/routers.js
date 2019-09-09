@@ -297,7 +297,7 @@ export default [
           title: '日报汇总',
           access: ['COMPANY_ADMIN']
         },
-        component: () => import('@/view/daily/blank.vue')
+        component: () => import('@/view/daily/statistics/summary.vue')
       },
       {
         path: 'worklog_finished',
