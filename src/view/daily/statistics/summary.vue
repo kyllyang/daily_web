@@ -68,6 +68,13 @@
                 </FormItem>
               </Col>
               <Col span="6">
+                <FormItem label="休息日" prop="markHolidays">
+                  <i-switch v-model="formData.markHolidays" @on-change="handleMarkHolidays"/>
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="6" offset="18">
                 <FormItem>
                   <Button type="primary" @click="handleQuery()">
                     <Icon type="ios-search-outline" />
@@ -104,7 +111,8 @@
 <script>
 import { listOrgEmployee } from '@/api/daily/org-employee'
 import { listOrgTeam } from '@/api/daily/org-team'
-import { formatDate, addDate } from '@/libs/util'
+import { getSystemHolidays } from '@/api/daily/system-holidays'
+import { formatDate, newDate, addDate } from '@/libs/util'
 import { pageStatisticsSummary } from '@/api/daily/statistics'
 
 export default {
@@ -113,6 +121,8 @@ export default {
       collapse: '1',
       employeeList: [],
       teamList: [],
+      workDates: [-1],
+      restDates: [-1],
       formData: {
         employeeCodes: [],
         teamCodes: [],
@@ -122,7 +132,8 @@ export default {
         pageBase: 'employee',
         markNormal: false,
         markResidue: false,
-        markOverTime: false
+        markOverTime: false,
+        markHolidays: false
       },
       columns: [
         {
@@ -169,8 +180,28 @@ export default {
             if (j !== 'employeeCode' && j !== 'employeeName') {
               if (statusNormal && this.data[i][j] === 480) {
                 this.$set(ccn, j, statusNormal ? 'table-info-cell-markNormal' : '')
-              } else if (statusResidue && this.data[i][j] && this.data[i][j] < 480) {
-                this.$set(ccn, j, statusResidue ? 'table-info-cell-markResidue' : '')
+              } else if (statusResidue) {
+                if (this.data[i][j]) {
+                  if (this.data[i][j] < 480) {
+                    this.$set(ccn, j, statusResidue ? 'table-info-cell-markResidue' : '')
+                  } else if (statusOverTime && this.data[i][j] > 480) {
+                    this.$set(ccn, j, statusOverTime ? 'table-info-cell-markOverTime' : '')
+                  } else if (statusNormal && this.data[i][j] === 480) {
+                    this.$set(ccn, j, statusNormal ? 'table-info-cell-markNormal' : '')
+                  }
+                } else {
+                  if (this.workDates[0] === -1 || this.restDates[0] === -1) {
+                    getSystemHolidays().then(res => {
+                      if (this.workDates[0] === -1 || this.restDates[0] === -1) {
+                        this.workDates = res.data.workDates
+                        this.restDates = res.data.restDates
+                      }
+                      this.fillCellClassName(ccn, j, statusResidue)
+                    })
+                  } else {
+                    this.fillCellClassName(ccn, j, statusResidue)
+                  }
+                }
               } else if (statusOverTime && this.data[i][j] > 480) {
                 this.$set(ccn, j, statusOverTime ? 'table-info-cell-markOverTime' : '')
               }
@@ -188,6 +219,78 @@ export default {
           }
         }
         this.$set(this.data[i], 'cellClassName', ccn)
+      }
+    },
+    fillCellClassName (ccn, date, statusResidue) {
+      let we = newDate(date).getDay()
+      if (we === 0 || we === 6) {
+        let exist = false
+        for (let i in this.workDates) {
+          if (date === this.workDates[i]) {
+            exist = true
+            break
+          }
+        }
+        if (exist) {
+          this.$set(ccn, date, statusResidue ? 'table-info-cell-markResidue' : '')
+        }
+      } else {
+        let exist = false
+        for (let i in this.restDates) {
+          if (date === this.restDates[i]) {
+            exist = true
+            break
+          }
+        }
+        if (!exist) {
+          this.$set(ccn, date, statusResidue ? 'table-info-cell-markResidue' : '')
+        }
+      }
+    },
+    handleMarkHolidays (status) {
+      if (status) {
+        if (this.workDates[0] === -1 || this.restDates[0] === -1) {
+          getSystemHolidays().then(res => {
+            if (this.workDates[0] === -1 || this.restDates[0] === -1) {
+              this.workDates = res.data.workDates
+              this.restDates = res.data.restDates
+            }
+
+            this.fillColumnClassName()
+          })
+        } else {
+          this.fillColumnClassName()
+        }
+      } else {
+        for (let i in this.columns) {
+          this.$set(this.columns[i], 'className', '')
+        }
+      }
+    },
+    fillColumnClassName () {
+      if (this.formData.pageBase === 'employee') {
+        for (let i in this.columns) {
+          if (this.columns[i].key !== 'employeeCode' && this.columns[i].key !== 'employeeName') {
+            let we = newDate(this.columns[i].key).getDay()
+            if (we === 0 || we === 6) {
+              this.$set(this.columns[i], 'className', 'table-info-cell-markHolidays')
+            }
+          }
+          for (let j in this.workDates) {
+            if (this.columns[i].key === this.workDates[j]) {
+              this.$set(this.columns[i], 'className', '')
+              break
+            }
+          }
+          for (let j in this.restDates) {
+            if (this.columns[i].key === this.restDates[j]) {
+              this.$set(this.columns[i], 'className', 'table-info-cell-markHolidays')
+              break
+            }
+          }
+        }
+      } else {
+
       }
     },
     handleExport () {
@@ -279,6 +382,7 @@ export default {
         this.totalRecord = res.data.pageList.totalRecord
         this.loading = false
         this.handleMark(this.formData.markNormal, this.formData.markResidue, this.formData.markOverTime)
+        this.handleMarkHolidays(this.formData.markHolidays)
       })
     },
     changeSize (value) {
@@ -304,5 +408,8 @@ export default {
   }
   .ivu-table .table-info-cell-markOverTime {
     background-color: #99CC33;
+  }
+  .ivu-table .table-info-cell-markHolidays {
+    background-color: #66CC99;
   }
 </style>

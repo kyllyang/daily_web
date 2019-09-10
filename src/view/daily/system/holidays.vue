@@ -180,7 +180,7 @@ export default {
       }
     },
     loadForm () {
-      getSystemHolidays(this.$route.params.id).then(res => {
+      getSystemHolidays().then(res => {
         this.formData = res.data
         this.workDateSet = new Set(this.formData.workDates)
         this.restDateSet = new Set(this.formData.restDates)
