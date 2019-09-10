@@ -408,6 +408,13 @@ export const formatDate = (date) => {
   return y + '-' + m + '-' + d
 }
 
+export const formatMonth = (date) => {
+  const y = date.getFullYear()
+  let m = date.getMonth() + 1
+  m = m < 10 ? '0' + m : m
+  return y + '-' + m
+}
+
 export const newDate = (dateStr) => {
   return new Date(dateStr.replace(/-/g, '/'))
 }

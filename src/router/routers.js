@@ -369,7 +369,7 @@ export default [
     meta: {
       icon: 'md-menu',
       title: '系统管理',
-      access: ['SYSTEM_ADMIN']
+      access: ['COMPANY_ADMIN']
     },
     component: Main,
     children: [
@@ -379,9 +379,9 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '权限管理',
-          access: ['SYSTEM_ADMIN']
+          access: ['COMPANY_ADMIN']
         },
-        component: () => import('@/view/daily/blank.vue')
+        component: () => import('@/view/daily/system/permission.vue')
       },
       {
         path: 'holidays',
@@ -389,9 +389,9 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '假日管理',
-          access: ['SYSTEM_ADMIN']
+          access: ['COMPANY_ADMIN']
         },
-        component: () => import('@/view/daily/blank.vue')
+        component: () => import('@/view/daily/system/holidays.vue')
       }
     ]
   },
