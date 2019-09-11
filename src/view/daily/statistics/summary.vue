@@ -100,7 +100,7 @@
     </ButtonGroup>
     <br/>
     <br/>
-    <Table ref="dataTable" :data="data" :columns="columns" :loading="loading" size="small" border></Table>
+    <Table ref="dataTable" :row-class-name="switchHolidays ? rowClassNameOpen : rowClassNameClose" :data="data" :columns="columns" :loading="loading" size="small" border></Table>
     <div style="margin: 10px;overflow: hidden">
       <div style="float: right;">
         <Page :total="totalRecord" :current.sync="pageNo" :page-size="pageSize" show-elevator show-sizer show-total @on-change="loadData" @on-page-size-change="changeSize"></Page>
@@ -123,6 +123,7 @@ export default {
       teamList: [],
       workDates: [-1],
       restDates: [-1],
+      switchHolidays: false,
       formData: {
         employeeCodes: [],
         teamCodes: [],
@@ -196,10 +197,10 @@ export default {
                         this.workDates = res.data.workDates
                         this.restDates = res.data.restDates
                       }
-                      this.fillCellClassName(ccn, j, statusResidue)
+                      this.fillCellClassNameEmployee(ccn, j, statusResidue)
                     })
                   } else {
-                    this.fillCellClassName(ccn, j, statusResidue)
+                    this.fillCellClassNameEmployee(ccn, j, statusResidue)
                   }
                 }
               } else if (statusOverTime && this.data[i][j] > 480) {
@@ -210,8 +211,28 @@ export default {
             if (j !== 'workDate') {
               if (statusNormal && this.data[i][j] === 480) {
                 this.$set(ccn, j, statusNormal ? 'table-info-cell-markNormal' : '')
-              } else if (statusResidue && this.data[i][j] && this.data[i][j] < 480) {
-                this.$set(ccn, j, statusResidue ? 'table-info-cell-markResidue' : '')
+              } else if (statusResidue) {
+                if (this.data[i][j]) {
+                  if (this.data[i][j] < 480) {
+                    this.$set(ccn, j, statusResidue ? 'table-info-cell-markResidue' : '')
+                  } else if (statusOverTime && this.data[i][j] > 480) {
+                    this.$set(ccn, j, statusOverTime ? 'table-info-cell-markOverTime' : '')
+                  } else if (statusNormal && this.data[i][j] === 480) {
+                    this.$set(ccn, j, statusNormal ? 'table-info-cell-markNormal' : '')
+                  }
+                } else {
+                  if (this.workDates[0] === -1 || this.restDates[0] === -1) {
+                    getSystemHolidays().then(res => {
+                      if (this.workDates[0] === -1 || this.restDates[0] === -1) {
+                        this.workDates = res.data.workDates
+                        this.restDates = res.data.restDates
+                      }
+                      this.fillCellClassNameDate(ccn, this.data[i]['workDate'], j, statusResidue)
+                    })
+                  } else {
+                    this.fillCellClassNameDate(ccn, this.data[i]['workDate'], j, statusResidue)
+                  }
+                }
               } else if (statusOverTime && this.data[i][j] > 480) {
                 this.$set(ccn, j, statusOverTime ? 'table-info-cell-markOverTime' : '')
               }
@@ -221,7 +242,7 @@ export default {
         this.$set(this.data[i], 'cellClassName', ccn)
       }
     },
-    fillCellClassName (ccn, date, statusResidue) {
+    fillCellClassNameEmployee (ccn, date, statusResidue) {
       let we = newDate(date).getDay()
       if (we === 0 || we === 6) {
         let exist = false
@@ -247,6 +268,32 @@ export default {
         }
       }
     },
+    fillCellClassNameDate (ccn, date, employeeCode, statusResidue) {
+      let we = newDate(date).getDay()
+      if (we === 0 || we === 6) {
+        let exist = false
+        for (let i in this.workDates) {
+          if (date === this.workDates[i]) {
+            exist = true
+            break
+          }
+        }
+        if (exist) {
+          this.$set(ccn, employeeCode, statusResidue ? 'table-info-cell-markResidue' : '')
+        }
+      } else {
+        let exist = false
+        for (let i in this.restDates) {
+          if (date === this.restDates[i]) {
+            exist = true
+            break
+          }
+        }
+        if (!exist) {
+          this.$set(ccn, employeeCode, statusResidue ? 'table-info-cell-markResidue' : '')
+        }
+      }
+    },
     handleMarkHolidays (status) {
       if (status) {
         if (this.workDates[0] === -1 || this.restDates[0] === -1) {
@@ -265,6 +312,7 @@ export default {
         for (let i in this.columns) {
           this.$set(this.columns[i], 'className', '')
         }
+        this.switchHolidays = false
       }
     },
     fillColumnClassName () {
@@ -290,8 +338,37 @@ export default {
           }
         }
       } else {
-
+        this.switchHolidays = true
       }
+    },
+    rowClassNameOpen (row, index) {
+      let isHolidays = false
+      let we = newDate(row.workDate).getDay()
+      if (we === 0 || we === 6) {
+        isHolidays = true
+      }
+
+      for (let i in this.restDates) {
+        if (row.workDate === this.restDates[i]) {
+          isHolidays = true
+          break
+        }
+      }
+
+      for (let i in this.workDates) {
+        if (row.workDate === this.workDates[i]) {
+          isHolidays = false
+          break
+        }
+      }
+
+      if (isHolidays) {
+        return 'table-info-cell-markHolidays-row'
+      }
+      return ''
+    },
+    rowClassNameClose (row, index) {
+      return ''
     },
     handleExport () {
       if (this.$refs.dataTable.getSelection().length === 1) {
@@ -410,6 +487,9 @@ export default {
     background-color: #99CC33;
   }
   .ivu-table .table-info-cell-markHolidays {
+    background-color: #66CC99;
+  }
+  .ivu-table .table-info-cell-markHolidays-row td {
     background-color: #66CC99;
   }
 </style>
