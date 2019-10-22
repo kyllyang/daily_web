@@ -107,6 +107,7 @@ export default {
         startTime: '',
         endTime: '',
         remark: '',
+        status: '',
         taskCategorys: [],
         workTimes: ['08:00', '12:00']
       },

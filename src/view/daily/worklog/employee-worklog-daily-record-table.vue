@@ -39,6 +39,15 @@
                 </FormItem>
               </Col>
               <Col span="8">
+                <FormItem label="状态" prop="status">
+                  <Select v-model="formData.status" placeholder="全部" clearable>
+                    <Option v-for="(item, index) in statusDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
+                  </Select>
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="8" offset="16">
                 <FormItem>
                   <Button type="primary" @click="handleQuery()">
                     <Icon type="ios-search-outline" />
@@ -85,7 +94,7 @@
   </div>
 </template>
 <script>
-import { getDataDictByCodeForChildren } from '@/api/daily/evo-datadict'
+import { getDataDictByCode, getDataDictByCodeForChildren } from '@/api/daily/evo-datadict'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
 import { pageWorklogDailyRecordSelf, deleteWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
 
@@ -95,13 +104,15 @@ export default {
       collapse: '1',
       taskCategoryDataDicts: [],
       systemItemList: [],
+      statusDataDicts: [],
       formData: {
         employeeCode: '',
         workDate: '',
         systemItemCode: '',
         moduleName: '',
         taskCategory: '',
-        remark: ''
+        remark: '',
+        status: ''
       },
       formRule: {
         moduleName: [
@@ -195,6 +206,22 @@ export default {
           align: 'left',
           title: '备注',
           key: 'remark'
+        },
+        {
+          align: 'center',
+          width: 100,
+          title: '状态',
+          key: 'status',
+          render: (h, params) => {
+            let text = ''
+            for (let index in this.statusDataDicts) {
+              if (params.row.status === this.statusDataDicts[index].key) {
+                text = this.statusDataDicts[index].value
+                break
+              }
+            }
+            return h('div', text)
+          }
         }
       ],
       data: [],
@@ -293,6 +320,11 @@ export default {
         this.systemItemList = res.data
       })
     },
+    loadStatusDataDict () {
+      getDataDictByCode('WORKLOG_DAILY_RECORD_STATUS').then(res => {
+        this.statusDataDicts = res.data
+      })
+    },
     loadData () {
       if (this.loading) return
       this.loading = true
@@ -305,6 +337,7 @@ export default {
         moduleName: this.formData.moduleName,
         taskCategory: this.formData.taskCategory,
         remark: this.formData.remark,
+        status: this.formData.status,
         pageNo: this.pageNo,
         pageSize: this.pageSize,
         pageSort: 'code',
@@ -325,6 +358,7 @@ export default {
   mounted () {
     this.loadTaskCategoryDataDicts()
     this.loadSystemItemList()
+    this.loadStatusDataDict()
     this.loadData()
   }
 }

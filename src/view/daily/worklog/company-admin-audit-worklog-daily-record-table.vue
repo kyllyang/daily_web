@@ -2,7 +2,7 @@
   <div>
     <Collapse v-model="collapse">
       <Panel name="1">
-        日报列表
+        日报审核列表
         <p slot="content">
           <Form ref="formData" :model="formData" :rules="formRule" :label-width="80" inline>
             <Row>
@@ -75,21 +75,13 @@
     </Collapse>
     <br/>
     <ButtonGroup>
-      <Button type="primary" @click="handleCreate()">
+      <Button type="primary" @click="handlePass()">
         <Icon type="ios-add" />
-        新增
+        通过
       </Button>
-      <Button type="primary" @click="handleModify()">
+      <Button type="primary" @click="handleReject()">
         <Icon type="ios-create-outline" />
-        修改
-      </Button>
-      <Button type="primary" @click="handleView()">
-        <Icon type="ios-paper-outline" />
-        查看
-      </Button>
-      <Button type="primary" @click="handleDelete()">
-        <Icon type="ios-trash-outline"/>
-        删除
+        驳回
       </Button>
     </ButtonGroup>
     <br/>
@@ -104,9 +96,9 @@
 </template>
 <script>
 import { getDataDictByCode, getDataDictByCodeForChildren } from '@/api/daily/evo-datadict'
-import { listOrgEmployeeSelfMember } from '@/api/daily/org-employee'
+import { listOrgEmployee } from '@/api/daily/org-employee'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
-import { pageWorklogDailyRecordSelfMember, deleteWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
+import { pageAuditWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
 
 export default {
   data () {
@@ -163,60 +155,10 @@ export default {
           key: 'workDate'
         },
         {
-          align: 'left',
+          align: 'right',
           width: 120,
-          title: '系统名称',
-          key: 'systemName'
-        },
-        {
-          align: 'left',
-          width: 120,
-          title: '项目名称',
-          key: 'systemItemName'
-        },
-        {
-          align: 'left',
-          width: 120,
-          title: '模块名称',
-          key: 'moduleName'
-        },
-        {
-          align: 'left',
-          width: 120,
-          title: '任务分类',
-          key: 'taskCategory',
-          render: (h, params) => {
-            let text = ''
-            for (let findex in this.taskCategoryDataDicts) {
-              for (let sindex in this.taskCategoryDataDicts[findex].children) {
-                if (params.row.taskCategory === this.taskCategoryDataDicts[findex].children[sindex].value) {
-                  text = this.taskCategoryDataDicts[findex].label + '/' + this.taskCategoryDataDicts[findex].children[sindex].label
-                  break
-                }
-              }
-              if (text !== '') {
-                break
-              }
-            }
-            return h('div', text)
-          }
-        },
-        {
-          align: 'center',
-          width: 120,
-          title: '开始时间',
-          key: 'startTime'
-        },
-        {
-          align: 'center',
-          width: 120,
-          title: '结束时间',
-          key: 'endTime'
-        },
-        {
-          align: 'left',
-          title: '备注',
-          key: 'remark'
+          title: '工作用时(分/时)',
+          key: 'minutes'
         },
         {
           align: 'center',
@@ -243,20 +185,7 @@ export default {
     }
   },
   methods: {
-    handleCreate () {
-      this.$router.push({ name: 'team_admin_worklog_daily_record_edit' })
-    },
-    handleModify () {
-      if (this.$refs.dataTable.getSelection().length === 1) {
-        this.$router.push({ name: 'team_admin_worklog_daily_record_edit', params: { id: this.$refs.dataTable.getSelection()[0].id } })
-      } else {
-        this.$Modal.warning({
-          title: '警告',
-          content: '请选择一条记录！'
-        })
-      }
-    },
-    handleView () {
+    handlePass () {
       if (this.$refs.dataTable.getSelection().length === 1) {
         this.$Modal.warning({
           title: '警告',
@@ -269,16 +198,11 @@ export default {
         })
       }
     },
-    handleDelete () {
-      if (this.$refs.dataTable.getSelection().length > 0) {
-        this.$Modal.confirm({
-          title: '确认',
-          content: '是否删除此记录？',
-          onOk: () => {
-            deleteWorklogDailyRecord(this.$refs.dataTable.getSelection()[0].id).then(res => {
-              this.loadData()
-            })
-          }
+    handleReject () {
+      if (this.$refs.dataTable.getSelection().length === 1) {
+        this.$Modal.warning({
+          title: '警告',
+          content: '此功能暂未实现！'
         })
       } else {
         this.$Modal.warning({
@@ -327,7 +251,7 @@ export default {
       })
     },
     loadEmployeeList () {
-      listOrgEmployeeSelfMember(this.$store.state.user.employeeCode).then(res => {
+      listOrgEmployee().then(res => {
         this.employeeList = res.data
       })
     },
@@ -345,7 +269,7 @@ export default {
       if (this.loading) return
       this.loading = true
 
-      pageWorklogDailyRecordSelfMember({
+      pageAuditWorklogDailyRecord({
         employeeCode: this.formData.employeeCode,
         startWorkDate: this.formData.workDate[0],
         endWorkDate: this.formData.workDate[1],

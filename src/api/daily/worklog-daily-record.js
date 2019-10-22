@@ -24,6 +24,14 @@ export const pageWorklogDailyRecordSelfMember = (query) => {
   })
 }
 
+export const pageAuditWorklogDailyRecord = (query) => {
+  return axios.request({
+    url: '/daily/worklog/worklog-daily-record/audit/page/info',
+    data: query,
+    method: 'post'
+  })
+}
+
 export const pageWorklogDailyRecordSelfStatistics = (query) => {
   return axios.request({
     url: '/daily/worklog/worklog-daily-record/self/page/info/statistics',
