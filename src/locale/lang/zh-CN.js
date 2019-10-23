@@ -19,6 +19,8 @@ export default {
   my_work: '我的工作',
   edit_worklog: '日报填写',
   audit_worklog: '日报审核',
+  company_admin_audit_worklog: '日报审核',
+  team_admin_audit_worklog: '日报审核',
   my_process: '我的申请',
   my_task: '我的任务',
   worklog: '工作记录',

@@ -71,6 +71,18 @@ export const updateWorklogDailyRecord = (formData) => {
   })
 }
 
+export const auditWorklogDailyRecord = (ids, status, comment) => {
+  return axios.request({
+    url: '/daily/worklog/worklog-daily-record/audit',
+    data: {
+      ids,
+      status,
+      comment
+    },
+    method: 'put'
+  })
+}
+
 export const deleteWorklogDailyRecord = (id) => {
   return axios.request({
     url: '/daily/worklog/worklog-daily-record/' + id,

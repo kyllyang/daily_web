@@ -90,14 +90,24 @@ export default [
         component: () => import('@/view/daily/worklog/my-worklog-daily-record-form.vue')
       },
       {
-        path: 'audit_worklog',
-        name: 'audit_worklog',
+        path: 'company_admin_audit_worklog',
+        name: 'company_admin_audit_worklog',
         meta: {
           icon: 'md-funnel',
           title: '日报审核',
-          access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
+          access: ['COMPANY_ADMIN']
         },
         component: () => import('@/view/daily/worklog/company-admin-audit-worklog-daily-record-table.vue')
+      },
+      {
+        path: 'team_admin_audit_worklog',
+        name: 'team_admin_audit_worklog',
+        meta: {
+          icon: 'md-funnel',
+          title: '日报审核',
+          access: ['TEAM_ADMIN']
+        },
+        component: () => import('@/view/daily/worklog/team-admin-audit-worklog-daily-record-table.vue')
       },
       {
         path: 'my_process',

@@ -126,7 +126,7 @@ export default {
           { type: 'string', required: true, message: '不能为空', trigger: 'blur' }
         ],
         moduleName: [
-          { type: 'string', required: true, max: 20, message: '不能为空，且最大长度不能超过20个字符', trigger: 'blur' }
+          { type: 'string', required: true, max: 100, message: '不能为空，且最大长度不能超过100个字符', trigger: 'blur' }
         ],
         taskCategorys: [
           { type: 'array', required: true, trigger: 'blur' },

@@ -4,72 +4,72 @@
       <Panel name="1">
         日报审核列表
         <p slot="content">
-          <Form ref="formData" :model="formData" :rules="formRule" :label-width="80" inline>
-            <Row>
-              <Col span="8">
-                <FormItem label="员工姓名" prop="employeeCode">
-                  <Select v-model="formData.employeeCode" filterable clearable>
-                    <Option v-for="(item, index) in employeeList" :value="item.code" :label="item.name" :key="index">
-                      <span>{{ item.name }}</span>
-                    </Option>
-                  </Select>
-                </FormItem>
-              </Col>
-              <Col span="8">
-                <FormItem label="日期" prop="workDate">
-                  <DatePicker :value="formData.workDate" format="yyyy-MM-dd" type="daterange" @on-change="getWorkDateTime" show-week-numbers></DatePicker>
-                </FormItem>
-              </Col>
-              <Col span="8">
-                <FormItem label="项目名称" prop="systemItemCode">
-                  <Select v-model="formData.systemItemCode" filterable clearable>
-                    <Option v-for="(item, index) in systemItemList" :value="item.code" :label="item.name" :key="index">
-                      <span>{{ item.name }}</span>
-                      <span style="float:right;color:#ccc">{{ item.systemName }}</span>
-                    </Option>
-                  </Select>
-                </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col span="8">
-                <FormItem label="模块名称" prop="moduleName">
-                  <Input type="text" v-model="formData.moduleName"></Input>
-                </FormItem>
-              </Col>
-              <Col span="8">
-                <FormItem label="任务分类" prop="taskCategory">
-                  <Cascader :data="taskCategoryDataDicts" trigger="hover" change-on-select></Cascader>
-                </FormItem>
-              </Col>
-              <Col span="8">
-                <FormItem label="备注" prop="remark">
-                  <Input type="text" v-model="formData.remark"></Input>
-                </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col span="8">
-                <FormItem label="状态" prop="status">
-                  <Select v-model="formData.status" placeholder="全部" clearable>
-                    <Option v-for="(item, index) in statusDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
-                  </Select>
-                </FormItem>
-              </Col>
-              <Col span="8" offset="8">
-                <FormItem>
-                  <Button type="primary" @click="handleQuery()">
-                    <Icon type="ios-search-outline" />
-                    查询
-                  </Button>
-                  <Button type="primary" @click="handleReset()" style="margin-left: 8px">
-                    <Icon type="ios-repeat" />
-                    重置
-                  </Button>
-                </FormItem>
-              </Col>
-            </Row>
-          </Form>
+        <Form ref="formData" :model="formData" :rules="formRule" :label-width="80" inline>
+          <Row>
+            <Col span="8">
+              <FormItem label="员工姓名" prop="employeeCode">
+                <Select v-model="formData.employeeCode" filterable clearable>
+                  <Option v-for="(item, index) in employeeList" :value="item.code" :label="item.name" :key="index">
+                    <span>{{ item.name }}</span>
+                  </Option>
+                </Select>
+              </FormItem>
+            </Col>
+            <Col span="8">
+              <FormItem label="日期" prop="workDate">
+                <DatePicker :value="formData.workDate" format="yyyy-MM-dd" type="daterange" @on-change="getWorkDateTime" show-week-numbers></DatePicker>
+              </FormItem>
+            </Col>
+            <Col span="8">
+              <FormItem label="项目名称" prop="systemItemCode">
+                <Select v-model="formData.systemItemCode" filterable clearable>
+                  <Option v-for="(item, index) in systemItemList" :value="item.code" :label="item.name" :key="index">
+                    <span>{{ item.name }}</span>
+                    <span style="float:right;color:#ccc">{{ item.systemName }}</span>
+                  </Option>
+                </Select>
+              </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col span="8">
+              <FormItem label="模块名称" prop="moduleName">
+                <Input type="text" v-model="formData.moduleName"></Input>
+              </FormItem>
+            </Col>
+            <Col span="8">
+              <FormItem label="任务分类" prop="taskCategory">
+                <Cascader :data="taskCategoryDataDicts" trigger="hover" change-on-select></Cascader>
+              </FormItem>
+            </Col>
+            <Col span="8">
+              <FormItem label="备注" prop="remark">
+                <Input type="text" v-model="formData.remark"></Input>
+              </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col span="8">
+              <FormItem label="状态" prop="status">
+                <Select v-model="formData.status" placeholder="全部" clearable>
+                  <Option v-for="(item, index) in statusDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
+                </Select>
+              </FormItem>
+            </Col>
+            <Col span="8" offset="8">
+              <FormItem>
+                <Button type="primary" @click="handleQuery()">
+                  <Icon type="ios-search-outline" />
+                  查询
+                </Button>
+                <Button type="primary" @click="handleReset()" style="margin-left: 8px">
+                  <Icon type="ios-repeat" />
+                  重置
+                </Button>
+              </FormItem>
+            </Col>
+          </Row>
+        </Form>
         </p>
       </Panel>
     </Collapse>
@@ -96,7 +96,7 @@
 </template>
 <script>
 import { getDataDictByCode, getDataDictByCodeForChildren } from '@/api/daily/evo-datadict'
-import { listOrgEmployee } from '@/api/daily/org-employee'
+import { listOrgEmployeeMember } from '@/api/daily/org-employee'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
 import { pageAuditWorklogDailyRecord, auditWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
 import expandRow from './audit-worklog-daily-record-table-expand.vue'
@@ -328,7 +328,7 @@ export default {
       })
     },
     loadEmployeeList () {
-      listOrgEmployee().then(res => {
+      listOrgEmployeeMember(this.$store.state.user.employeeCode).then(res => {
         this.employeeList = res.data
       })
     },
