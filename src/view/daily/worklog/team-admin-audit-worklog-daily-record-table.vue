@@ -98,7 +98,7 @@
 import { getDataDictByCode, getDataDictByCodeForChildren } from '@/api/daily/evo-datadict'
 import { listOrgEmployeeMember } from '@/api/daily/org-employee'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
-import { pageAuditWorklogDailyRecord, auditWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
+import { pageAuditWorklogDailyRecordMember, auditWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
 import expandRow from './audit-worklog-daily-record-table-expand.vue'
 
 export default {
@@ -346,7 +346,7 @@ export default {
       if (this.loading) return
       this.loading = true
 
-      pageAuditWorklogDailyRecord({
+      pageAuditWorklogDailyRecordMember({
         employeeCode: this.formData.employeeCode,
         startWorkDate: this.formData.workDate[0],
         endWorkDate: this.formData.workDate[1],
