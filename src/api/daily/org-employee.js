@@ -8,6 +8,14 @@ export const pageOrgEmployee = (query) => {
   })
 }
 
+export const pageOrgEmployeeSelf = (query) => {
+  return axios.request({
+    url: '/daily/organization/org-employee/self/page/info',
+    data: query,
+    method: 'post'
+  })
+}
+
 export const listOrgEmployee = (query) => {
   return axios.request({
     url: '/daily/organization/org-employee/all',

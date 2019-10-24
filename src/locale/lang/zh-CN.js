@@ -23,6 +23,7 @@ export default {
   team_admin_audit_worklog: '日报审核',
   my_process: '我的申请',
   my_task: '我的任务',
+  my_team: '我的团队',
   worklog: '工作记录',
   worklog_daily_record: '日报管理',
   company_admin_worklog_daily_record: '日报管理',

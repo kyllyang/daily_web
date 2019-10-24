@@ -128,6 +128,16 @@ export default [
           access: ['COMPANY_ADMIN', 'TEAM_ADMIN', 'EMPLOYEE']
         },
         component: () => import('@/view/daily/blank.vue')
+      },
+      {
+        path: 'my_team',
+        name: 'my_team',
+        meta: {
+          icon: 'md-funnel',
+          title: '我的团队',
+          access: ['COMPANY_ADMIN', 'TEAM_ADMIN', 'EMPLOYEE']
+        },
+        component: () => import('@/view/daily/organization/my-org-employee-table.vue')
       }
     ]
   },

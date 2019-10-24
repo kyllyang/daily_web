@@ -89,6 +89,16 @@
         </FormItem>
       </Col>
     </Row>
+    <Divider>岗位信息</Divider>
+    <Row>
+      <Col span="12">
+        <FormItem label="岗位" prop="job">
+          <Select v-model="formData.job" clearable>
+            <Option v-for="(item, index) in jobDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
+          </Select>
+        </FormItem>
+      </Col>
+    </Row>
     <Divider>团队信息</Divider>
     <Row>
       <Col span="12">
@@ -226,6 +236,7 @@ export default {
 
     return {
       sexDataDicts: [],
+      jobDataDicts: [],
       statusDataDicts: [],
       teamRoleDataDicts: [],
       educationDataDicts: [],
@@ -245,6 +256,7 @@ export default {
         mailbox: '',
         inTime: new Date(),
         outTime: '',
+        job: '',
         status: '',
         roleCodes: ['EMPLOYEE'],
         teamCode: '',
@@ -289,6 +301,9 @@ export default {
         ],
         mailbox: [
           { type: 'string', validator: mailboxValidator, trigger: 'blur' }
+        ],
+        job: [
+          { type: 'string', required: true, message: '不能为空' }
         ],
         status: [
           { type: 'string', required: true, message: '不能为空' }
@@ -358,6 +373,11 @@ export default {
           }
         })
         this.sexDataDicts = dataList
+      })
+    },
+    loadJobDataDict () {
+      getDataDictByCode('EMPLOYEE_JOB').then(res => {
+        this.jobDataDicts = res.data
       })
     },
     loadStatusDataDict () {
@@ -463,6 +483,7 @@ export default {
   },
   mounted () {
     this.loadSexDataDict()
+    this.loadJobDataDict()
     this.loadStatusDataDict()
     this.loadTeamRoleDataDict()
     this.loadEducationDataDict()

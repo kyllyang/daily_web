@@ -44,17 +44,7 @@
               </Col>
             </Row>
             <Row>
-              <Col span="8">
-                <FormItem label="团队" prop="teamCode" style="width: 50%;">
-                  <Select v-model="formData.teamCode" clearable>
-                    <Option v-for="(item, index) in teamList" :value="item.code" :label="item.name" :key="index">
-                      <span>{{ item.name }}</span>
-                      <span style="float:right;color:#ccc">{{ item.principalName }}</span>
-                    </Option>
-                  </Select>
-                </FormItem>
-              </Col>
-              <Col span="8" offset="8">
+              <Col span="8" offset="16">
                 <FormItem>
                   <Button type="primary" @click="handleQuery()">
                     <Icon type="ios-search-outline" />
@@ -72,32 +62,6 @@
       </Panel>
     </Collapse>
     <br/>
-    <ButtonGroup>
-      <Button type="primary" @click="handleCreate()">
-        <Icon type="ios-add" />
-        新增
-      </Button>
-      <Button type="primary" @click="handleModify()">
-        <Icon type="ios-create-outline" />
-        修改
-      </Button>
-      <Button type="primary" @click="handleView()">
-        <Icon type="ios-paper-outline" />
-        查看
-      </Button>
-      <Button type="primary" @click="handleDelete()">
-        <Icon type="ios-trash-outline"/>
-        删除
-      </Button>
-    </ButtonGroup>
-    <ButtonGroup>
-      <Button type="primary" @click="handleChangePassword()" style="margin-left: 8px">
-        <Icon type="ios-create-outline"/>
-        修改密码
-      </Button>
-    </ButtonGroup>
-    <br/>
-    <br/>
     <Table ref="dataTable" :data="data" :columns="columns" :loading="loading" size="small" stripe border></Table>
     <div style="margin: 10px;overflow: hidden">
       <div style="float: right;">
@@ -108,8 +72,7 @@
 </template>
 <script>
 import { getDataDictByCode } from '@/api/daily/evo-datadict'
-import { listOrgTeam } from '@/api/daily/org-team'
-import { pageOrgEmployee, deleteOrgEmployee, updateOrgEmployeePassowrd } from '@/api/daily/org-employee'
+import { pageOrgEmployeeSelf } from '@/api/daily/org-employee'
 import IMG_SEX00001 from '@/assets/images/daily/SEX00001.png'
 import IMG_SEX00002 from '@/assets/images/daily/SEX00002.png'
 
@@ -119,7 +82,6 @@ export default {
       collapse: '1',
       dataDicts: [],
       jobDataDicts: [],
-      teamList: [],
       newPassword: '123456',
       formData: {
         code: '',
@@ -127,8 +89,7 @@ export default {
         sex: '',
         mailbox: '',
         phone: '',
-        job: '',
-        teamCode: ''
+        job: ''
       },
       formRule: {
         code: [
@@ -243,85 +204,6 @@ export default {
     }
   },
   methods: {
-    handleCreate () {
-      this.$router.push({ name: 'org_employee_edit' })
-    },
-    handleModify () {
-      if (this.$refs.dataTable.getSelection().length === 1) {
-        this.$router.push({ name: 'org_employee_edit', params: { id: this.$refs.dataTable.getSelection()[0].id } })
-      } else {
-        this.$Modal.warning({
-          title: '警告',
-          content: '请选择一条记录！'
-        })
-      }
-    },
-    handleView () {
-      if (this.$refs.dataTable.getSelection().length === 1) {
-        this.$Modal.warning({
-          title: '警告',
-          content: '此功能暂未实现！'
-        })
-      } else {
-        this.$Modal.warning({
-          title: '警告',
-          content: '请选择一条记录！'
-        })
-      }
-    },
-    handleDelete () {
-      if (this.$refs.dataTable.getSelection().length > 0) {
-        this.$Modal.confirm({
-          title: '确认',
-          content: '是否删除此记录？',
-          onOk: () => {
-            deleteOrgEmployee(this.$refs.dataTable.getSelection()[0].id).then(res => {
-              this.loadData()
-            })
-          }
-        })
-      } else {
-        this.$Modal.warning({
-          title: '警告',
-          content: '请选择一条记录！'
-        })
-      }
-    },
-    handleChangePassword () {
-      if (this.$refs.dataTable.getSelection().length === 1) {
-        this.$Modal.confirm({
-          title: '修改密码',
-          render: (h) => {
-            return h('Input', {
-              props: {
-                type: 'password',
-                value: this.newPassword,
-                autofocus: true,
-                placeholder: '请输入新密码'
-              },
-              on: {
-                input: (val) => {
-                  this.newPassword = val
-                }
-              }
-            })
-          },
-          onOk: () => {
-            updateOrgEmployeePassowrd(this.$refs.dataTable.getSelection()[0].userId, this.newPassword).then(res => {
-              this.$Modal.success({
-                title: '成功',
-                content: '修改成功！'
-              })
-            })
-          }
-        })
-      } else {
-        this.$Modal.warning({
-          title: '警告',
-          content: '请选择一条记录！'
-        })
-      }
-    },
     handleQuery () {
       this.$refs['formData'].validate((valid) => {
         if (valid) {
@@ -348,23 +230,17 @@ export default {
         this.jobDataDicts = res.data
       })
     },
-    loadTeamList () {
-      listOrgTeam().then(res => {
-        this.teamList = res.data
-      })
-    },
     loadData () {
       if (this.loading) return
       this.loading = true
 
-      pageOrgEmployee({
+      pageOrgEmployeeSelf({
         code: this.formData.code,
         name: this.formData.name,
         sex: this.formData.sex,
         mailbox: this.formData.mailbox,
         phone: this.formData.phone,
         job: this.formData.job,
-        teamCode: this.formData.teamCode,
         pageNo: this.pageNo,
         pageSize: this.pageSize,
         pageSort: 'code',
@@ -385,7 +261,6 @@ export default {
   mounted () {
     this.loadDataDict()
     this.loadJobDataDict()
-    this.loadTeamList()
     this.loadData()
   }
 }
