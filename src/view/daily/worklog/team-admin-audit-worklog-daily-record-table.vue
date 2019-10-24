@@ -173,14 +173,11 @@ export default {
           title: '状态',
           key: 'status',
           render: (h, params) => {
-            let text = ''
-            for (let index in this.statusDataDicts) {
-              if (params.row.status === this.statusDataDicts[index].key) {
-                text = this.statusDataDicts[index].value
-                break
+            return h('Icon', {
+              props: {
+                type: params.row.status === 'WDRS0001' ? 'ios-checkmark-circle-outline' : (params.row.status === 'WDRS0002' ? 'md-checkmark' : 'md-close')
               }
-            }
-            return h('div', text)
+            })
           }
         },
         {
