@@ -315,23 +315,63 @@ export default [
     meta: {
       icon: 'md-menu',
       title: '统计分析',
-      access: ['COMPANY_ADMIN']
+      access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
     },
     component: Main,
     children: [
       {
-        path: 'worklog_summary',
-        name: 'worklog_summary',
+        path: 'company_admin_statistics_project_system_item_manhour',
+        name: 'company_admin_statistics_project_system_item_manhour',
+        meta: {
+          icon: 'md-funnel',
+          title: '项目工时',
+          access: ['COMPANY_ADMIN']
+        },
+        component: () => import('@/view/daily/statistics/company-admin-project-system-item-manhour-table.vue')
+      },
+      {
+        path: 'team_admin_statistics_project_system_item_manhour',
+        name: 'team_admin_statistics_project_system_item_manhour',
+        meta: {
+          icon: 'md-funnel',
+          title: '项目工时',
+          access: ['TEAM_ADMIN']
+        },
+        component: () => import('@/view/daily/statistics/team-admin-project-system-item-manhour-table.vue')
+      },
+      {
+        path: 'company_admin_statistics_employee_manhour',
+        name: 'company_admin_statistics_employee_manhour',
+        meta: {
+          icon: 'md-funnel',
+          title: '员工工时',
+          access: ['COMPANY_ADMIN']
+        },
+        component: () => import('@/view/daily/statistics/company-admin-employee-manhour-table.vue')
+      },
+      {
+        path: 'team_admin_statistics_employee_manhour',
+        name: 'team_admin_statistics_employee_manhour',
+        meta: {
+          icon: 'md-funnel',
+          title: '员工工时',
+          access: ['TEAM_ADMIN']
+        },
+        component: () => import('@/view/daily/statistics/team-admin-employee-manhour-table.vue')
+      },
+      {
+        path: 'statistics_worklog_summary',
+        name: 'statistics_worklog_summary',
         meta: {
           icon: 'md-funnel',
           title: '日报汇总',
           access: ['COMPANY_ADMIN']
         },
-        component: () => import('@/view/daily/statistics/summary.vue')
+        component: () => import('@/view/daily/statistics/worklog-summary-table.vue')
       },
       {
-        path: 'worklog_finished',
-        name: 'worklog_finished',
+        path: 'statistics_worklog_finished',
+        name: 'statistics_worklog_finished',
         meta: {
           icon: 'md-funnel',
           title: '已填写日报',
@@ -340,8 +380,8 @@ export default [
         component: () => import('@/view/daily/blank.vue')
       },
       {
-        path: 'worklog_missing',
-        name: 'worklog_missing',
+        path: 'statistics_worklog_missing',
+        name: 'statistics_worklog_missing',
         meta: {
           icon: 'md-funnel',
           title: '未填写日报',
@@ -350,8 +390,8 @@ export default [
         component: () => import('@/view/daily/blank.vue')
       },
       {
-        path: 'worklog_approved',
-        name: 'worklog_approved',
+        path: 'statistics_worklog_approved',
+        name: 'statistics_worklog_approved',
         meta: {
           icon: 'md-funnel',
           title: '已审批日报',
@@ -360,8 +400,8 @@ export default [
         component: () => import('@/view/daily/blank.vue')
       },
       {
-        path: 'worklog_noapproved',
-        name: 'worklog_noapproved',
+        path: 'statistics_worklog_noapproved',
+        name: 'statistics_worklog_noapproved',
         meta: {
           icon: 'md-funnel',
           title: '未审批日报',

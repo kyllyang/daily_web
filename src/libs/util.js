@@ -454,3 +454,12 @@ export const addDate = (currentDate, num) => {
   currentDate.setDate(currentDate.getDate() + num)
   return currentDate
 }
+
+export const toMinutesText = (minutes) => {
+  let text = Math.floor(minutes / 60) + '小时'
+  let m = minutes % 60
+  if (m > 0) {
+    text += m + '分钟'
+  }
+  return text
+}
