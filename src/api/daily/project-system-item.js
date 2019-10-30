@@ -23,6 +23,13 @@ export const listProjectSystemItem = () => {
   })
 }
 
+export const listProjectSystemItemSelf = () => {
+  return axios.request({
+    url: '/daily/project/project-system-item/all/self',
+    method: 'get'
+  })
+}
+
 export const checkByBackend = (formData) => {
   return axios.request({
     url: '/daily/project/project-system-item/check',
