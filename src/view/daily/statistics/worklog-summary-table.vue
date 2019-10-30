@@ -7,7 +7,7 @@
           <Form ref="formData" :model="formData" :label-width="80" inline>
             <Row>
               <Col span="8">
-                <FormItem label="员工" prop="employeeCode">
+                <FormItem label="员工" prop="employeeCodes">
                   <Select v-model="formData.employeeCodes" multiple filterable clearable>
                     <Option v-for="(item, index) in employeeList" :value="item.code" :label="item.name" :key="index">
                       <span>{{ item.name }}</span>

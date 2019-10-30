@@ -324,7 +324,7 @@ export default {
       })
     },
     loadEmployeeList () {
-      listOrgEmployeeSelfMember(this.$store.state.user.employeeCode).then(res => {
+      listOrgEmployeeSelfMember().then(res => {
         this.employeeList = res.data
       })
     },

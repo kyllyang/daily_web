@@ -16,6 +16,14 @@ export const pageStatisticsProjectSystemItemManhourSelf = (query) => {
   })
 }
 
+export const listStatisticsEmployeeManhourYear = (query) => {
+  return axios.request({
+    url: '/daily/worklog/statistics/employee-manhour/year',
+    data: query,
+    method: 'get'
+  })
+}
+
 export const pageStatisticsEmployeeManhour = (query) => {
   return axios.request({
     url: '/daily/worklog/statistics/employee-manhour/page/info',

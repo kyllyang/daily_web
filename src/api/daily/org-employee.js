@@ -23,9 +23,9 @@ export const listOrgEmployee = (query) => {
   })
 }
 
-export const listOrgEmployeeSelfMember = (code) => {
+export const listOrgEmployeeSelfMember = () => {
   return axios.request({
-    url: '/daily/organization/org-employee/self-member/info/' + code,
+    url: '/daily/organization/org-employee/self-member/info',
     method: 'get'
   })
 }
