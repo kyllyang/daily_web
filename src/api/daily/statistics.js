@@ -69,23 +69,9 @@ export const countStatisticsAmountCurrentMonthManHourAlreadyFillSum = () => {
   })
 }
 
-export const countStatisticsAmountCurrentMonthManHourNotFillSum = () => {
-  return axios.request({
-    url: '/daily/worklog/statistics/amount/currentmonth/manhour/notfill/sum',
-    method: 'get'
-  })
-}
-
 export const countStatisticsAmountCurrentMonthManHourAlreadyApproveSum = () => {
   return axios.request({
     url: '/daily/worklog/statistics/amount/currentmonth/manhour/alreadyapprove/sum',
-    method: 'get'
-  })
-}
-
-export const countStatisticsAmountCurrentMonthManHourNotApproveSum = () => {
-  return axios.request({
-    url: '/daily/worklog/statistics/amount/currentmonth/manhour/notapprove/sum',
     method: 'get'
   })
 }
