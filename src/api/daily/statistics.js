@@ -47,3 +47,66 @@ export const pageStatisticsWorklogSummary = (query) => {
     method: 'post'
   })
 }
+
+export const countStatisticsAmountEmployeeOnjobCount = () => {
+  return axios.request({
+    url: '/daily/organization/statistics/amount/employee/onjob/count',
+    method: 'get'
+  })
+}
+
+export const countStatisticsAmountCurrentMonthManHourShouldFillSum = () => {
+  return axios.request({
+    url: '/daily/worklog/statistics/amount/currentmonth/manhour/shouldfill/sum',
+    method: 'get'
+  })
+}
+
+export const countStatisticsAmountCurrentMonthManHourAlreadyFillSum = () => {
+  return axios.request({
+    url: '/daily/worklog/statistics/amount/currentmonth/manhour/alreadyfill/sum',
+    method: 'get'
+  })
+}
+
+export const countStatisticsAmountCurrentMonthManHourNotFillSum = () => {
+  return axios.request({
+    url: '/daily/worklog/statistics/amount/currentmonth/manhour/notfill/sum',
+    method: 'get'
+  })
+}
+
+export const countStatisticsAmountCurrentMonthManHourAlreadyApproveSum = () => {
+  return axios.request({
+    url: '/daily/worklog/statistics/amount/currentmonth/manhour/alreadyapprove/sum',
+    method: 'get'
+  })
+}
+
+export const countStatisticsAmountCurrentMonthManHourNotApproveSum = () => {
+  return axios.request({
+    url: '/daily/worklog/statistics/amount/currentmonth/manhour/notapprove/sum',
+    method: 'get'
+  })
+}
+
+export const countStatisticsAmountCurrentMonthManHourShouldFillSumSelf = () => {
+  return axios.request({
+    url: '/daily/worklog/statistics/amount/currentmonth/manhour/self/shouldfill/sum',
+    method: 'get'
+  })
+}
+
+export const countStatisticsAmountCurrentMonthManHourAlreadyFillSumSelf = () => {
+  return axios.request({
+    url: '/daily/worklog/statistics/amount/currentmonth/manhour/self/alreadyfill/sum',
+    method: 'get'
+  })
+}
+
+export const countStatisticsAmountCurrentMonthManHourAlreadyApproveSumSelf = () => {
+  return axios.request({
+    url: '/daily/worklog/statistics/amount/currentmonth/manhour/self/alreadyapprove/sum',
+    method: 'get'
+  })
+}

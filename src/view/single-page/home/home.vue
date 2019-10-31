@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { countStatisticsAmountEmployeeOnjobCount, countStatisticsAmountCurrentMonthManHourShouldFillSum, countStatisticsAmountCurrentMonthManHourAlreadyFillSum, countStatisticsAmountCurrentMonthManHourAlreadyApproveSum, countStatisticsAmountCurrentMonthManHourShouldFillSumSelf, countStatisticsAmountCurrentMonthManHourAlreadyFillSumSelf, countStatisticsAmountCurrentMonthManHourAlreadyApproveSumSelf } from '@/api/daily/statistics'
 import InforCard from '_c/info-card'
 import CountTo from '_c/count-to'
 import { ChartPie, ChartBar } from '_c/charts'
@@ -45,12 +46,12 @@ export default {
   data () {
     return {
       inforCardData: [
-        { title: '新增用户', icon: 'md-person-add', count: 803, color: '#2d8cf0' },
-        { title: '累计点击', icon: 'md-locate', count: 232, color: '#19be6b' },
-        { title: '新增问答', icon: 'md-help-circle', count: 142, color: '#ff9900' },
-        { title: '分享统计', icon: 'md-share', count: 657, color: '#ed3f14' },
-        { title: '新增互动', icon: 'md-chatbubbles', count: 12, color: '#E46CBB' },
-        { title: '新增页面', icon: 'md-map', count: 14, color: '#9A66E4' }
+        { title: '在职员工总数', icon: 'md-person-add', count: 0, color: '#2d8cf0' },
+        { title: '当月应填工时', icon: 'md-locate', count: 0, color: '#19be6b' },
+        { title: '当月已填工时', icon: 'md-map', count: 0, color: '#9A66E4' },
+        { title: '当月未填工时', icon: 'md-share', count: 0, color: '#ed3f14' },
+        { title: '当月已审工时', icon: 'md-chatbubbles', count: 0, color: '#E46CBB' },
+        { title: '当月未审工时', icon: 'md-help-circle', count: 0, color: '#ff9900' }
       ],
       pieData: [
         { value: 335, name: '直接访问' },
@@ -70,8 +71,67 @@ export default {
       }
     }
   },
+  methods: {
+    loadStatisticsAmountEmployeeOnjobCount () {
+      countStatisticsAmountEmployeeOnjobCount().then(res => {
+        this.inforCardData[0].count = res.data
+      })
+    },
+    loadStatisticsAmountCurrentMonthManHourShouldFillSum () {
+      countStatisticsAmountCurrentMonthManHourShouldFillSum().then(res => {
+        this.inforCardData[1].count = res.data
+      })
+    },
+    loadStatisticsAmountCurrentMonthManHourAlreadyFillSum () {
+      countStatisticsAmountCurrentMonthManHourAlreadyFillSum().then(res => {
+        this.inforCardData[2].count = Math.floor(res.data / 60 * 100000) / 100000
+        this.inforCardData[3].count = this.inforCardData[1].count - this.inforCardData[2].count
+      })
+    },
+    loadStatisticsAmountCurrentMonthManHourAlreadyApproveSum () {
+      countStatisticsAmountCurrentMonthManHourAlreadyApproveSum().then(res => {
+        this.inforCardData[4].count = Math.floor(res.data / 60 * 100000) / 100000
+        this.inforCardData[5].count = this.inforCardData[1].count - this.inforCardData[4].count
+      })
+    },
+    loadStatisticsAmountCurrentMonthManHourShouldFillSumSelf () {
+      countStatisticsAmountCurrentMonthManHourShouldFillSumSelf().then(res => {
+        this.inforCardData[1].count = res.data
+      })
+    },
+    loadStatisticsAmountCurrentMonthManHourAlreadyFillSumSelf () {
+      countStatisticsAmountCurrentMonthManHourAlreadyFillSumSelf().then(res => {
+        this.inforCardData[2].count = Math.floor(res.data / 60 * 100000) / 100000
+        this.inforCardData[3].count = this.inforCardData[1].count - this.inforCardData[2].count
+      })
+    },
+    loadStatisticsAmountCurrentMonthManHourAlreadyApproveSumSelf () {
+      countStatisticsAmountCurrentMonthManHourAlreadyApproveSumSelf().then(res => {
+        this.inforCardData[4].count = Math.floor(res.data / 60 * 100000) / 100000
+        this.inforCardData[5].count = this.inforCardData[1].count - this.inforCardData[4].count
+      })
+    }
+  },
   mounted () {
-    //
+    this.loadStatisticsAmountEmployeeOnjobCount()
+
+    let isCompanyAdmin = false
+    for (let index in this.$store.state.user.access) {
+      if (this.$store.state.user.access[index] === 'COMPANY_ADMIN') {
+        isCompanyAdmin = true
+        break
+      }
+    }
+
+    if (isCompanyAdmin) {
+      this.loadStatisticsAmountCurrentMonthManHourShouldFillSum()
+      this.loadStatisticsAmountCurrentMonthManHourAlreadyFillSum()
+      this.loadStatisticsAmountCurrentMonthManHourAlreadyApproveSum()
+    } else {
+      this.loadStatisticsAmountCurrentMonthManHourShouldFillSumSelf()
+      this.loadStatisticsAmountCurrentMonthManHourAlreadyFillSumSelf()
+      this.loadStatisticsAmountCurrentMonthManHourAlreadyApproveSumSelf()
+    }
   }
 }
 </script>
