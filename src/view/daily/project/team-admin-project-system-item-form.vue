@@ -2,25 +2,25 @@
   <Form ref="formData" :model="formData" :rules="formRule" :label-width="100">
     <Row>
       <Col span="12">
-        <FormItem label="编号" prop="code">
-          <Input type="text" v-model="formData.code"></Input>
-        </FormItem>
-      </Col>
-      <Col span="12">
-        <FormItem label="名称" prop="name">
-          <Input type="text" v-model="formData.name"></Input>
-        </FormItem>
-      </Col>
-    </Row>
-    <Row>
-      <Col span="12">
         <FormItem label="所属系统" prop="systemCode">
-          <Select v-model="formData.systemCode" filterable clearable>
+          <Select v-model="formData.systemCode" @on-change="createSystemItemCode" filterable clearable>
             <Option v-for="(item, index) in systemList" :value="item.code" :label="item.name" :key="index">
               <span>{{ item.name }}</span>
               <span style="float:right;color:#ccc">{{ item.companyNameText }}</span>
             </Option>
           </Select>
+        </FormItem>
+      </Col>
+      <Col span="12">
+        <FormItem label="编号" prop="code">
+          <Input type="text" v-model="formData.code" readonly></Input>
+        </FormItem>
+      </Col>
+    </Row>
+    <Row>
+      <Col span="12">
+        <FormItem label="名称" prop="name">
+          <Input type="text" v-model="formData.name"></Input>
         </FormItem>
       </Col>
       <Col span="12">
@@ -110,6 +110,7 @@
 </template>
 <script>
 import { mapMutations } from 'vuex'
+import { formatDateTimeCompact } from '@/libs/util'
 import { getDataDictByCode } from '@/api/daily/evo-datadict'
 import { listOrgEmployee } from '@/api/daily/org-employee'
 import { listCustomerEmployee } from '@/api/daily/customer-employee'
@@ -163,6 +164,15 @@ export default {
     ...mapMutations([
       'closeTag'
     ]),
+    createSystemItemCode (value) {
+      if (!this.$route.params.id) {
+        if (value) {
+          this.formData.code = value + '_' + formatDateTimeCompact(new Date())
+        } else {
+          this.formData.code = ''
+        }
+      }
+    },
     getPlanOnlineDateTime (time) {
       this.formData.planOnlineDate = time
     },

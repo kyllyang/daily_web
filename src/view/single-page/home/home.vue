@@ -11,7 +11,7 @@
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="8" style="margin-bottom: 20px;">
         <Card shadow>
-          <chart-pie style="height: 300px;" :value="pieData" text="用户访问来源"></chart-pie>
+          <chart-pie style="height: 300px;" :value="pieData" text="本月工时比例"></chart-pie>
         </Card>
       </i-col>
       <i-col :md="24" :lg="16" style="margin-bottom: 20px;">
@@ -47,11 +47,11 @@ export default {
     return {
       inforCardData: [
         { title: '在职员工总数', icon: 'md-person-add', count: 0, color: '#2d8cf0' },
-        { title: '当月应填工时', icon: 'md-locate', count: 0, color: '#19be6b' },
-        { title: '当月已填工时', icon: 'md-map', count: 0, color: '#9A66E4' },
-        { title: '当月未填工时', icon: 'md-share', count: 0, color: '#ed3f14' },
-        { title: '当月已审工时', icon: 'md-chatbubbles', count: 0, color: '#E46CBB' },
-        { title: '当月未审工时', icon: 'md-help-circle', count: 0, color: '#ff9900' }
+        { title: '本月应填工时', icon: 'md-locate', count: 0, color: '#19be6b' },
+        { title: '本月已填工时', icon: 'md-map', count: 0, color: '#9A66E4' },
+        { title: '本月未填工时', icon: 'md-share', count: 0, color: '#ed3f14' },
+        { title: '本月已审工时', icon: 'md-chatbubbles', count: 0, color: '#E46CBB' },
+        { title: '本月未审工时', icon: 'md-help-circle', count: 0, color: '#ff9900' }
       ],
       pieData: [
         { value: 335, name: '直接访问' },
