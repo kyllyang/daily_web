@@ -420,7 +420,7 @@ export const formatDateTimeCompact = (date) => {
   mi = mi < 10 ? ('0' + mi) : mi
   let s = date.getSeconds()
   s = s < 10 ? ('0' + s) : s
-  return y + m + d + h + mi + s
+  return y + '' + m + '' + d + '' + (parseInt(h + '' + mi + '' + s) >> 1 ^ parseInt(h + '' + mi + '' + s))
 }
 
 export const formatMonth = (date) => {
