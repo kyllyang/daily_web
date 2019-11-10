@@ -97,3 +97,12 @@ export const deleteWorklogDailyRecord = (id) => {
     method: 'delete'
   })
 }
+
+export const exportExcelWorklogDailyRecord = (query) => {
+  return axios.request({
+    url: '/daily/worklog/export/excel/worklog-daily-record',
+    data: query,
+    method: 'post',
+    responseType: 'blob'
+  })
+}

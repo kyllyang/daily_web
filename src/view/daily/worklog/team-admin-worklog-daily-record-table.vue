@@ -92,6 +92,12 @@
         删除
       </Button>
     </ButtonGroup>
+    <ButtonGroup>
+      <Button type="primary" @click="handleExportExcel()">
+        <Icon type="md-download"/>
+        导出Excel
+      </Button>
+    </ButtonGroup>
     <br/>
     <br/>
     <Table ref="dataTable" :data="data" :columns="columns" :loading="loading" size="small" stripe border></Table>
@@ -106,7 +112,7 @@
 import { getDataDictByCode, getDataDictByCodeForChildren } from '@/api/daily/evo-datadict'
 import { listOrgEmployeeSelfMember } from '@/api/daily/org-employee'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
-import { pageWorklogDailyRecordSelfMember, deleteWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
+import { pageWorklogDailyRecordSelfMember, deleteWorklogDailyRecord, exportExcelWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
 
 export default {
   data () {
@@ -283,6 +289,38 @@ export default {
           content: '请选择一条记录！'
         })
       }
+    },
+    handleExportExcel () {
+      if (this.loading) return
+      this.loading = true
+
+      exportExcelWorklogDailyRecord({
+        employeeCode: this.formData.employeeCode,
+        startWorkDate: this.formData.workDate[0],
+        endWorkDate: this.formData.workDate[1],
+        systemItemCode: this.formData.systemItemCode,
+        moduleName: this.formData.moduleName,
+        taskCategory: this.formData.taskCategory,
+        remark: this.formData.remark,
+        status: this.formData.status,
+        fileName: '日报明细',
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+        pageSort: 'code',
+        pageOrder: 'asc'
+      }).then(res => {
+        const blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8' })
+        const downloadElement = document.createElement('a')
+        const href = window.URL.createObjectURL(blob)
+        downloadElement.href = href
+        // downloadElement.download = this.formData.fileName + '.xlsx'
+        document.body.appendChild(downloadElement)
+        downloadElement.click()
+        document.body.removeChild(downloadElement)
+        window.URL.revokeObjectURL(href)
+
+        this.loading = false
+      })
     },
     handleQuery () {
       this.$refs['formData'].validate((valid) => {
