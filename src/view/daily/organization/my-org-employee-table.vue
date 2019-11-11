@@ -226,7 +226,7 @@ export default {
       })
     },
     loadJobDataDict () {
-      getDataDictByCode('EMPLOYEE_JOB').then(res => {
+      getDataDictByCode('SB_EMPLOYEE_JOB').then(res => {
         this.jobDataDicts = res.data
       })
     },

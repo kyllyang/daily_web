@@ -478,3 +478,15 @@ export const toMinutesText = (minutes) => {
   }
   return text
 }
+
+export const downloadProcess = (data, fileName) => {
+  const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8' })
+  const downloadElement = document.createElement('a')
+  const href = window.URL.createObjectURL(blob)
+  downloadElement.href = href
+  downloadElement.download = fileName
+  document.body.appendChild(downloadElement)
+  downloadElement.click()
+  document.body.removeChild(downloadElement)
+  window.URL.revokeObjectURL(href)
+}

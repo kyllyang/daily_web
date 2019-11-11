@@ -54,6 +54,7 @@ export default {
   statistics_worklog_approved: '已审批日报',
   statistics_worklog_noapproved: '未审批日报',
   workload: '工作量整理',
+  workload_manhour_settle: '工时汇总与结算方案',
   workload_page: '工作量整理',
   system: '系统管理',
   permission: '权限管理',

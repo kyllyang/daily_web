@@ -422,6 +422,16 @@ export default [
     component: Main,
     children: [
       {
+        path: 'workload_manhour_settle',
+        name: 'workload_manhour_settle',
+        meta: {
+          icon: 'md-funnel',
+          title: '工时汇总与结算方案',
+          access: ['COMPANY_ADMIN']
+        },
+        component: () => import('@/view/daily/workload/manhour-settle-table.vue')
+      },
+      {
         path: 'workload_page',
         name: 'workload_page',
         meta: {
