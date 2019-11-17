@@ -8,3 +8,12 @@ export const exportExcelWorkloadManhourSettle = (query) => {
     responseType: 'blob'
   })
 }
+
+export const exportExcelWorkloadTeamQuarter = (query) => {
+  return axios.request({
+    url: '/daily/worklog/workload/export/excel/team-quarter',
+    data: query,
+    method: 'post',
+    responseType: 'blob'
+  })
+}

@@ -2,7 +2,7 @@
   <div>
     <Collapse v-model="collapse">
       <Panel name="1">
-        日报列表
+        项目工时统计报表
         <p slot="content">
         <Form ref="formData" :model="formData" :rules="formRule" :label-width="80" inline>
           <Row>
@@ -47,7 +47,7 @@ export default {
       systemItemList: [],
       formData: {
         systemItemCode: '',
-        fileName: '工时汇总与结算方案'
+        fileName: '项目工时统计报表'
       },
       formRule: {
         systemItemCode: [

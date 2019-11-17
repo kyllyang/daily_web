@@ -426,10 +426,20 @@ export default [
         name: 'workload_manhour_settle',
         meta: {
           icon: 'md-funnel',
-          title: '工时汇总与结算方案',
+          title: '项目工时统计报表',
           access: ['COMPANY_ADMIN']
         },
         component: () => import('@/view/daily/workload/manhour-settle-table.vue')
+      },
+      {
+        path: 'workload_team_quarter',
+        name: 'workload_team_quarter',
+        meta: {
+          icon: 'md-funnel',
+          title: '团队季度工时统计报表',
+          access: ['COMPANY_ADMIN']
+        },
+        component: () => import('@/view/daily/workload/team-quarter-table.vue')
       },
       {
         path: 'workload_page',
