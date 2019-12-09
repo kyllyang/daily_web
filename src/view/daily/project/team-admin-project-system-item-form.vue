@@ -85,6 +85,15 @@
     </Row>
     <Row>
       <Col span="12">
+        <FormItem label="结算状态" prop="settleStatus">
+          <Select v-model="formData.settleStatus" placeholder="全部" clearable>
+            <Option v-for="(item, index) in settleStatusDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
+          </Select>
+        </FormItem>
+      </Col>
+    </Row>
+    <Row>
+      <Col span="12">
         <FormItem label="计划上线时间" prop="planOnlineDate">
           <DatePicker :value="formData.planOnlineDate" format="yyyy-MM-dd" type="date" @on-change="getPlanOnlineDateTime"></DatePicker>
         </FormItem>
@@ -122,6 +131,7 @@ export default {
     return {
       onlineStatusDataDicts: [],
       projectStatusDataDicts: [],
+      settleStatusDataDicts: [],
       systemList: [],
       customerEmployeeList: [],
       orgEmployeeList: [],
@@ -137,6 +147,7 @@ export default {
         teamPrincipalCode: '',
         onlineStatus: '',
         projectStatus: '',
+        settleStatus: '',
         planOnlineDate: '',
         realOnlineDate: '',
         remark: ''
@@ -187,6 +198,11 @@ export default {
     loadProjectStatusDataDict () {
       getDataDictByCode('PROJECT_STATUS').then(res => {
         this.projectStatusDataDicts = res.data
+      })
+    },
+    loadSettleStatusDataDict () {
+      getDataDictByCode('SETTLE_STATUS').then(res => {
+        this.settleStatusDataDicts = res.data
       })
     },
     loadSystemList () {
@@ -272,6 +288,7 @@ export default {
   mounted () {
     this.loadOnlineStatusDataDict()
     this.loadProjectStatusDataDict()
+    this.loadSettleStatusDataDict()
     this.loadSystemList()
     this.loadCustomerEmployeeList()
     this.loadOrgEmployeeList()

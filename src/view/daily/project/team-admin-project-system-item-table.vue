@@ -63,6 +63,15 @@
               </FormItem>
             </Col>
             <Col span="8">
+              <FormItem label="结算状态" prop="settleStatus">
+                <Select v-model="formData.settleStatus" placeholder="全部" clearable>
+                  <Option v-for="(item, index) in settleStatusDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
+                </Select>
+              </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col span="8" offset="16">
               <FormItem>
                 <Button type="primary" @click="handleQuery()">
                   <Icon type="ios-search-outline" />
@@ -120,6 +129,7 @@ export default {
       collapse: '1',
       onlineStatusDataDicts: [],
       projectStatusDataDicts: [],
+      settleStatusDataDicts: [],
       systemList: [],
       orgEmployeeList: [],
       formData: {
@@ -130,7 +140,8 @@ export default {
         teamPrincipalCode: '',
         fromDepartment: '',
         onlineStatus: '',
-        projectStatus: ''
+        projectStatus: '',
+        settleStatus: ''
       },
       formRule: {
         code: [
@@ -230,6 +241,22 @@ export default {
         {
           align: 'center',
           width: 120,
+          title: '结算状态',
+          key: 'settleStatus',
+          render: (h, params) => {
+            let text = ''
+            for (let index in this.settleStatusDataDicts) {
+              if (params.row.settleStatus === this.settleStatusDataDicts[index].key) {
+                text = this.settleStatusDataDicts[index].value
+                break
+              }
+            }
+            return h('div', text)
+          }
+        },
+        {
+          align: 'center',
+          width: 120,
           title: '计划上线时间',
           key: 'planOnlineDate'
         },
@@ -318,6 +345,11 @@ export default {
         this.projectStatusDataDicts = res.data
       })
     },
+    loadSettleStatusDataDict () {
+      getDataDictByCode('SETTLE_STATUS').then(res => {
+        this.settleStatusDataDicts = res.data
+      })
+    },
     loadSystemList () {
       listProjectSystemSelf().then(res => {
         this.systemList = res.data
@@ -341,6 +373,7 @@ export default {
         fromDepartment: this.formData.fromDepartment,
         onlineStatus: this.formData.onlineStatus,
         projectStatus: this.formData.projectStatus,
+        settleStatus: this.formData.settleStatus,
         pageNo: this.pageNo,
         pageSize: this.pageSize,
         pageSort: 'code',
@@ -361,6 +394,7 @@ export default {
   mounted () {
     this.loadOnlineStatusDataDict()
     this.loadProjectStatusDataDict()
+    this.loadSettleStatusDataDict()
     this.loadSystemList()
     this.loadOrgEmployeeList()
     this.loadData()
