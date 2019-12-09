@@ -4,7 +4,7 @@
       <Panel name="1">
         项目列表
         <p slot="content">
-        <Form ref="formData" :model="formData" :rules="formRule" :label-width="80" inline>
+        <Form ref="formData" :model="formData" :rules="formRule" :label-width="100" inline>
           <Row>
             <Col span="8">
               <FormItem label="编号" prop="code">
@@ -71,7 +71,17 @@
             </Col>
           </Row>
           <Row>
-            <Col span="8" offset="16">
+            <Col span="8">
+              <FormItem label="计划上线日期" prop="planOnlineDate">
+                <DatePicker :value="formData.planOnlineDate" format="yyyy-MM-dd" type="daterange" @on-change="getPlanOnlineDateTime" show-week-numbers></DatePicker>
+              </FormItem>
+            </Col>
+            <Col span="8">
+              <FormItem label="实际上线日期" prop="realOnlineDate">
+                <DatePicker :value="formData.realOnlineDate" format="yyyy-MM-dd" type="daterange" @on-change="getRealOnlineDateTime" show-week-numbers></DatePicker>
+              </FormItem>
+            </Col>
+            <Col span="8">
               <FormItem>
                 <Button type="primary" @click="handleQuery()">
                   <Icon type="ios-search-outline" />
@@ -141,7 +151,9 @@ export default {
         fromDepartment: '',
         onlineStatus: '',
         projectStatus: '',
-        settleStatus: ''
+        settleStatus: '',
+        planOnlineDate: [],
+        realOnlineDate: []
       },
       formRule: {
         code: [
@@ -335,6 +347,12 @@ export default {
       this.$refs['formData'].resetFields()
       this.loadData()
     },
+    getPlanOnlineDateTime (time) {
+      this.formData.planOnlineDate = time
+    },
+    getRealOnlineDateTime (time) {
+      this.formData.realOnlineDate = time
+    },
     loadOnlineStatusDataDict () {
       getDataDictByCode('PROJECT_ONLINE').then(res => {
         this.onlineStatusDataDicts = res.data
@@ -374,6 +392,10 @@ export default {
         onlineStatus: this.formData.onlineStatus,
         projectStatus: this.formData.projectStatus,
         settleStatus: this.formData.settleStatus,
+        startPlanOnlineDate: this.formData.planOnlineDate[0],
+        endPlanOnlineDate: this.formData.planOnlineDate[1],
+        startRealOnlineDate: this.formData.realOnlineDate[0],
+        endRealOnlineDate: this.formData.realOnlineDate[1],
         pageNo: this.pageNo,
         pageSize: this.pageSize,
         pageSort: 'code',
