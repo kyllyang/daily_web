@@ -58,7 +58,7 @@
       </Col>
     </Row>
     <FormItem>
-      <Button type="primary" @click="handleSubmit()">保存</Button>
+      <Button type="primary" @click="handleSubmit()">{{ submitText }}</Button>
     </FormItem>
     <Table ref="dataTable" :data="data" :columns="columns" :loading="loading" size="small" stripe border></Table>
   </Form>
@@ -105,6 +105,7 @@ export default {
       freeMinute: 0,
       taskCategoryDataDicts: [],
       systemItemList: [],
+      submitText: '新增',
       formData: {
         id: null,
         employeeCode: this.$store.state.user.employeeCode,
@@ -313,11 +314,13 @@ export default {
     handlePrevWorkDate () {
       this.formData.workDate = formatDate(addDate(newDate(this.formData.workDate), -1))
       this.formData.id = null
+      this.formData.workTimes = ['08:00', '09:00']
       this.loadData()
     },
     handleNextWorkDate () {
       this.formData.workDate = formatDate(addDate(newDate(this.formData.workDate), 1))
       this.formData.id = null
+      this.formData.workTimes = ['08:00', '09:00']
       this.loadData()
     },
     handleSubmit () {
@@ -335,6 +338,9 @@ export default {
                   content: '保存成功！',
                   onOk: () => {
                     this.loadData()
+
+                    this.formData.id = null
+                    this.submitText = '新增'
                   }
                 })
               }).catch(err => {
@@ -351,7 +357,17 @@ export default {
                   onOk: () => {
                     this.loadData()
 
-                    this.formData.workTimes = [this.formData.workTimes[1], addHour(this.formData.workTimes[1], 1)]
+                    let startTime = this.formData.workTimes[1]
+                    let endTime = addHour(this.formData.workTimes[1], 1)
+
+                    if (startTime === '12:00') {
+                      startTime = addHour(startTime, 1)
+                      endTime = addHour(startTime, 1)
+                    }
+
+                    this.formData.workTimes = [startTime, endTime]
+
+                    this.submitText = '新增'
                   }
                 })
               }).catch(err => {
@@ -376,6 +392,7 @@ export default {
       })
     },
     handleModify (id) {
+      this.submitText = '修改'
       this.loadForm(id)
     },
     handleDelete (id) {
