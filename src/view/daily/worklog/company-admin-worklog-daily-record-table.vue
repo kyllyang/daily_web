@@ -113,6 +113,9 @@ import { getDataDictByCode, getDataDictByCodeForChildren } from '@/api/daily/evo
 import { listOrgEmployee } from '@/api/daily/org-employee'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
 import { pageWorklogDailyRecord, deleteWorklogDailyRecord, exportExcelWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
+import IMG_WDRS0001 from '@/assets/images/daily/WDRS0001.png'
+import IMG_WDRS0002 from '@/assets/images/daily/WDRS0002.png'
+import IMG_WDRS0003 from '@/assets/images/daily/WDRS0003.png'
 
 export default {
   data () {
@@ -231,9 +234,13 @@ export default {
           title: '状态',
           key: 'status',
           render: (h, params) => {
-            return h('Icon', {
+            return h('img', {
               props: {
-                type: params.row.status === 'WDRS0001' ? 'ios-checkmark-circle-outline' : (params.row.status === 'WDRS0002' ? 'md-checkmark' : 'md-close')
+                type: 'primary',
+                size: 'small'
+              },
+              attrs: {
+                src: params.row.status === 'WDRS0001' ? IMG_WDRS0001 : (params.row.status === 'WDRS0002' ? IMG_WDRS0002 : IMG_WDRS0003), style: 'width: 24px; height: 24px;'
               }
             })
           }
