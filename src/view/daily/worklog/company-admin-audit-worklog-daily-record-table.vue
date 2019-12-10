@@ -124,7 +124,7 @@ export default {
         moduleName: '',
         taskCategory: '',
         remark: '',
-        status: ''
+        status: 'WDRS0001'
       },
       formRule: {
         moduleName: [
