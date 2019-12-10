@@ -103,6 +103,9 @@ import expandRow from './audit-worklog-daily-record-table-expand.vue'
 import IMG_WDRS0001 from '@/assets/images/daily/WDRS0001.png'
 import IMG_WDRS0002 from '@/assets/images/daily/WDRS0002.png'
 import IMG_WDRS0003 from '@/assets/images/daily/WDRS0003.png'
+import IMG_WDCD0001 from '@/assets/images/daily/WDCD0001.png'
+import IMG_WDCD0002 from '@/assets/images/daily/WDCD0002.png'
+import IMG_WDCD0003 from '@/assets/images/daily/WDCD0003.png'
 
 export default {
   components: { expandRow },
@@ -169,6 +172,22 @@ export default {
               text += minutes + '分钟'
             }
             return h('div', text)
+          }
+        },
+        {
+          align: 'center',
+          title: '完成度',
+          key: 'minutes',
+          render: (h, params) => {
+            return h('img', {
+              props: {
+                type: 'primary',
+                size: 'small'
+              },
+              attrs: {
+                src: params.row.minutes > 480 ? IMG_WDCD0003 : (params.row.minutes < 480 ? IMG_WDCD0001 : IMG_WDCD0002), style: 'width: 24px; height: 24px;'
+              }
+            })
           }
         },
         {
