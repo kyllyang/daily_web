@@ -83,6 +83,12 @@
         删除
       </Button>
     </ButtonGroup>
+    <ButtonGroup>
+      <Button type="primary" @click="handleExportExcel()">
+        <Icon type="md-download"/>
+        导出Excel
+      </Button>
+    </ButtonGroup>
     <br/>
     <br/>
     <Table ref="dataTable" :data="data" :columns="columns" :loading="loading" size="small" stripe border></Table>
@@ -96,7 +102,7 @@
 <script>
 import { getDataDictByCode, getDataDictByCodeForChildren } from '@/api/daily/evo-datadict'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
-import { pageWorklogDailyRecordSelf, deleteWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
+import { pageWorklogDailyRecordSelf, deleteWorklogDailyRecord, exportExcelWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
 import IMG_WDRS0001 from '@/assets/images/daily/WDRS0001.png'
 import IMG_WDRS0002 from '@/assets/images/daily/WDRS0002.png'
 import IMG_WDRS0003 from '@/assets/images/daily/WDRS0003.png'
@@ -279,6 +285,38 @@ export default {
           content: '请选择一条记录！'
         })
       }
+    },
+    handleExportExcel () {
+      if (this.loading) return
+      this.loading = true
+
+      exportExcelWorklogDailyRecord({
+        employeeCode: this.formData.employeeCode,
+        startWorkDate: this.formData.workDate[0],
+        endWorkDate: this.formData.workDate[1],
+        systemItemCode: this.formData.systemItemCode,
+        moduleName: this.formData.moduleName,
+        taskCategory: this.formData.taskCategory,
+        remark: this.formData.remark,
+        status: this.formData.status,
+        fileName: '日报明细',
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+        pageSort: 'code',
+        pageOrder: 'asc'
+      }).then(res => {
+        const blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8' })
+        const downloadElement = document.createElement('a')
+        const href = window.URL.createObjectURL(blob)
+        downloadElement.href = href
+        // downloadElement.download = this.formData.fileName + '.xlsx'
+        document.body.appendChild(downloadElement)
+        downloadElement.click()
+        document.body.removeChild(downloadElement)
+        window.URL.revokeObjectURL(href)
+
+        this.loading = false
+      })
     },
     handleQuery () {
       this.$refs['formData'].validate((valid) => {
