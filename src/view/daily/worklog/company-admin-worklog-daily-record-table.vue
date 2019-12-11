@@ -7,10 +7,20 @@
           <Form ref="formData" :model="formData" :rules="formRule" :label-width="80" inline>
             <Row>
               <Col span="8">
-                <FormItem label="员工姓名" prop="employeeCode">
-                  <Select v-model="formData.employeeCode" filterable clearable>
+                <FormItem label="员工姓名" prop="employeeCodes">
+                  <Select v-model="formData.employeeCodes" multiple filterable clearable>
                     <Option v-for="(item, index) in employeeList" :value="item.code" :label="item.name" :key="index">
                       <span>{{ item.name }}</span>
+                    </Option>
+                  </Select>
+                </FormItem>
+              </Col>
+              <Col span="8">
+                <FormItem label="团队" prop="teamCodes">
+                  <Select v-model="formData.teamCodes" multiple filterable clearable>
+                    <Option v-for="(item, index) in teamList" :value="item.code" :label="item.name" :key="index">
+                      <span>{{ item.name }}</span>
+                      <span style="float:right;color:#ccc">{{ item.principalName }}</span>
                     </Option>
                   </Select>
                 </FormItem>
@@ -20,6 +30,8 @@
                   <DatePicker :value="formData.workDate" format="yyyy-MM-dd" type="daterange" @on-change="getWorkDateTime" show-week-numbers></DatePicker>
                 </FormItem>
               </Col>
+            </Row>
+            <Row>
               <Col span="8">
                 <FormItem label="项目名称" prop="systemItemCode">
                   <Select v-model="formData.systemItemCode" filterable clearable>
@@ -30,8 +42,6 @@
                   </Select>
                 </FormItem>
               </Col>
-            </Row>
-            <Row>
               <Col span="8">
                 <FormItem label="模块名称" prop="moduleName">
                   <Input type="text" v-model="formData.moduleName"></Input>
@@ -42,13 +52,13 @@
                   <Cascader :data="taskCategoryDataDicts" trigger="hover" change-on-select></Cascader>
                 </FormItem>
               </Col>
+            </Row>
+            <Row>
               <Col span="8">
                 <FormItem label="备注" prop="remark">
                   <Input type="text" v-model="formData.remark"></Input>
                 </FormItem>
               </Col>
-            </Row>
-            <Row>
               <Col span="8">
                 <FormItem label="状态" prop="status">
                   <Select v-model="formData.status" placeholder="全部" clearable>
@@ -56,7 +66,7 @@
                   </Select>
                 </FormItem>
               </Col>
-              <Col span="8" offset="8">
+              <Col span="8">
                 <FormItem>
                   <Button type="primary" @click="handleQuery()">
                     <Icon type="ios-search-outline" />
@@ -111,6 +121,7 @@
 <script>
 import { getDataDictByCode, getDataDictByCodeForChildren } from '@/api/daily/evo-datadict'
 import { listOrgEmployee } from '@/api/daily/org-employee'
+import { listOrgTeam } from '@/api/daily/org-team'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
 import { pageWorklogDailyRecord, deleteWorklogDailyRecord, exportExcelWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
 import IMG_WDRS0001 from '@/assets/images/daily/WDRS0001.png'
@@ -123,10 +134,12 @@ export default {
       collapse: '1',
       taskCategoryDataDicts: [],
       employeeList: [],
+      teamList: [],
       systemItemList: [],
       statusDataDicts: [],
       formData: {
-        employeeCode: '',
+        employeeCodes: [],
+        teamCodes: [],
         workDate: '',
         systemItemCode: '',
         moduleName: '',
@@ -374,6 +387,11 @@ export default {
         this.employeeList = res.data
       })
     },
+    loadTeamList () {
+      listOrgTeam().then(res => {
+        this.teamList = res.data
+      })
+    },
     loadSystemItemList () {
       listProjectSystemItem().then(res => {
         this.systemItemList = res.data
@@ -389,7 +407,8 @@ export default {
       this.loading = true
 
       pageWorklogDailyRecord({
-        employeeCode: this.formData.employeeCode,
+        employeeCodes: this.formData.employeeCodes,
+        teamCodes: this.formData.teamCodes,
         startWorkDate: this.formData.workDate[0],
         endWorkDate: this.formData.workDate[1],
         systemItemCode: this.formData.systemItemCode,
@@ -417,6 +436,7 @@ export default {
   mounted () {
     this.loadTaskCategoryDataDicts()
     this.loadEmployeeList()
+    this.loadTeamList()
     this.loadSystemItemList()
     this.loadStatusDataDict()
     this.loadData()
