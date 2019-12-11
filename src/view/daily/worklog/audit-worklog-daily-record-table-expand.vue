@@ -4,6 +4,7 @@
       <Col span="4">
         <span class="expand-key">时间：</span>
         <span class="expand-value">{{ item.startTime }} - {{ item.endTime }}</span>
+        <span class="expand-value">{{ toMinutesText(item.minutes) }}</span>
       </Col>
       <Col span="4">
         <span class="expand-key">系统：</span>
@@ -29,9 +30,16 @@
   </div>
 </template>
 <script>
+import { toMinutesText } from '@/libs/util'
+
 export default {
   props: {
     row: Object
+  },
+  methods: {
+    toMinutesText (minutes) {
+      return toMinutesText(minutes)
+    }
   }
 }
 </script>
