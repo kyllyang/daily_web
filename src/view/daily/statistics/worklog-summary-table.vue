@@ -109,8 +109,8 @@
   </div>
 </template>
 <script>
-import { listOrgEmployee } from '@/api/daily/org-employee'
-import { listOrgTeam } from '@/api/daily/org-team'
+import { findOrgEmployee } from '@/api/daily/org-employee'
+import { findOrgTeam } from '@/api/daily/org-team'
 import { getSystemHolidays } from '@/api/daily/system-holidays'
 import { formatDate, newDate, addDate } from '@/libs/util'
 import { pageStatisticsWorklogSummary } from '@/api/daily/statistics'
@@ -403,12 +403,12 @@ export default {
       this.formData.workDate = time
     },
     loadEmployeeList () {
-      listOrgEmployee().then(res => {
+      findOrgEmployee({}).then(res => {
         this.employeeList = res.data
       })
     },
     loadTeamList () {
-      listOrgTeam().then(res => {
+      findOrgTeam({}).then(res => {
         this.teamList = res.data
       })
     },

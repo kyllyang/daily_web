@@ -128,6 +128,18 @@ export default {
         {
           align: 'left',
           width: 120,
+          title: '上级编号',
+          key: 'parentCode'
+        },
+        {
+          align: 'left',
+          width: 120,
+          title: '上级名称',
+          key: 'parentName'
+        },
+        {
+          align: 'left',
+          width: 120,
           title: '编号',
           key: 'code'
         },

@@ -72,7 +72,7 @@
 </template>
 <script>
 import { getDataDictByCode } from '@/api/daily/evo-datadict'
-import { pageOrgEmployeeSelf } from '@/api/daily/org-employee'
+import { findOrgEmployee } from '@/api/daily/org-employee'
 import IMG_SEX00001 from '@/assets/images/daily/SEX00001.png'
 import IMG_SEX00002 from '@/assets/images/daily/SEX00002.png'
 
@@ -234,7 +234,7 @@ export default {
       if (this.loading) return
       this.loading = true
 
-      pageOrgEmployeeSelf({
+      findOrgEmployee({
         code: this.formData.code,
         name: this.formData.name,
         sex: this.formData.sex,

@@ -120,8 +120,8 @@
 </template>
 <script>
 import { getDataDictByCode, getDataDictByCodeForChildren } from '@/api/daily/evo-datadict'
-import { listOrgEmployee } from '@/api/daily/org-employee'
-import { listOrgTeam } from '@/api/daily/org-team'
+import { findOrgEmployee } from '@/api/daily/org-employee'
+import { findOrgTeam } from '@/api/daily/org-team'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
 import { pageWorklogDailyRecord, deleteWorklogDailyRecord, exportExcelWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
 import IMG_WDRS0001 from '@/assets/images/daily/WDRS0001.png'
@@ -383,12 +383,12 @@ export default {
       })
     },
     loadEmployeeList () {
-      listOrgEmployee().then(res => {
+      findOrgEmployee({}).then(res => {
         this.employeeList = res.data
       })
     },
     loadTeamList () {
-      listOrgTeam().then(res => {
+      findOrgTeam({}).then(res => {
         this.teamList = res.data
       })
     },

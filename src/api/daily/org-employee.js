@@ -8,31 +8,17 @@ export const pageOrgEmployee = (query) => {
   })
 }
 
-export const pageOrgEmployeeSelf = (query) => {
+export const findOrgEmployee = (query) => {
   return axios.request({
-    url: '/daily/organization/org-employee/self/page/info',
+    url: '/daily/organization/org-employee/list/info',
     data: query,
     method: 'post'
   })
 }
 
-export const listOrgEmployee = (query) => {
+export const getMaxCode = () => {
   return axios.request({
-    url: '/daily/organization/org-employee/all',
-    method: 'get'
-  })
-}
-
-export const listOrgEmployeeSelfMember = () => {
-  return axios.request({
-    url: '/daily/organization/org-employee/self-member/info',
-    method: 'get'
-  })
-}
-
-export const listOrgEmployeeMember = (code) => {
-  return axios.request({
-    url: '/daily/organization/org-employee/member/info/' + code,
+    url: '/daily/organization/org-employee/max-code',
     method: 'get'
   })
 }

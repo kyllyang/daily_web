@@ -51,7 +51,7 @@
   </div>
 </template>
 <script>
-import { listOrgEmployee } from '@/api/daily/org-employee'
+import { findOrgEmployee } from '@/api/daily/org-employee'
 import { listStatisticsEmployeeManhourYear, pageStatisticsEmployeeManhour } from '@/api/daily/statistics'
 import expandRow from './project-system-item-manhour-table-expand.vue'
 
@@ -151,7 +151,7 @@ export default {
       this.loadData()
     },
     loadEmployeeList () {
-      listOrgEmployee().then(res => {
+      findOrgEmployee({}).then(res => {
         this.employeeList = res.data
       })
     },

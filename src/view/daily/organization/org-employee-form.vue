@@ -81,11 +81,11 @@
         </FormItem>
       </Col>
     </Row>
-    <Divider>权限信息</Divider>
+    <Divider>团队信息</Divider>
     <Row>
       <Col span="12">
-        <FormItem label="系统权限" prop="roleCodes">
-          <Transfer :data="roleList" :target-keys="formData.roleCodes" :render-format="roleRender" @on-change="getRoleCodesTransfer"></Transfer>
+        <FormItem label="所属团队" prop="teamCodes">
+          <Tree ref="teamCodeTree" :data="orgTeamList" show-checkbox multiple :check-strictly="true" :check-directly="true"></Tree>
         </FormItem>
       </Col>
     </Row>
@@ -98,23 +98,10 @@
           </Select>
         </FormItem>
       </Col>
-    </Row>
-    <Divider>团队信息</Divider>
-    <Row>
       <Col span="12">
-        <FormItem label="所属团队" prop="teamCode">
-          <Select v-model="formData.teamCode" clearable>
-            <Option v-for="(item, index) in teamList" :value="item.code" :label="item.name" :key="index">
-              <span>{{ item.name }}</span>
-              <span style="float:right;color:#ccc">{{ item.principalName }}</span>
-            </Option>
-          </Select>
-        </FormItem>
-      </Col>
-      <Col span="12">
-        <FormItem label="团队角色" prop="teamRole">
-          <Select v-model="formData.teamRole" clearable>
-            <Option v-for="(item, index) in teamRoleDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
+        <FormItem label="角色" prop="roleCode">
+          <Select v-model="formData.roleCode" clearable>
+            <Option v-for="(item, index) in orgRoleList" :value="item.code" :key="index">{{ item.name }}</Option>
           </Select>
         </FormItem>
       </Col>
@@ -203,9 +190,9 @@
 <script>
 import { mapMutations } from 'vuex'
 import { getDataDictByCode } from '@/api/daily/evo-datadict'
-import { listRole } from '@/api/daily/evo-sys'
-import { listOrgTeam } from '@/api/daily/org-team'
-import { checkByBackend, createOrgEmployee, updateOrgEmployee, getOrgEmployee } from '@/api/daily/org-employee'
+import { treeOrgTeam } from '@/api/daily/org-team'
+import { findOrgRole } from '@/api/daily/org-role'
+import { getMaxCode, checkByBackend, createOrgEmployee, updateOrgEmployee, getOrgEmployee } from '@/api/daily/org-employee'
 import { pinyinFull } from '@/libs/util'
 import IMG_SEX00001 from '@/assets/images/daily/SEX00001.png'
 import IMG_SEX00002 from '@/assets/images/daily/SEX00002.png'
@@ -233,15 +220,17 @@ export default {
         callback()
       }
     }
+    const teamCodesValidator = (rule, value, callback) => {
+      callback()
+    }
 
     return {
       sexDataDicts: [],
       jobDataDicts: [],
       statusDataDicts: [],
-      teamRoleDataDicts: [],
       educationDataDicts: [],
-      roleList: [],
-      teamList: [],
+      orgTeamList: [],
+      orgRoleList: [],
       formData: {
         id: null,
         code: '',
@@ -258,9 +247,8 @@ export default {
         outTime: '',
         job: '',
         status: '',
-        roleCodes: ['EMPLOYEE'],
-        teamCode: '',
-        teamRole: '',
+        teamCodes: '',
+        roleCode: '',
         education: '',
         university: '',
         major: '',
@@ -308,8 +296,11 @@ export default {
         status: [
           { type: 'string', required: true, message: '不能为空' }
         ],
-        roleCodes: [
-          { type: 'array', required: true, min: 1, max: 1, message: '目前仅支持单一角色' }
+        teamCodes: [
+          { type: 'string', required: true, validator: teamCodesValidator, trigger: 'blur' }
+        ],
+        roleCode: [
+          { type: 'string', required: true, message: '不能为空' }
         ],
         university: [
           { type: 'string', max: 30, message: '最大长度不能超过30个字符', trigger: 'blur' }
@@ -360,9 +351,6 @@ export default {
     getOutTimeTime (time) {
       this.formData.outTime = time
     },
-    getRoleCodesTransfer (newTargetKeys, direction, moveKeys) {
-      this.formData.roleCodes = newTargetKeys
-    },
     loadSexDataDict () {
       getDataDictByCode('SEX').then(res => {
         const dataList = res.data.map(item => {
@@ -385,9 +373,9 @@ export default {
         this.statusDataDicts = res.data
       })
     },
-    loadTeamRoleDataDict () {
-      getDataDictByCode('EMPLOYEE_TEAM_ROLE').then(res => {
-        this.teamRoleDataDicts = res.data
+    loadOrgRoleList () {
+      findOrgRole().then(res => {
+        this.orgRoleList = res.data
       })
     },
     loadEducationDataDict () {
@@ -395,35 +383,50 @@ export default {
         this.educationDataDicts = res.data
       })
     },
-    loadRoleList () {
-      listRole().then(res => {
-        const dataList = res.data.map(item => {
-          return {
-            key: item.code,
-            label: item.name,
-            description: item.name,
-            disabled: false
-          }
-        })
-        this.roleList = dataList
+    loadMaxCode () {
+      getMaxCode().then(res => {
+        this.formData.code = res.data
       })
     },
-    loadTeamList () {
-      listOrgTeam().then(res => {
-        this.teamList = res.data
+    loadOrgTeamList () {
+      treeOrgTeam().then(res => {
+        this.orgTeamList = res.data
+
+        this.selectedTeamCode(this.orgTeamList)
       })
     },
     loadForm () {
       getOrgEmployee(this.$route.params.id).then(res => {
         this.formData = res.data
+
+        this.selectedTeamCode(this.orgTeamList)
       })
     },
-    roleRender (item) {
-      return item.label
+    selectedTeamCode (orgTeams) {
+      for (let index in orgTeams) {
+        if (orgTeams[index].value === this.formData.teamCodes[0]) {
+          orgTeams[index].checked = true
+          break
+        }
+
+        this.selectedTeamCode(orgTeams[index].children)
+      }
     },
     handleSubmit () {
       this.$refs['formData'].validate((valid) => {
         if (valid) {
+          this.formData.teamCodes = []
+          for (let index in this.$refs['teamCodeTree'].getCheckedNodes()) {
+            this.formData.teamCodes.push(this.$refs['teamCodeTree'].getCheckedNodes()[index].value)
+          }
+          if (this.formData.teamCodes.length !== 1) {
+            this.$Modal.error({
+              title: '错误',
+              content: '保存失败！<br/>必须选择一个所属团队！'
+            })
+            return
+          }
+
           checkByBackend(this.formData).then(res => {
             if (this.$route.params.id) {
               updateOrgEmployee(this.formData).then(res => {
@@ -485,16 +488,17 @@ export default {
     this.loadSexDataDict()
     this.loadJobDataDict()
     this.loadStatusDataDict()
-    this.loadTeamRoleDataDict()
     this.loadEducationDataDict()
-    this.loadRoleList()
-    this.loadTeamList()
+    this.loadOrgTeamList()
+    this.loadOrgRoleList()
 
     if (this.$route.params.id) {
       this.formComponent.password.show = false
       this.formRule.password = null
       this.formRule.confirmPassword = null
       this.loadForm()
+    } else {
+      this.loadMaxCode()
     }
   }
 }

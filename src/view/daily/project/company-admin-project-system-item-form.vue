@@ -120,7 +120,7 @@
 <script>
 import { mapMutations } from 'vuex'
 import { getDataDictByCode } from '@/api/daily/evo-datadict'
-import { listOrgEmployee } from '@/api/daily/org-employee'
+import { findOrgEmployee } from '@/api/daily/org-employee'
 import { listCustomerEmployee } from '@/api/daily/customer-employee'
 import { listProjectSystem } from '@/api/daily/project-system'
 import { checkByBackend, createProjectSystemItem, updateProjectSystemItem, getProjectSystemItem } from '@/api/daily/project-system-item'
@@ -206,7 +206,7 @@ export default {
       })
     },
     loadOrgEmployeeList () {
-      listOrgEmployee().then(res => {
+      findOrgEmployee({}).then(res => {
         this.orgEmployeeList = res.data
       })
     },

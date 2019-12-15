@@ -103,7 +103,7 @@ import { mapMutations } from 'vuex'
 import { getDataDictByCode } from '@/api/daily/evo-datadict'
 import { listCustomerEmployee } from '@/api/daily/customer-employee'
 import { listCustomerCompany } from '@/api/daily/customer-company'
-import { listOrgTeamSelf } from '@/api/daily/org-team'
+import { findOrgTeam } from '@/api/daily/org-team'
 import { checkByBackend, createProjectSystem, updateProjectSystem, getProjectSystem } from '@/api/daily/project-system'
 
 export default {
@@ -179,7 +179,7 @@ export default {
       })
     },
     loadTeamList () {
-      listOrgTeamSelf(this.$store.state.user.employeeCode).then(res => {
+      findOrgTeam({}).then(res => {
         this.teamList = res.data
       })
     },

@@ -119,7 +119,7 @@
 </template>
 <script>
 import { getDataDictByCode } from '@/api/daily/evo-datadict'
-import { listOrgEmployee } from '@/api/daily/org-employee'
+import { findOrgEmployee } from '@/api/daily/org-employee'
 import { listProjectSystemSelf } from '@/api/daily/project-system'
 import { pageProjectSystemItemSelf, deleteProjectSystemItem } from '@/api/daily/project-system-item'
 
@@ -356,7 +356,7 @@ export default {
       })
     },
     loadOrgEmployeeList () {
-      listOrgEmployee().then(res => {
+      findOrgEmployee({}).then(res => {
         this.orgEmployeeList = res.data
       })
     },

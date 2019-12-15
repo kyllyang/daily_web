@@ -2,6 +2,18 @@
   <Form ref="formData" :model="formData" :rules="formRule" :label-width="100">
     <Row>
       <Col span="12">
+        <FormItem label="上级团队" prop="parentCode">
+          <Select v-model="formData.parentCode" clearable>
+            <Option v-for="(item, index) in teamList" :value="item.code" :label="item.name" :key="index">
+              <span>{{ item.name }}</span>
+              <span style="float:right;color:#ccc">{{ item.principalName }}</span>
+            </Option>
+          </Select>
+        </FormItem>
+      </Col>
+    </Row>
+    <Row>
+      <Col span="12">
         <FormItem label="编号" prop="code">
           <Input type="text" v-model="formData.code"></Input>
         </FormItem>
@@ -49,15 +61,17 @@
 <script>
 import { mapMutations } from 'vuex'
 import { getDataDictByCode } from '@/api/daily/evo-datadict'
-import { checkByBackend, createOrgTeam, updateOrgTeam, getOrgTeam } from '@/api/daily/org-team'
+import { findOrgTeam, checkByBackend, createOrgTeam, updateOrgTeam, getOrgTeam } from '@/api/daily/org-team'
 
 export default {
   data () {
     return {
       propertyDataDicts: [],
       statusDataDicts: [],
+      teamList: [],
       formData: {
         id: null,
+        parentCode: '',
         code: '',
         name: '',
         property: '',
@@ -67,6 +81,9 @@ export default {
         remark: ''
       },
       formRule: {
+        parentCode: [
+          { type: 'string', required: true, message: '不能为空' }
+        ],
         code: [
           { type: 'string', required: true, max: 10, message: '不能为空，且最大长度不能超过10个字符', trigger: 'blur' }
         ],
@@ -94,6 +111,11 @@ export default {
     loadStatusDataDict () {
       getDataDictByCode('TEAM_STATUS').then(res => {
         this.statusDataDicts = res.data
+      })
+    },
+    loadTeamList () {
+      findOrgTeam({}).then(res => {
+        this.teamList = res.data
       })
     },
     loadForm () {
@@ -164,6 +186,7 @@ export default {
   mounted () {
     this.loadPropertyDataDict()
     this.loadStatusDataDict()
+    this.loadTeamList()
 
     if (this.$route.params.id) {
       this.loadForm()

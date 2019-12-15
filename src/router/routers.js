@@ -75,7 +75,7 @@ export default [
     meta: {
       icon: 'md-menu',
       title: '我的工作',
-      access: ['COMPANY_ADMIN', 'TEAM_ADMIN', 'EMPLOYEE']
+      access: ['TEAM_ADMIN', 'EMPLOYEE']
     },
     component: Main,
     children: [
@@ -85,19 +85,9 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '日报填写',
-          access: ['COMPANY_ADMIN', 'TEAM_ADMIN', 'EMPLOYEE']
+          access: ['TEAM_ADMIN', 'EMPLOYEE']
         },
         component: () => import('@/view/daily/worklog/my-worklog-daily-record-form.vue')
-      },
-      {
-        path: 'company_admin_audit_worklog',
-        name: 'company_admin_audit_worklog',
-        meta: {
-          icon: 'md-funnel',
-          title: '日报审核',
-          access: ['COMPANY_ADMIN']
-        },
-        component: () => import('@/view/daily/worklog/company-admin-audit-worklog-daily-record-table.vue')
       },
       {
         path: 'team_admin_audit_worklog',
@@ -115,7 +105,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '我的申请',
-          access: ['COMPANY_ADMIN', 'TEAM_ADMIN', 'EMPLOYEE']
+          access: ['TEAM_ADMIN', 'EMPLOYEE']
         },
         component: () => import('@/view/daily/blank.vue')
       },
@@ -125,7 +115,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '我的任务',
-          access: ['COMPANY_ADMIN', 'TEAM_ADMIN', 'EMPLOYEE']
+          access: ['TEAM_ADMIN', 'EMPLOYEE']
         },
         component: () => import('@/view/daily/blank.vue')
       },
@@ -135,7 +125,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '我的团队',
-          access: ['COMPANY_ADMIN', 'TEAM_ADMIN', 'EMPLOYEE']
+          access: ['TEAM_ADMIN', 'EMPLOYEE']
         },
         component: () => import('@/view/daily/organization/my-org-employee-table.vue')
       }
@@ -147,20 +137,10 @@ export default [
     meta: {
       icon: 'md-menu',
       title: '工作记录',
-      access: ['COMPANY_ADMIN', 'TEAM_ADMIN', 'EMPLOYEE']
+      access: ['TEAM_ADMIN', 'EMPLOYEE']
     },
     component: Main,
     children: [
-      {
-        path: 'company_admin_worklog_daily_record',
-        name: 'company_admin_worklog_daily_record',
-        meta: {
-          icon: 'md-funnel',
-          title: '日报管理',
-          access: ['COMPANY_ADMIN']
-        },
-        component: () => import('@/view/daily/worklog/company-admin-worklog-daily-record-table.vue')
-      },
       {
         path: 'team_admin_worklog_daily_record',
         name: 'team_admin_worklog_daily_record',
@@ -187,7 +167,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '签到记录',
-          access: ['COMPANY_ADMIN', 'TEAM_ADMIN', 'EMPLOYEE']
+          access: ['TEAM_ADMIN', 'EMPLOYEE']
         },
         component: () => import('@/view/daily/blank.vue')
       }
@@ -199,7 +179,7 @@ export default [
     meta: {
       icon: 'md-menu',
       title: '组织机构管理',
-      access: ['COMPANY_ADMIN']
+      access: ['TEAM_ADMIN']
     },
     component: Main,
     children: [
@@ -209,7 +189,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '员工管理',
-          access: ['COMPANY_ADMIN']
+          access: ['TEAM_ADMIN']
         },
         component: () => import('@/view/daily/organization/org-employee-table.vue')
       },
@@ -219,7 +199,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '团队管理',
-          access: ['COMPANY_ADMIN']
+          access: ['TEAM_ADMIN']
         },
         component: () => import('@/view/daily/organization/org-team-table.vue')
       }
@@ -231,7 +211,7 @@ export default [
     meta: {
       icon: 'md-menu',
       title: '客户管理',
-      access: ['COMPANY_ADMIN']
+      access: ['TEAM_ADMIN']
     },
     component: Main,
     children: [
@@ -241,7 +221,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '客户公司管理',
-          access: ['COMPANY_ADMIN']
+          access: ['TEAM_ADMIN']
         },
         component: () => import('@/view/daily/customer/customer-company-table.vue')
       },
@@ -251,7 +231,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '客户员工管理',
-          access: ['COMPANY_ADMIN']
+          access: ['TEAM_ADMIN']
         },
         component: () => import('@/view/daily/customer/customer-employee-table.vue')
       }
@@ -263,20 +243,10 @@ export default [
     meta: {
       icon: 'md-menu',
       title: '项目建设',
-      access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
+      access: ['TEAM_ADMIN']
     },
     component: Main,
     children: [
-      {
-        path: 'company_admin_project_system',
-        name: 'company_admin_project_system',
-        meta: {
-          icon: 'md-funnel',
-          title: '系统管理',
-          access: ['COMPANY_ADMIN']
-        },
-        component: () => import('@/view/daily/project/company-admin-project-system-table.vue')
-      },
       {
         path: 'team_admin_project_system',
         name: 'team_admin_project_system',
@@ -286,16 +256,6 @@ export default [
           access: ['TEAM_ADMIN']
         },
         component: () => import('@/view/daily/project/team-admin-project-system-table.vue')
-      },
-      {
-        path: 'company_admin_project_system_item',
-        name: 'company_admin_project_system_item',
-        meta: {
-          icon: 'md-funnel',
-          title: '项目管理',
-          access: ['COMPANY_ADMIN']
-        },
-        component: () => import('@/view/daily/project/company-admin-project-system-item-table.vue')
       },
       {
         path: 'team_admin_project_system_item',
@@ -315,20 +275,10 @@ export default [
     meta: {
       icon: 'md-menu',
       title: '统计分析',
-      access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
+      access: ['TEAM_ADMIN']
     },
     component: Main,
     children: [
-      {
-        path: 'company_admin_statistics_project_system_item_manhour',
-        name: 'company_admin_statistics_project_system_item_manhour',
-        meta: {
-          icon: 'md-funnel',
-          title: '项目工时',
-          access: ['COMPANY_ADMIN']
-        },
-        component: () => import('@/view/daily/statistics/company-admin-project-system-item-manhour-table.vue')
-      },
       {
         path: 'team_admin_statistics_project_system_item_manhour',
         name: 'team_admin_statistics_project_system_item_manhour',
@@ -338,16 +288,6 @@ export default [
           access: ['TEAM_ADMIN']
         },
         component: () => import('@/view/daily/statistics/team-admin-project-system-item-manhour-table.vue')
-      },
-      {
-        path: 'company_admin_statistics_employee_manhour',
-        name: 'company_admin_statistics_employee_manhour',
-        meta: {
-          icon: 'md-funnel',
-          title: '员工工时',
-          access: ['COMPANY_ADMIN']
-        },
-        component: () => import('@/view/daily/statistics/company-admin-employee-manhour-table.vue')
       },
       {
         path: 'team_admin_statistics_employee_manhour',
@@ -365,7 +305,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '日报汇总',
-          access: ['COMPANY_ADMIN']
+          access: ['TEAM_ADMIN']
         },
         component: () => import('@/view/daily/statistics/worklog-summary-table.vue')
       },
@@ -375,7 +315,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '已填写日报',
-          access: ['COMPANY_ADMIN']
+          access: ['TEAM_ADMIN']
         },
         component: () => import('@/view/daily/blank.vue')
       },
@@ -385,7 +325,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '未填写日报',
-          access: ['COMPANY_ADMIN']
+          access: ['TEAM_ADMIN']
         },
         component: () => import('@/view/daily/blank.vue')
       },
@@ -395,7 +335,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '已审批日报',
-          access: ['COMPANY_ADMIN']
+          access: ['TEAM_ADMIN']
         },
         component: () => import('@/view/daily/blank.vue')
       },
@@ -405,7 +345,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '未审批日报',
-          access: ['COMPANY_ADMIN']
+          access: ['TEAM_ADMIN']
         },
         component: () => import('@/view/daily/blank.vue')
       }
@@ -417,7 +357,7 @@ export default [
     meta: {
       icon: 'md-menu',
       title: '工作量整理',
-      access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
+      access: ['TEAM_ADMIN']
     },
     component: Main,
     children: [
@@ -427,7 +367,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '项目工时统计报表',
-          access: ['COMPANY_ADMIN']
+          access: ['TEAM_ADMIN']
         },
         component: () => import('@/view/daily/workload/manhour-settle-table.vue')
       },
@@ -437,19 +377,9 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '团队季度工时统计报表',
-          access: ['COMPANY_ADMIN']
+          access: ['TEAM_ADMIN']
         },
         component: () => import('@/view/daily/workload/team-quarter-table.vue')
-      },
-      {
-        path: 'workload_page',
-        name: 'workload_page',
-        meta: {
-          icon: 'md-funnel',
-          title: '工作量整理',
-          access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
-        },
-        component: () => import('@/view/daily/blank.vue')
       }
     ]
   },
@@ -550,16 +480,6 @@ export default [
     },
     children: [
       {
-        path: '/company_admin_project_system_edit',
-        name: 'company_admin_project_system_edit',
-        meta: {
-          icon: 'ios-create-outline',
-          title: '系统编辑',
-          access: ['COMPANY_ADMIN']
-        },
-        component: () => import('@/view/daily/project/company-admin-project-system-form.vue')
-      },
-      {
         path: '/team_admin_project_system_edit',
         name: 'team_admin_project_system_edit',
         meta: {
@@ -568,16 +488,6 @@ export default [
           access: ['TEAM_ADMIN']
         },
         component: () => import('@/view/daily/project/team-admin-project-system-form.vue')
-      },
-      {
-        path: '/company_admin_project_system_item_edit',
-        name: 'company_admin_project_system_item_edit',
-        meta: {
-          icon: 'ios-create-outline',
-          title: '项目编辑',
-          access: ['COMPANY_ADMIN']
-        },
-        component: () => import('@/view/daily/project/company-admin-project-system-item-form.vue')
       },
       {
         path: '/team_admin_project_system_item_edit',
@@ -599,16 +509,6 @@ export default [
       hideInMenu: true
     },
     children: [
-      {
-        path: '/company_admin_worklog_daily_record_edit',
-        name: 'company_admin_worklog_daily_record_edit',
-        meta: {
-          icon: 'ios-create-outline',
-          title: '日报编辑',
-          access: ['COMPANY_ADMIN']
-        },
-        component: () => import('@/view/daily/worklog/company-admin-worklog-daily-record-form.vue')
-      },
       {
         path: '/team_admin_worklog_daily_record_edit',
         name: 'team_admin_worklog_daily_record_edit',

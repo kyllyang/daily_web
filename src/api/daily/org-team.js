@@ -8,17 +8,19 @@ export const pageOrgTeam = (query) => {
   })
 }
 
-export const listOrgTeam = () => {
+export const findOrgTeam = (query) => {
   return axios.request({
-    url: '/daily/organization/org-team/all',
-    method: 'get'
+    url: '/daily/organization/org-team/list/info',
+    data: query,
+    method: 'post'
   })
 }
 
-export const listOrgTeamSelf = (employeeCode) => {
+export const treeOrgTeam = (query) => {
   return axios.request({
-    url: '/daily/organization/org-team/self/info/' + employeeCode,
-    method: 'get'
+    url: '/daily/organization/org-team/tree/info',
+    data: query,
+    method: 'post'
   })
 }
 

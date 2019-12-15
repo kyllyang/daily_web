@@ -94,7 +94,7 @@
 <script>
 import { getDataDictByCode } from '@/api/daily/evo-datadict'
 import { listCustomerEmployee } from '@/api/daily/customer-employee'
-import { listOrgTeam } from '@/api/daily/org-team'
+import { findOrgTeam } from '@/api/daily/org-team'
 import { pageProjectSystem, deleteProjectSystem } from '@/api/daily/project-system'
 
 export default {
@@ -272,7 +272,7 @@ export default {
       })
     },
     loadTeamList () {
-      listOrgTeam().then(res => {
+      findOrgTeam({}).then(res => {
         this.teamList = res.data
       })
     },
