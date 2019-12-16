@@ -51,7 +51,7 @@
 </template>
 <script>
 import { mapMutations } from 'vuex'
-import { getDataDictByCodeForChildren } from '@/api/daily/evo-datadict'
+import { getDataDictByCodeForChildren } from '@/api/daily/evo-sys'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
 import { checkByBackend, createWorklogDailyRecord, updateWorklogDailyRecord, getWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
 

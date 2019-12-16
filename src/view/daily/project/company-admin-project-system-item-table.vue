@@ -128,7 +128,7 @@
   </div>
 </template>
 <script>
-import { getDataDictByCode } from '@/api/daily/evo-datadict'
+import { getDataDictByCode } from '@/api/daily/evo-sys'
 import { findOrgEmployee } from '@/api/daily/org-employee'
 import { listProjectSystem } from '@/api/daily/project-system'
 import { pageProjectSystemItem, deleteProjectSystemItem } from '@/api/daily/project-system-item'

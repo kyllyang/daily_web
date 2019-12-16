@@ -58,7 +58,7 @@
 </template>
 <script>
 import { mapMutations } from 'vuex'
-import { getDataDictByCode } from '@/api/daily/evo-datadict'
+import { getDataDictByCode } from '@/api/daily/evo-sys'
 import { checkByBackend, createCustomerCompany, updateCustomerCompany, getCustomerCompany } from '@/api/daily/customer-company'
 
 export default {

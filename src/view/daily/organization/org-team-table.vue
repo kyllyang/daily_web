@@ -84,7 +84,7 @@
   </div>
 </template>
 <script>
-import { getDataDictByCode } from '@/api/daily/evo-datadict'
+import { getDataDictByCode } from '@/api/daily/evo-sys'
 import { pageOrgTeam, deleteOrgTeam } from '@/api/daily/org-team'
 
 export default {

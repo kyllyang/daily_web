@@ -100,7 +100,7 @@
   </div>
 </template>
 <script>
-import { getDataDictByCode, getDataDictByCodeForChildren } from '@/api/daily/evo-datadict'
+import { getDataDictByCode, getDataDictByCodeForChildren } from '@/api/daily/evo-sys'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
 import { pageWorklogDailyRecordSelf, deleteWorklogDailyRecord, exportExcelWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
 import IMG_WDRS0001 from '@/assets/images/daily/WDRS0001.png'

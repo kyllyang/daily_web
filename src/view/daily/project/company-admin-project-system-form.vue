@@ -100,7 +100,7 @@
 </template>
 <script>
 import { mapMutations } from 'vuex'
-import { getDataDictByCode } from '@/api/daily/evo-datadict'
+import { getDataDictByCode } from '@/api/daily/evo-sys'
 import { listCustomerEmployee } from '@/api/daily/customer-employee'
 import { listCustomerCompany } from '@/api/daily/customer-company'
 import { findOrgTeam } from '@/api/daily/org-team'

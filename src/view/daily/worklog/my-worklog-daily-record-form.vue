@@ -66,7 +66,7 @@
 <script>
 import { mapMutations } from 'vuex'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
-import { getDataDictByCodeForChildren } from '@/api/daily/evo-datadict'
+import { getDataDictByCodeForChildren } from '@/api/daily/evo-sys'
 import { pageWorklogDailyRecordSelfStatistics, checkByBackend, createWorklogDailyRecord, updateWorklogDailyRecord, getWorklogDailyRecord, deleteWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
 import { formatDate, newDate, addHour, addDate } from '@/libs/util'
 

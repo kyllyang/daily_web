@@ -189,7 +189,7 @@
 </template>
 <script>
 import { mapMutations } from 'vuex'
-import { getDataDictByCode } from '@/api/daily/evo-datadict'
+import { getDataDictByCode } from '@/api/daily/evo-sys'
 import { treeOrgTeam } from '@/api/daily/org-team'
 import { findOrgRole } from '@/api/daily/org-role'
 import { getMaxCode, checkByBackend, createOrgEmployee, updateOrgEmployee, getOrgEmployee } from '@/api/daily/org-employee'

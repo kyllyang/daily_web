@@ -107,7 +107,7 @@
   </div>
 </template>
 <script>
-import { getDataDictByCode } from '@/api/daily/evo-datadict'
+import { getDataDictByCode } from '@/api/daily/evo-sys'
 import { findOrgTeam } from '@/api/daily/org-team'
 import { pageOrgEmployee, deleteOrgEmployee, updateOrgEmployeePassowrd } from '@/api/daily/org-employee'
 import IMG_SEX00001 from '@/assets/images/daily/SEX00001.png'

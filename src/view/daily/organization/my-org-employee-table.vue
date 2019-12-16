@@ -71,7 +71,7 @@
   </div>
 </template>
 <script>
-import { getDataDictByCode } from '@/api/daily/evo-datadict'
+import { getDataDictByCode } from '@/api/daily/evo-sys'
 import { findOrgEmployee } from '@/api/daily/org-employee'
 import IMG_SEX00001 from '@/assets/images/daily/SEX00001.png'
 import IMG_SEX00002 from '@/assets/images/daily/SEX00002.png'

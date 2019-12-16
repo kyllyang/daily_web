@@ -120,7 +120,7 @@
 <script>
 import { mapMutations } from 'vuex'
 import { formatDateTimeCompact } from '@/libs/util'
-import { getDataDictByCode } from '@/api/daily/evo-datadict'
+import { getDataDictByCode } from '@/api/daily/evo-sys'
 import { findOrgEmployee } from '@/api/daily/org-employee'
 import { listCustomerEmployee } from '@/api/daily/customer-employee'
 import { listProjectSystemSelf } from '@/api/daily/project-system'

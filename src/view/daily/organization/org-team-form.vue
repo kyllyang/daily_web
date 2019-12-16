@@ -60,7 +60,7 @@
 </template>
 <script>
 import { mapMutations } from 'vuex'
-import { getDataDictByCode } from '@/api/daily/evo-datadict'
+import { getDataDictByCode } from '@/api/daily/evo-sys'
 import { findOrgTeam, checkByBackend, createOrgTeam, updateOrgTeam, getOrgTeam } from '@/api/daily/org-team'
 
 export default {

@@ -119,7 +119,7 @@
 </template>
 <script>
 import { mapMutations } from 'vuex'
-import { getDataDictByCode } from '@/api/daily/evo-datadict'
+import { getDataDictByCode } from '@/api/daily/evo-sys'
 import { findOrgEmployee } from '@/api/daily/org-employee'
 import { listCustomerEmployee } from '@/api/daily/customer-employee'
 import { listProjectSystem } from '@/api/daily/project-system'
