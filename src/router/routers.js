@@ -179,7 +179,7 @@ export default [
     meta: {
       icon: 'md-menu',
       title: '组织机构管理',
-      access: ['TEAM_ADMIN']
+      access: ['COMPANY_ADMIN']
     },
     component: Main,
     children: [
@@ -189,7 +189,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '员工管理',
-          access: ['TEAM_ADMIN']
+          access: ['COMPANY_ADMIN']
         },
         component: () => import('@/view/daily/organization/org-employee-table.vue')
       },
@@ -199,7 +199,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '团队管理',
-          access: ['TEAM_ADMIN']
+          access: ['COMPANY_ADMIN']
         },
         component: () => import('@/view/daily/organization/org-team-table.vue')
       }

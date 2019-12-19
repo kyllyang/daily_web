@@ -71,7 +71,7 @@ export default {
       teamList: [],
       formData: {
         id: null,
-        parentCode: '',
+        parentCode: 'GL',
         code: '',
         name: '',
         property: '',

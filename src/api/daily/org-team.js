@@ -2,7 +2,7 @@ import axios from '@/libs/api.request'
 
 export const pageOrgTeam = (query) => {
   return axios.request({
-    url: '/daily/organization/org-team/page/info',
+    url: '/daily/organization/team/page/info',
     data: query,
     method: 'post'
   })
@@ -10,7 +10,7 @@ export const pageOrgTeam = (query) => {
 
 export const findOrgTeam = (query) => {
   return axios.request({
-    url: '/daily/organization/org-team/list/info',
+    url: '/daily/organization/team/list/info',
     data: query,
     method: 'post'
   })
@@ -18,7 +18,7 @@ export const findOrgTeam = (query) => {
 
 export const treeOrgTeam = (query) => {
   return axios.request({
-    url: '/daily/organization/org-team/tree/info',
+    url: '/daily/organization/team/tree/info',
     data: query,
     method: 'post'
   })
@@ -26,7 +26,7 @@ export const treeOrgTeam = (query) => {
 
 export const checkByBackend = (formData) => {
   return axios.request({
-    url: '/daily/organization/org-team/check',
+    url: '/daily/organization/team/check',
     data: formData,
     method: 'post'
   })
@@ -34,14 +34,14 @@ export const checkByBackend = (formData) => {
 
 export const getOrgTeam = (id) => {
   return axios.request({
-    url: '/daily/organization/org-team/info/' + id,
+    url: '/daily/organization/team/info/' + id,
     method: 'get'
   })
 }
 
 export const createOrgTeam = (formData) => {
   return axios.request({
-    url: '/daily/organization/org-team/info',
+    url: '/daily/organization/team/info',
     data: formData,
     method: 'post'
   })
@@ -49,7 +49,7 @@ export const createOrgTeam = (formData) => {
 
 export const updateOrgTeam = (formData) => {
   return axios.request({
-    url: '/daily/organization/org-team/info',
+    url: '/daily/organization/team/info',
     data: formData,
     method: 'put'
   })
@@ -57,7 +57,7 @@ export const updateOrgTeam = (formData) => {
 
 export const deleteOrgTeam = (id) => {
   return axios.request({
-    url: '/daily/organization/org-team/' + id,
+    url: '/daily/organization/team/' + id,
     method: 'delete'
   })
 }

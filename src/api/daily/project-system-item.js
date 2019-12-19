@@ -2,7 +2,7 @@ import axios from '@/libs/api.request'
 
 export const pageProjectSystemItem = (query) => {
   return axios.request({
-    url: '/daily/project/project-system-item/page/info',
+    url: '/daily/project/system-item/page/info',
     data: query,
     method: 'post'
   })
@@ -10,7 +10,7 @@ export const pageProjectSystemItem = (query) => {
 
 export const pageProjectSystemItemSelf = (query) => {
   return axios.request({
-    url: '/daily/project/project-system-item/self/page/info',
+    url: '/daily/project/system-item/self/page/info',
     data: query,
     method: 'post'
   })
@@ -18,21 +18,21 @@ export const pageProjectSystemItemSelf = (query) => {
 
 export const listProjectSystemItem = () => {
   return axios.request({
-    url: '/daily/project/project-system-item/all',
+    url: '/daily/project/system-item/all',
     method: 'get'
   })
 }
 
 export const listProjectSystemItemSelf = () => {
   return axios.request({
-    url: '/daily/project/project-system-item/all/self',
+    url: '/daily/project/system-item/all/self',
     method: 'get'
   })
 }
 
 export const checkByBackend = (formData) => {
   return axios.request({
-    url: '/daily/project/project-system-item/check',
+    url: '/daily/project/system-item/check',
     data: formData,
     method: 'post'
   })
@@ -40,14 +40,14 @@ export const checkByBackend = (formData) => {
 
 export const getProjectSystemItem = (id) => {
   return axios.request({
-    url: '/daily/project/project-system-item/info/' + id,
+    url: '/daily/project/system-item/info/' + id,
     method: 'get'
   })
 }
 
 export const createProjectSystemItem = (formData) => {
   return axios.request({
-    url: '/daily/project/project-system-item/info',
+    url: '/daily/project/system-item/info',
     data: formData,
     method: 'post'
   })
@@ -55,7 +55,7 @@ export const createProjectSystemItem = (formData) => {
 
 export const updateProjectSystemItem = (formData) => {
   return axios.request({
-    url: '/daily/project/project-system-item/info',
+    url: '/daily/project/system-item/info',
     data: formData,
     method: 'put'
   })
@@ -63,7 +63,7 @@ export const updateProjectSystemItem = (formData) => {
 
 export const deleteProjectSystemItem = (id) => {
   return axios.request({
-    url: '/daily/project/project-system-item/' + id,
+    url: '/daily/project/system-item/' + id,
     method: 'delete'
   })
 }

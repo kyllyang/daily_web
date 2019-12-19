@@ -2,7 +2,7 @@ import axios from '@/libs/api.request'
 
 export const pageOrgEmployee = (query) => {
   return axios.request({
-    url: '/daily/organization/org-employee/page/info',
+    url: '/daily/organization/employee/page/info',
     data: query,
     method: 'post'
   })
@@ -10,7 +10,7 @@ export const pageOrgEmployee = (query) => {
 
 export const findOrgEmployee = (query) => {
   return axios.request({
-    url: '/daily/organization/org-employee/list/info',
+    url: '/daily/organization/employee/list/info',
     data: query,
     method: 'post'
   })
@@ -18,14 +18,14 @@ export const findOrgEmployee = (query) => {
 
 export const getMaxCode = () => {
   return axios.request({
-    url: '/daily/organization/org-employee/max-code',
+    url: '/daily/organization/employee/max-code',
     method: 'get'
   })
 }
 
 export const checkByBackend = (formData) => {
   return axios.request({
-    url: '/daily/organization/org-employee/check',
+    url: '/daily/organization/employee/check',
     data: formData,
     method: 'post'
   })
@@ -33,14 +33,14 @@ export const checkByBackend = (formData) => {
 
 export const getOrgEmployee = (id) => {
   return axios.request({
-    url: '/daily/organization/org-employee/info/' + id,
+    url: '/daily/organization/employee/info/' + id,
     method: 'get'
   })
 }
 
 export const createOrgEmployee = (formData) => {
   return axios.request({
-    url: '/daily/organization/org-employee/info',
+    url: '/daily/organization/employee/info',
     data: formData,
     method: 'post'
   })
@@ -48,7 +48,7 @@ export const createOrgEmployee = (formData) => {
 
 export const updateOrgEmployee = (formData) => {
   return axios.request({
-    url: '/daily/organization/org-employee/info',
+    url: '/daily/organization/employee/info',
     data: formData,
     method: 'put'
   })

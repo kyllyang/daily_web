@@ -183,7 +183,6 @@ export default {
         },
         {
           align: 'left',
-          width: 120,
           title: '负责人',
           key: 'principalName'
         },

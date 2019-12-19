@@ -2,7 +2,7 @@ import axios from '@/libs/api.request'
 
 export const pageWorklogDailyRecord = (query) => {
   return axios.request({
-    url: '/daily/worklog/worklog-daily-record/page/info',
+    url: '/daily/worklog/daily-record/page/info',
     data: query,
     method: 'post'
   })
@@ -10,7 +10,7 @@ export const pageWorklogDailyRecord = (query) => {
 
 export const pageWorklogDailyRecordSelf = (query) => {
   return axios.request({
-    url: '/daily/worklog/worklog-daily-record/self/page/info',
+    url: '/daily/worklog/daily-record/self/page/info',
     data: query,
     method: 'post'
   })
@@ -18,7 +18,7 @@ export const pageWorklogDailyRecordSelf = (query) => {
 
 export const pageWorklogDailyRecordSelfMember = (query) => {
   return axios.request({
-    url: '/daily/worklog/worklog-daily-record/self-member/page/info',
+    url: '/daily/worklog/daily-record/self-member/page/info',
     data: query,
     method: 'post'
   })
@@ -26,7 +26,7 @@ export const pageWorklogDailyRecordSelfMember = (query) => {
 
 export const pageAuditWorklogDailyRecord = (query) => {
   return axios.request({
-    url: '/daily/worklog/worklog-daily-record/audit/page/info',
+    url: '/daily/worklog/daily-record/audit/page/info',
     data: query,
     method: 'post'
   })
@@ -34,7 +34,7 @@ export const pageAuditWorklogDailyRecord = (query) => {
 
 export const pageAuditWorklogDailyRecordMember = (query) => {
   return axios.request({
-    url: '/daily/worklog/worklog-daily-record/member/audit/page/info',
+    url: '/daily/worklog/daily-record/member/audit/page/info',
     data: query,
     method: 'post'
   })
@@ -42,7 +42,7 @@ export const pageAuditWorklogDailyRecordMember = (query) => {
 
 export const pageWorklogDailyRecordSelfStatistics = (query) => {
   return axios.request({
-    url: '/daily/worklog/worklog-daily-record/self/page/info/statistics',
+    url: '/daily/worklog/daily-record/self/page/info/statistics',
     data: query,
     method: 'post'
   })
@@ -50,7 +50,7 @@ export const pageWorklogDailyRecordSelfStatistics = (query) => {
 
 export const checkByBackend = (formData) => {
   return axios.request({
-    url: '/daily/worklog/worklog-daily-record/check',
+    url: '/daily/worklog/daily-record/check',
     data: formData,
     method: 'post'
   })
@@ -58,14 +58,14 @@ export const checkByBackend = (formData) => {
 
 export const getWorklogDailyRecord = (id) => {
   return axios.request({
-    url: '/daily/worklog/worklog-daily-record/info/' + id,
+    url: '/daily/worklog/daily-record/info/' + id,
     method: 'get'
   })
 }
 
 export const createWorklogDailyRecord = (formData) => {
   return axios.request({
-    url: '/daily/worklog/worklog-daily-record/info',
+    url: '/daily/worklog/daily-record/info',
     data: formData,
     method: 'post'
   })
@@ -73,7 +73,7 @@ export const createWorklogDailyRecord = (formData) => {
 
 export const updateWorklogDailyRecord = (formData) => {
   return axios.request({
-    url: '/daily/worklog/worklog-daily-record/info',
+    url: '/daily/worklog/daily-record/info',
     data: formData,
     method: 'put'
   })
@@ -81,7 +81,7 @@ export const updateWorklogDailyRecord = (formData) => {
 
 export const auditWorklogDailyRecord = (ids, status, comment) => {
   return axios.request({
-    url: '/daily/worklog/worklog-daily-record/audit',
+    url: '/daily/worklog/daily-record/audit',
     data: {
       ids,
       status,
@@ -93,14 +93,14 @@ export const auditWorklogDailyRecord = (ids, status, comment) => {
 
 export const deleteWorklogDailyRecord = (id) => {
   return axios.request({
-    url: '/daily/worklog/worklog-daily-record/' + id,
+    url: '/daily/worklog/daily-record/' + id,
     method: 'delete'
   })
 }
 
 export const exportExcelWorklogDailyRecord = (query) => {
   return axios.request({
-    url: '/daily/worklog/worklog-daily-record/export/excel/info',
+    url: '/daily/worklog/daily-record/export/excel/info',
     data: query,
     method: 'post',
     responseType: 'blob'

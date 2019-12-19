@@ -2,7 +2,7 @@ import axios from '@/libs/api.request'
 
 export const exportExcelWorkloadManhourSettle = (query) => {
   return axios.request({
-    url: '/daily/worklog/workload/export/excel/manhour-settle',
+    url: '/daily/workload/export/excel/manhour-settle',
     data: query,
     method: 'post',
     responseType: 'blob'
@@ -11,7 +11,7 @@ export const exportExcelWorkloadManhourSettle = (query) => {
 
 export const exportExcelWorkloadTeamQuarter = (query) => {
   return axios.request({
-    url: '/daily/worklog/workload/export/excel/team-quarter',
+    url: '/daily/workload/export/excel/team-quarter',
     data: query,
     method: 'post',
     responseType: 'blob'
