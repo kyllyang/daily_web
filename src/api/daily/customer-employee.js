@@ -8,10 +8,11 @@ export const pageCustomerEmployee = (query) => {
   })
 }
 
-export const listCustomerEmployee = () => {
+export const listCustomerEmployee = (query) => {
   return axios.request({
-    url: '/daily/customer/employee/all',
-    method: 'get'
+    url: '/daily/customer/employee/list/info',
+    data: query,
+    method: 'post'
   })
 }
 

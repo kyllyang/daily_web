@@ -166,12 +166,12 @@ export default {
       })
     },
     loadCustomerPrincipalList () {
-      listCustomerEmployee().then(res => {
+      listCustomerEmployee({}).then(res => {
         this.customerPrincipalList = res.data
       })
     },
     loadCompanyList () {
-      listCustomerCompany().then(res => {
+      listCustomerCompany({}).then(res => {
         this.companyList = res.data
       })
     },

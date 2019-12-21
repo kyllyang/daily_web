@@ -201,7 +201,7 @@ export default {
       })
     },
     loadCustomerEmployeeList () {
-      listCustomerEmployee().then(res => {
+      listCustomerEmployee({}).then(res => {
         this.customerEmployeeList = res.data
       })
     },

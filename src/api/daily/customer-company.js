@@ -8,10 +8,11 @@ export const pageCustomerCompany = (query) => {
   })
 }
 
-export const listCustomerCompany = () => {
+export const listCustomerCompany = (query) => {
   return axios.request({
-    url: '/daily/customer/company/all',
-    method: 'get'
+    url: '/daily/customer/company/list/info',
+    data: query,
+    method: 'post'
   })
 }
 

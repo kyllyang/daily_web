@@ -4,61 +4,61 @@
       <Panel name="1">
         系统列表
         <p slot="content">
-          <Form ref="formData" :model="formData" :rules="formRule" :label-width="80" inline>
-            <Row>
-              <Col span="8">
-                <FormItem label="编号" prop="code">
-                  <Input type="text" v-model="formData.code"></Input>
-                </FormItem>
-              </Col>
-              <Col span="8">
-                <FormItem label="名称" prop="name">
-                  <Input type="text" v-model="formData.name"></Input>
-                </FormItem>
-              </Col>
-              <Col span="8">
-                <FormItem label="IT部负责人" prop="customerPrincipalCode">
-                  <Select v-model="formData.customerPrincipalCode" filterable clearable>
-                    <Option v-for="(item, index) in customerPrincipalList" :value="item.code" :label="item.name" :key="index">
-                      <span>{{ item.name }}</span>
-                      <span style="float:right;color:#ccc">{{ item.companyName }}</span>
-                    </Option>
-                  </Select>
-                </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col span="8">
-                <FormItem label="维护团队" prop="teamCode">
-                  <Select v-model="formData.teamCode" filterable clearable>
-                    <Option v-for="(item, index) in teamList" :value="item.code" :label="item.name" :key="index">
-                      <span>{{ item.name }}</span>
-                      <span style="float:right;color:#ccc">{{ item.principalName }}</span>
-                    </Option>
-                  </Select>
-                </FormItem>
-              </Col>
-              <Col span="8">
-                <FormItem label="状态" prop="status">
-                  <Select v-model="formData.status" placeholder="全部" clearable>
-                    <Option v-for="(item, index) in statusDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
-                  </Select>
-                </FormItem>
-              </Col>
-              <Col span="8">
-                <FormItem>
-                  <Button type="primary" @click="handleQuery()">
-                    <Icon type="ios-search-outline" />
-                    查询
-                  </Button>
-                  <Button type="primary" @click="handleReset()" style="margin-left: 8px">
-                    <Icon type="ios-repeat" />
-                    重置
-                  </Button>
-                </FormItem>
-              </Col>
-            </Row>
-          </Form>
+        <Form ref="formData" :model="formData" :rules="formRule" :label-width="80" inline>
+          <Row>
+            <Col span="8">
+              <FormItem label="编号" prop="code">
+                <Input type="text" v-model="formData.code"></Input>
+              </FormItem>
+            </Col>
+            <Col span="8">
+              <FormItem label="名称" prop="name">
+                <Input type="text" v-model="formData.name"></Input>
+              </FormItem>
+            </Col>
+            <Col span="8">
+              <FormItem label="IT部负责人" prop="customerPrincipalCode">
+                <Select v-model="formData.customerPrincipalCode" filterable clearable>
+                  <Option v-for="(item, index) in customerPrincipalList" :value="item.code" :label="item.name" :key="index">
+                    <span>{{ item.name }}</span>
+                    <span style="float:right;color:#ccc">{{ item.companyName }}</span>
+                  </Option>
+                </Select>
+              </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col span="8">
+              <FormItem label="维护团队" prop="teamCode">
+                <Select v-model="formData.teamCode" filterable clearable>
+                  <Option v-for="(item, index) in teamList" :value="item.code" :label="item.name" :key="index">
+                    <span>{{ item.name }}</span>
+                    <span style="float:right;color:#ccc">{{ item.principalName }}</span>
+                  </Option>
+                </Select>
+              </FormItem>
+            </Col>
+            <Col span="8">
+              <FormItem label="状态" prop="status">
+                <Select v-model="formData.status" placeholder="全部" clearable>
+                  <Option v-for="(item, index) in statusDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
+                </Select>
+              </FormItem>
+            </Col>
+            <Col span="8">
+              <FormItem>
+                <Button type="primary" @click="handleQuery()">
+                  <Icon type="ios-search-outline" />
+                  查询
+                </Button>
+                <Button type="primary" @click="handleReset()" style="margin-left: 8px">
+                  <Icon type="ios-repeat" />
+                  重置
+                </Button>
+              </FormItem>
+            </Col>
+          </Row>
+        </Form>
         </p>
       </Panel>
     </Collapse>
@@ -149,12 +149,6 @@ export default {
           key: 'name'
         },
         {
-          align: 'left',
-          width: 120,
-          title: 'IT部负责人',
-          key: 'customerPrincipalName'
-        },
-        {
           align: 'center',
           width: 120,
           title: '状态',
@@ -184,13 +178,18 @@ export default {
         },
         {
           align: 'left',
+          title: 'IT部负责人',
+          key: 'principalNameText'
+        },
+        {
+          align: 'left',
           title: '服务公司',
           key: 'companyNameText'
         },
         {
           align: 'left',
           title: '维护团队',
-          key: 'teamName'
+          key: 'teamNameText'
         }
       ],
       data: [],
@@ -202,11 +201,11 @@ export default {
   },
   methods: {
     handleCreate () {
-      this.$router.push({ name: 'company_admin_project_system_edit' })
+      this.$router.push({ name: 'project_system_edit' })
     },
     handleModify () {
       if (this.$refs.dataTable.getSelection().length === 1) {
-        this.$router.push({ name: 'company_admin_project_system_edit', params: { id: this.$refs.dataTable.getSelection()[0].id } })
+        this.$router.push({ name: 'project_system_edit', params: { id: this.$refs.dataTable.getSelection()[0].id } })
       } else {
         this.$Modal.warning({
           title: '警告',
@@ -267,7 +266,7 @@ export default {
       })
     },
     loadCustomerPrincipalList () {
-      listCustomerEmployee().then(res => {
+      listCustomerEmployee({}).then(res => {
         this.customerPrincipalList = res.data
       })
     },

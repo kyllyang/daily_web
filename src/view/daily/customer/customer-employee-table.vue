@@ -214,7 +214,7 @@ export default {
       this.loadData()
     },
     loadCompanyList () {
-      listCustomerCompany().then(res => {
+      listCustomerCompany({}).then(res => {
         this.companyList = res.data
       })
     },

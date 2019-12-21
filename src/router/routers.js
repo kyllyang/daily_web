@@ -211,7 +211,7 @@ export default [
     meta: {
       icon: 'md-menu',
       title: '客户管理',
-      access: ['TEAM_ADMIN']
+      access: ['COMPANY_ADMIN']
     },
     component: Main,
     children: [
@@ -221,7 +221,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '客户公司管理',
-          access: ['TEAM_ADMIN']
+          access: ['COMPANY_ADMIN']
         },
         component: () => import('@/view/daily/customer/customer-company-table.vue')
       },
@@ -231,7 +231,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '客户员工管理',
-          access: ['TEAM_ADMIN']
+          access: ['COMPANY_ADMIN']
         },
         component: () => import('@/view/daily/customer/customer-employee-table.vue')
       }
@@ -243,29 +243,29 @@ export default [
     meta: {
       icon: 'md-menu',
       title: '项目建设',
-      access: ['TEAM_ADMIN']
+      access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
     },
     component: Main,
     children: [
       {
-        path: 'team_admin_project_system',
-        name: 'team_admin_project_system',
+        path: 'project_system',
+        name: 'project_system',
         meta: {
           icon: 'md-funnel',
           title: '系统管理',
-          access: ['TEAM_ADMIN']
+          access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
         },
-        component: () => import('@/view/daily/project/team-admin-project-system-table.vue')
+        component: () => import('@/view/daily/project/project-system-table.vue')
       },
       {
-        path: 'team_admin_project_system_item',
-        name: 'team_admin_project_system_item',
+        path: 'project_system_item',
+        name: 'project_system_item',
         meta: {
           icon: 'md-funnel',
           title: '项目管理',
-          access: ['TEAM_ADMIN']
+          access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
         },
-        component: () => import('@/view/daily/project/team-admin-project-system-item-table.vue')
+        component: () => import('@/view/daily/project/project-system-item-table.vue')
       }
     ]
   },
@@ -480,24 +480,24 @@ export default [
     },
     children: [
       {
-        path: '/team_admin_project_system_edit',
-        name: 'team_admin_project_system_edit',
+        path: '/project_system_edit',
+        name: 'project_system_edit',
         meta: {
           icon: 'ios-create-outline',
           title: '系统编辑',
-          access: ['TEAM_ADMIN']
+          access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
         },
-        component: () => import('@/view/daily/project/team-admin-project-system-form.vue')
+        component: () => import('@/view/daily/project/project-system-form.vue')
       },
       {
-        path: '/team_admin_project_system_item_edit',
-        name: 'team_admin_project_system_item_edit',
+        path: '/project_system_item_edit',
+        name: 'project_system_item_edit',
         meta: {
           icon: 'ios-create-outline',
           title: '项目编辑',
-          access: ['TEAM_ADMIN']
+          access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
         },
-        component: () => import('@/view/daily/project/team-admin-project-system-item-form.vue')
+        component: () => import('@/view/daily/project/project-system-item-form.vue')
       }
     ]
   },

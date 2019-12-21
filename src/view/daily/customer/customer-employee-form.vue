@@ -68,7 +68,7 @@ export default {
       'closeTag'
     ]),
     loadCompanyList () {
-      listCustomerCompany().then(res => {
+      listCustomerCompany({}).then(res => {
         this.companyList = res.data
       })
     },
