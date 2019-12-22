@@ -43,7 +43,7 @@
   </div>
 </template>
 <script>
-import { listProjectSystemItemSelf } from '@/api/daily/project-system-item'
+import { listProjectSystemItem } from '@/api/daily/project-system-item'
 import { pageStatisticsProjectSystemItemManhourSelf } from '@/api/daily/statistics'
 import { toMinutesText } from '@/libs/util'
 import expandRow from './project-system-item-manhour-table-expand.vue'
@@ -169,7 +169,7 @@ export default {
       this.loadData()
     },
     loadSystemItemList () {
-      listProjectSystemItemSelf().then(res => {
+      listProjectSystemItem().then(res => {
         this.systemItemList = res.data
       })
     },

@@ -35,8 +35,8 @@
     </Row>
     <Row>
       <Col span="12">
-        <FormItem label="任务分类" prop="taskCategorys">
-          <Cascader v-model="formData.taskCategorys" :data="taskCategoryDataDicts" trigger="hover"></Cascader>
+        <FormItem label="任务分类" prop="taskCategories">
+          <Cascader v-model="formData.taskCategories" :data="taskCategoryDataDicts" trigger="hover"></Cascader>
         </FormItem>
       </Col>
       <Col span="12">
@@ -74,7 +74,7 @@ export default {
         callback()
       }
     }
-    const taskCategorysValidator = (rule, value, callback) => {
+    const taskCategoriesValidator = (rule, value, callback) => {
       if (value[0] === '' || value[1] === '') {
         callback(new Error('不能为空'))
       } else if (value.length < 2) {
@@ -107,7 +107,7 @@ export default {
         startTime: '',
         endTime: '',
         remark: '',
-        taskCategorys: [],
+        taskCategories: [],
         workTimes: ['08:00', '12:00']
       },
       formRule: {
@@ -115,7 +115,7 @@ export default {
           { type: 'string', required: true, message: '不能为空', trigger: 'blur' }
         ],
         workDate: [
-          { type: 'string', validator: workDateValidator, trigger: 'blur' }
+          { type: 'string', required: true, validator: workDateValidator, trigger: 'blur' }
         ],
         systemItemCode: [
           { type: 'string', required: true, message: '不能为空', trigger: 'blur' }
@@ -123,9 +123,9 @@ export default {
         moduleName: [
           { type: 'string', required: true, max: 100, message: '不能为空，且最大长度不能超过100个字符', trigger: 'blur' }
         ],
-        taskCategorys: [
+        taskCategories: [
           { type: 'array', required: true, trigger: 'blur' },
-          { type: 'string', validator: taskCategorysValidator, trigger: 'blur' }
+          { type: 'string', validator: taskCategoriesValidator, trigger: 'blur' }
         ],
         workTimes: [
           { type: 'array', required: true, trigger: 'blur' },
@@ -170,7 +170,7 @@ export default {
       })
     },
     loadSystemItemList () {
-      listProjectSystemItem().then(res => {
+      listProjectSystemItem({ includeTakePartIn: true }).then(res => {
         this.systemItemList = res.data
       })
     },
@@ -182,7 +182,7 @@ export default {
     handleSubmit () {
       this.$refs['formData'].validate((valid) => {
         if (valid) {
-          this.formData.taskCategory = this.formData.taskCategorys[1]
+          this.formData.taskCategory = this.formData.taskCategories[1]
           this.formData.startTime = this.formData.workTimes[0]
           this.formData.endTime = this.formData.workTimes[1]
 

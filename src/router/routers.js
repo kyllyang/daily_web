@@ -142,24 +142,14 @@ export default [
     component: Main,
     children: [
       {
-        path: 'team_admin_worklog_daily_record',
-        name: 'team_admin_worklog_daily_record',
+        path: 'worklog_daily_record',
+        name: 'worklog_daily_record',
         meta: {
           icon: 'md-funnel',
           title: '日报管理',
-          access: ['TEAM_ADMIN']
+          access: ['TEAM_ADMIN', 'EMPLOYEE']
         },
-        component: () => import('@/view/daily/worklog/team-admin-worklog-daily-record-table.vue')
-      },
-      {
-        path: 'employee_worklog_daily_record',
-        name: 'employee_worklog_daily_record',
-        meta: {
-          icon: 'md-funnel',
-          title: '日报管理',
-          access: ['EMPLOYEE']
-        },
-        component: () => import('@/view/daily/worklog/employee-worklog-daily-record-table.vue')
+        component: () => import('@/view/daily/worklog/worklog-daily-record-table.vue')
       },
       {
         path: 'worklog_sign_in',
@@ -484,8 +474,7 @@ export default [
         name: 'project_system_edit',
         meta: {
           icon: 'ios-create-outline',
-          title: '系统编辑',
-          access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
+          title: '系统编辑'
         },
         component: () => import('@/view/daily/project/project-system-form.vue')
       },
@@ -494,8 +483,7 @@ export default [
         name: 'project_system_item_edit',
         meta: {
           icon: 'ios-create-outline',
-          title: '项目编辑',
-          access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
+          title: '项目编辑'
         },
         component: () => import('@/view/daily/project/project-system-item-form.vue')
       }
@@ -510,24 +498,13 @@ export default [
     },
     children: [
       {
-        path: '/team_admin_worklog_daily_record_edit',
-        name: 'team_admin_worklog_daily_record_edit',
+        path: '/worklog_daily_record_edit',
+        name: 'worklog_daily_record_edit',
         meta: {
           icon: 'ios-create-outline',
-          title: '日报编辑',
-          access: ['TEAM_ADMIN']
+          title: '日报编辑'
         },
-        component: () => import('@/view/daily/worklog/team-admin-worklog-daily-record-form.vue')
-      },
-      {
-        path: '/employee_worklog_daily_record_edit',
-        name: 'employee_worklog_daily_record_edit',
-        meta: {
-          icon: 'ios-create-outline',
-          title: '日报编辑',
-          access: ['EMPLOYEE']
-        },
-        component: () => import('@/view/daily/worklog/employee-worklog-daily-record-form.vue')
+        component: () => import('@/view/daily/worklog/worklog-daily-record-form.vue')
       }
     ]
   },

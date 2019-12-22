@@ -7,13 +7,43 @@
           <Form ref="formData" :model="formData" :rules="formRule" :label-width="80" inline>
             <Row>
               <Col span="8">
+                <FormItem label="员工姓名" prop="employeeCodes">
+                  <Select v-model="formData.employeeCodes" multiple filterable clearable>
+                    <Option v-for="(item, index) in employeeList" :value="item.code" :label="item.name" :key="index">
+                      <span>{{ item.name }}</span>
+                    </Option>
+                  </Select>
+                </FormItem>
+              </Col>
+              <Col span="8">
+                <FormItem label="团队" prop="teamCodes">
+                  <Select v-model="formData.teamCodes" multiple filterable clearable>
+                    <Option v-for="(item, index) in teamList" :value="item.code" :label="item.name" :key="index">
+                      <span>{{ item.name }}</span>
+                      <span style="float:right;color:#ccc">{{ item.principalName }}</span>
+                    </Option>
+                  </Select>
+                </FormItem>
+              </Col>
+              <Col span="8">
                 <FormItem label="日期" prop="workDate">
                   <DatePicker :value="formData.workDate" format="yyyy-MM-dd" type="daterange" @on-change="getWorkDateTime" show-week-numbers></DatePicker>
                 </FormItem>
               </Col>
+            </Row>
+            <Row>
+              <Col span="8">
+                <FormItem label="系统名称" prop="systemCodes">
+                  <Select v-model="formData.systemCodes" multiple filterable clearable>
+                    <Option v-for="(item, index) in systemList" :value="item.code" :label="item.name" :key="index">
+                      <span>{{ item.name }}</span>
+                    </Option>
+                  </Select>
+                </FormItem>
+              </Col>
               <Col span="8">
                 <FormItem label="项目名称" prop="systemItemCode">
-                  <Select v-model="formData.systemItemCode" filterable clearable>
+                  <Select v-model="formData.systemItemCode" multiple filterable clearable>
                     <Option v-for="(item, index) in systemItemList" :value="item.code" :label="item.name" :key="index">
                       <span>{{ item.name }}</span>
                       <span style="float:right;color:#ccc">{{ item.systemName }}</span>
@@ -84,7 +114,7 @@
       </Button>
     </ButtonGroup>
     <ButtonGroup>
-      <Button type="primary" @click="handleExportExcel()">
+      <Button type="primary" @click="handleExportExcel()" style="margin-left: 8px">
         <Icon type="md-download"/>
         导出Excel
       </Button>
@@ -101,8 +131,12 @@
 </template>
 <script>
 import { getDataDictByCode, getDataDictByCodeForChildren } from '@/api/daily/evo-sys'
+import { listOrgEmployee } from '@/api/daily/org-employee'
+import { listOrgTeam } from '@/api/daily/org-team'
+import { listProjectSystem } from '@/api/daily/project-system'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
-import { pageWorklogDailyRecordSelf, deleteWorklogDailyRecord, exportExcelWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
+import { pageWorklogDailyRecord, deleteWorklogDailyRecord, exportExcelWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
+import { newDate, toMinutesText } from '@/libs/util'
 import IMG_WDRS0001 from '@/assets/images/daily/WDRS0001.png'
 import IMG_WDRS0002 from '@/assets/images/daily/WDRS0002.png'
 import IMG_WDRS0003 from '@/assets/images/daily/WDRS0003.png'
@@ -112,20 +146,26 @@ export default {
     return {
       collapse: '1',
       taskCategoryDataDicts: [],
-      systemItemList: [],
       statusDataDicts: [],
+      employeeList: [],
+      teamList: [],
+      systemList: [],
+      systemItemList: [],
       formData: {
-        employeeCode: '',
-        workDate: '',
-        systemItemCode: '',
+        employeeCodes: [],
+        teamCodes: [],
+        workDate: [newDate(new Date().getFullYear() + '-' + new Date().getMonth() + '-1'), new Date()],
+        systemCodes: [],
+        systemItemCodes: [],
         moduleName: '',
         taskCategory: '',
         remark: '',
-        status: ''
+        status: '',
+        fileName: '日报明细'
       },
       formRule: {
         moduleName: [
-          { type: 'string', max: 20, message: '最大长度不能超过20个字符', trigger: 'blur' }
+          { type: 'string', max: 100, message: '最大长度不能超过100个字符', trigger: 'blur' }
         ],
         remark: [
           { type: 'string', max: 100, message: '最大长度不能超过100个字符', trigger: 'blur' }
@@ -153,6 +193,12 @@ export default {
           width: 120,
           title: '员工姓名',
           key: 'employeeName'
+        },
+        {
+          align: 'left',
+          width: 120,
+          title: '所属团队',
+          key: 'teamNameText'
         },
         {
           align: 'left',
@@ -212,6 +258,15 @@ export default {
           key: 'endTime'
         },
         {
+          align: 'center',
+          width: 120,
+          title: '工时',
+          key: 'minutes',
+          render: (h, params) => {
+            return h('div', toMinutesText(params.row.minutes))
+          }
+        },
+        {
           align: 'left',
           title: '备注',
           key: 'remark'
@@ -243,11 +298,11 @@ export default {
   },
   methods: {
     handleCreate () {
-      this.$router.push({ name: 'employee_worklog_daily_record_edit' })
+      this.$router.push({ name: 'worklog_daily_record_edit' })
     },
     handleModify () {
       if (this.$refs.dataTable.getSelection().length === 1) {
-        this.$router.push({ name: 'employee_worklog_daily_record_edit', params: { id: this.$refs.dataTable.getSelection()[0].id } })
+        this.$router.push({ name: 'worklog_daily_record_edit', params: { id: this.$refs.dataTable.getSelection()[0].id } })
       } else {
         this.$Modal.warning({
           title: '警告',
@@ -291,15 +346,17 @@ export default {
       this.loading = true
 
       exportExcelWorklogDailyRecord({
-        employeeCode: this.formData.employeeCode,
+        employeeCodes: this.formData.employeeCodes,
+        teamCodes: this.formData.teamCodes,
         startWorkDate: this.formData.workDate[0],
         endWorkDate: this.formData.workDate[1],
-        systemItemCode: this.formData.systemItemCode,
+        systemCodes: this.formData.systemCodes,
+        systemItemCodes: this.formData.systemItemCodes,
         moduleName: this.formData.moduleName,
         taskCategory: this.formData.taskCategory,
         remark: this.formData.remark,
         status: this.formData.status,
-        fileName: '日报明细',
+        fileName: this.formData.fileName,
         pageNo: this.pageNo,
         pageSize: this.pageSize,
         pageSort: 'code',
@@ -309,7 +366,7 @@ export default {
         const downloadElement = document.createElement('a')
         const href = window.URL.createObjectURL(blob)
         downloadElement.href = href
-        // downloadElement.download = this.formData.fileName + '.xlsx'
+        downloadElement.download = this.formData.fileName + '.xlsx'
         document.body.appendChild(downloadElement)
         downloadElement.click()
         document.body.removeChild(downloadElement)
@@ -357,25 +414,42 @@ export default {
         this.taskCategoryDataDicts = dataList
       })
     },
-    loadSystemItemList () {
-      listProjectSystemItem().then(res => {
-        this.systemItemList = res.data
-      })
-    },
     loadStatusDataDict () {
       getDataDictByCode('WORKLOG_DAILY_RECORD_STATUS').then(res => {
         this.statusDataDicts = res.data
+      })
+    },
+    loadEmployeeList () {
+      listOrgEmployee({}).then(res => {
+        this.employeeList = res.data
+      })
+    },
+    loadTeamList () {
+      listOrgTeam({}).then(res => {
+        this.teamList = res.data
+      })
+    },
+    loadSystemList () {
+      listProjectSystem({}).then(res => {
+        this.systemList = res.data
+      })
+    },
+    loadSystemItemList () {
+      listProjectSystemItem({ includeTakePartIn: true }).then(res => {
+        this.systemItemList = res.data
       })
     },
     loadData () {
       if (this.loading) return
       this.loading = true
 
-      pageWorklogDailyRecordSelf({
-        employeeCode: this.$store.state.user.employeeCode,
+      pageWorklogDailyRecord({
+        employeeCodes: this.formData.employeeCodes,
+        teamCodes: this.formData.teamCodes,
         startWorkDate: this.formData.workDate[0],
         endWorkDate: this.formData.workDate[1],
-        systemItemCode: this.formData.systemItemCode,
+        systemCodes: this.formData.systemCodes,
+        systemItemCodes: this.formData.systemItemCodes,
         moduleName: this.formData.moduleName,
         taskCategory: this.formData.taskCategory,
         remark: this.formData.remark,
@@ -399,8 +473,11 @@ export default {
   },
   mounted () {
     this.loadTaskCategoryDataDicts()
-    this.loadSystemItemList()
     this.loadStatusDataDict()
+    this.loadEmployeeList()
+    this.loadTeamList()
+    this.loadSystemList()
+    this.loadSystemItemList()
     this.loadData()
   }
 }
