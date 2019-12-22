@@ -123,19 +123,16 @@ export default {
         },
         {
           align: 'left',
-          width: 120,
           title: '编号',
           key: 'code'
         },
         {
           align: 'left',
-          width: 120,
           title: '姓名',
           key: 'name'
         },
         {
           align: 'left',
-          width: 120,
           title: '职位',
           key: 'job'
         },
