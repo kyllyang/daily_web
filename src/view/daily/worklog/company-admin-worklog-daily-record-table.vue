@@ -121,7 +121,7 @@
 <script>
 import { getDataDictByCode, getDataDictByCodeForChildren } from '@/api/daily/evo-sys'
 import { findOrgEmployee } from '@/api/daily/org-employee'
-import { findOrgTeam } from '@/api/daily/org-team'
+import { listOrgTeam } from '@/api/daily/org-team'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
 import { pageWorklogDailyRecord, deleteWorklogDailyRecord, exportExcelWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
 import IMG_WDRS0001 from '@/assets/images/daily/WDRS0001.png'
@@ -388,7 +388,7 @@ export default {
       })
     },
     loadTeamList () {
-      findOrgTeam({}).then(res => {
+      listOrgTeam({}).then(res => {
         this.teamList = res.data
       })
     },

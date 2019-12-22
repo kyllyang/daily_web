@@ -54,7 +54,7 @@
 </template>
 <script>
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
-import { findOrgTeam } from '@/api/daily/org-team'
+import { listOrgTeam } from '@/api/daily/org-team'
 import { pageStatisticsProjectSystemItemManhour } from '@/api/daily/statistics'
 import { toMinutesText } from '@/libs/util'
 import expandRow from './project-system-item-manhour-table-expand.vue'
@@ -187,7 +187,7 @@ export default {
       })
     },
     loadTeamList () {
-      findOrgTeam({}).then(res => {
+      listOrgTeam({}).then(res => {
         this.teamList = res.data
       })
     },

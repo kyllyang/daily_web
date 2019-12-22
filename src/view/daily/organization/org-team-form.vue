@@ -61,7 +61,7 @@
 <script>
 import { mapMutations } from 'vuex'
 import { getDataDictByCode } from '@/api/daily/evo-sys'
-import { findOrgTeam, checkByBackend, createOrgTeam, updateOrgTeam, getOrgTeam } from '@/api/daily/org-team'
+import { listOrgTeam, checkByBackend, createOrgTeam, updateOrgTeam, getOrgTeam } from '@/api/daily/org-team'
 
 export default {
   data () {
@@ -114,7 +114,7 @@ export default {
       })
     },
     loadTeamList () {
-      findOrgTeam({}).then(res => {
+      listOrgTeam({}).then(res => {
         this.teamList = res.data
       })
     },

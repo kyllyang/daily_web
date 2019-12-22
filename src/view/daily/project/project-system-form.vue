@@ -14,11 +14,32 @@
     </Row>
     <Row>
       <Col span="12">
-        <FormItem label="IT部负责人" prop="customerPrincipalCode">
-          <Select v-model="formData.customerPrincipalCode" filterable clearable>
-            <Option v-for="(item, index) in customerPrincipalList" :value="item.code" :label="item.name" :key="index">
+        <FormItem label="IT部负责人" prop="principalCodes">
+          <Select v-model="formData.principalCodes" multiple filterable clearable>
+            <Option v-for="(item, index) in principalList" :value="item.code" :label="item.name" :key="index">
               <span>{{ item.name }}</span>
               <span style="float:right;color:#ccc">{{ item.companyName }}</span>
+            </Option>
+          </Select>
+        </FormItem>
+      </Col>
+      <Col span="12">
+        <FormItem label="服务公司" prop="companyCodes">
+          <Select v-model="formData.companyCodes" multiple filterable clearable>
+            <Option v-for="(item, index) in companyList" :value="item.code" :label="item.name" :key="index">
+              <span>{{ item.name }}</span>
+            </Option>
+          </Select>
+        </FormItem>
+      </Col>
+    </Row>
+    <Row>
+      <Col span="12">
+        <FormItem label="维护团队" prop="teamCodes">
+          <Select v-model="formData.teamCodes" multiple filterable clearable>
+            <Option v-for="(item, index) in teamList" :value="item.code" :label="item.name" :key="index">
+              <span>{{ item.name }}</span>
+              <span style="float:right;color:#ccc">{{ item.principalName }}</span>
             </Option>
           </Select>
         </FormItem>
@@ -33,22 +54,13 @@
     </Row>
     <Row>
       <Col span="12">
-        <FormItem label="服务公司" prop="companyCodes">
-          <Select v-model="formData.companyCodes" multiple filterable clearable>
-            <Option v-for="(item, index) in companyList" :value="item.code" :label="item.name" :key="index">
-              <span>{{ item.name }}</span>
-            </Option>
-          </Select>
+        <FormItem label="上线时间" prop="onTime">
+          <DatePicker :value="formData.onTime" format="yyyy-MM-dd" type="date" @on-change="getOnTimeTime"></DatePicker>
         </FormItem>
       </Col>
       <Col span="12">
-        <FormItem label="维护团队" prop="teamCode">
-          <Select v-model="formData.teamCode" clearable>
-            <Option v-for="(item, index) in teamList" :value="item.code" :label="item.name" :key="index">
-              <span>{{ item.name }}</span>
-              <span style="float:right;color:#ccc">{{ item.principalName }}</span>
-            </Option>
-          </Select>
+        <FormItem label="废弃时间" prop="offTime">
+          <DatePicker :value="formData.offTime" format="yyyy-MM-dd" type="date" @on-change="getOffTimeTime"></DatePicker>
         </FormItem>
       </Col>
     </Row>
@@ -80,18 +92,6 @@
         </FormItem>
       </Col>
     </Row>
-    <Row>
-      <Col span="12">
-        <FormItem label="上线时间" prop="onTime">
-          <DatePicker :value="formData.onTime" format="yyyy-MM-dd" type="date" @on-change="getOnTimeTime"></DatePicker>
-        </FormItem>
-      </Col>
-      <Col span="12">
-        <FormItem label="废弃时间" prop="offTime">
-          <DatePicker :value="formData.offTime" format="yyyy-MM-dd" type="date" @on-change="getOffTimeTime"></DatePicker>
-        </FormItem>
-      </Col>
-    </Row>
     <FormItem>
       <Button type="primary" @click="handleSubmit()">保存</Button>
       <Button type="primary" @click="handleReset()" style="margin-left: 8px">重置</Button>
@@ -103,21 +103,20 @@ import { mapMutations } from 'vuex'
 import { getDataDictByCode } from '@/api/daily/evo-sys'
 import { listCustomerEmployee } from '@/api/daily/customer-employee'
 import { listCustomerCompany } from '@/api/daily/customer-company'
-import { findOrgTeam } from '@/api/daily/org-team'
+import { listOrgTeam } from '@/api/daily/org-team'
 import { checkByBackend, createProjectSystem, updateProjectSystem, getProjectSystem } from '@/api/daily/project-system'
 
 export default {
   data () {
     return {
       statusDataDicts: [],
-      customerPrincipalList: [],
+      principalList: [],
       companyList: [],
       teamList: [],
       formData: {
         id: null,
         code: '',
         name: '',
-        customerPrincipalCode: '',
         status: '',
         svnInfo: '',
         dbInfo: '',
@@ -125,8 +124,9 @@ export default {
         frameworkInfo: '',
         onTime: '',
         offTime: '',
+        principalCodes: [],
         companyCodes: [],
-        teamCode: ''
+        teamCodes: []
       },
       formRule: {
         code: [
@@ -134,6 +134,18 @@ export default {
         ],
         name: [
           { type: 'string', required: true, max: 50, message: '不能为空，且最大长度不能超过50个字符', trigger: 'blur' }
+        ],
+        principalCodes: [
+          { required: true, message: '不能为空' }
+        ],
+        companyCodes: [
+          { required: true, message: '不能为空' }
+        ],
+        teamCodes: [
+          { required: true, message: '不能为空' }
+        ],
+        status: [
+          { required: true, message: '不能为空' }
         ],
         svnInfo: [
           { type: 'string', max: 400, message: '最大长度不能超过400个字符', trigger: 'blur' }
@@ -165,9 +177,9 @@ export default {
         this.statusDataDicts = res.data
       })
     },
-    loadCustomerPrincipalList () {
+    loadPrincipalList () {
       listCustomerEmployee({}).then(res => {
-        this.customerPrincipalList = res.data
+        this.principalList = res.data
       })
     },
     loadCompanyList () {
@@ -176,7 +188,7 @@ export default {
       })
     },
     loadTeamList () {
-      findOrgTeam({}).then(res => {
+      listOrgTeam({}).then(res => {
         this.teamList = res.data
       })
     },
@@ -247,7 +259,7 @@ export default {
   },
   mounted () {
     this.loadStatusDataDict()
-    this.loadCustomerPrincipalList()
+    this.loadPrincipalList()
     this.loadCompanyList()
     this.loadTeamList()
 

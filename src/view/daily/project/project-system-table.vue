@@ -17,9 +17,9 @@
               </FormItem>
             </Col>
             <Col span="8">
-              <FormItem label="IT部负责人" prop="customerPrincipalCode">
-                <Select v-model="formData.customerPrincipalCode" filterable clearable>
-                  <Option v-for="(item, index) in customerPrincipalList" :value="item.code" :label="item.name" :key="index">
+              <FormItem label="IT部负责人" prop="principalCodes">
+                <Select v-model="formData.principalCodes" multiple filterable clearable>
+                  <Option v-for="(item, index) in principalList" :value="item.code" :label="item.name" :key="index">
                     <span>{{ item.name }}</span>
                     <span style="float:right;color:#ccc">{{ item.companyName }}</span>
                   </Option>
@@ -29,8 +29,17 @@
           </Row>
           <Row>
             <Col span="8">
-              <FormItem label="维护团队" prop="teamCode">
-                <Select v-model="formData.teamCode" filterable clearable>
+              <FormItem label="服务公司" prop="companyCodes">
+                <Select v-model="formData.companyCodes" multiple filterable clearable>
+                  <Option v-for="(item, index) in companyList" :value="item.code" :label="item.name" :key="index">
+                    <span>{{ item.name }}</span>
+                  </Option>
+                </Select>
+              </FormItem>
+            </Col>
+            <Col span="8">
+              <FormItem label="维护团队" prop="teamCodes">
+                <Select v-model="formData.teamCodes" multiple filterable clearable>
                   <Option v-for="(item, index) in teamList" :value="item.code" :label="item.name" :key="index">
                     <span>{{ item.name }}</span>
                     <span style="float:right;color:#ccc">{{ item.principalName }}</span>
@@ -45,7 +54,9 @@
                 </Select>
               </FormItem>
             </Col>
-            <Col span="8">
+          </Row>
+          <Row>
+            <Col span="8" offset="16">
               <FormItem>
                 <Button type="primary" @click="handleQuery()">
                   <Icon type="ios-search-outline" />
@@ -94,7 +105,8 @@
 <script>
 import { getDataDictByCode } from '@/api/daily/evo-sys'
 import { listCustomerEmployee } from '@/api/daily/customer-employee'
-import { findOrgTeam } from '@/api/daily/org-team'
+import { listCustomerCompany } from '@/api/daily/customer-company'
+import { listOrgTeam } from '@/api/daily/org-team'
 import { pageProjectSystem, deleteProjectSystem } from '@/api/daily/project-system'
 
 export default {
@@ -102,14 +114,16 @@ export default {
     return {
       collapse: '1',
       statusDataDicts: [],
-      customerPrincipalList: [],
+      principalList: [],
+      companyList: [],
       teamList: [],
       formData: {
         code: '',
         name: '',
-        customerPrincipalCode: '',
-        teamCode: '',
-        status: ''
+        status: '',
+        principalCodes: [],
+        companyCodes: [],
+        teamCodes: []
       },
       formRule: {
         code: [
@@ -138,13 +152,13 @@ export default {
         },
         {
           align: 'left',
-          width: 120,
+          width: 200,
           title: '编号',
           key: 'code'
         },
         {
           align: 'left',
-          width: 120,
+          width: 200,
           title: '名称',
           key: 'name'
         },
@@ -265,13 +279,18 @@ export default {
         this.statusDataDicts = res.data
       })
     },
-    loadCustomerPrincipalList () {
+    loadPrincipalList () {
       listCustomerEmployee({}).then(res => {
-        this.customerPrincipalList = res.data
+        this.principalList = res.data
+      })
+    },
+    loadCompanyList () {
+      listCustomerCompany({}).then(res => {
+        this.companyList = res.data
       })
     },
     loadTeamList () {
-      findOrgTeam({}).then(res => {
+      listOrgTeam({}).then(res => {
         this.teamList = res.data
       })
     },
@@ -282,9 +301,10 @@ export default {
       pageProjectSystem({
         code: this.formData.code,
         name: this.formData.name,
-        customerPrincipalCode: this.formData.customerPrincipalCode,
-        teamCode: this.formData.teamCode,
         status: this.formData.status,
+        principalCodes: this.formData.principalCodes,
+        companyCodes: this.formData.companyCodes,
+        teamCodes: this.formData.teamCodes,
         pageNo: this.pageNo,
         pageSize: this.pageSize,
         pageSort: 'code',
@@ -304,7 +324,8 @@ export default {
   },
   mounted () {
     this.loadStatusDataDict()
-    this.loadCustomerPrincipalList()
+    this.loadPrincipalList()
+    this.loadCompanyList()
     this.loadTeamList()
     this.loadData()
   }

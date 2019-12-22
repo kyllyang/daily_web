@@ -110,7 +110,7 @@
 </template>
 <script>
 import { findOrgEmployee } from '@/api/daily/org-employee'
-import { findOrgTeam } from '@/api/daily/org-team'
+import { listOrgTeam } from '@/api/daily/org-team'
 import { getSystemHolidays } from '@/api/daily/system-holidays'
 import { formatDate, newDate, addDate } from '@/libs/util'
 import { pageStatisticsWorklogSummary } from '@/api/daily/statistics'
@@ -408,7 +408,7 @@ export default {
       })
     },
     loadTeamList () {
-      findOrgTeam({}).then(res => {
+      listOrgTeam({}).then(res => {
         this.teamList = res.data
       })
     },

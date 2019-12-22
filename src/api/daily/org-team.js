@@ -8,7 +8,7 @@ export const pageOrgTeam = (query) => {
   })
 }
 
-export const findOrgTeam = (query) => {
+export const listOrgTeam = (query) => {
   return axios.request({
     url: '/daily/organization/team/list/info',
     data: query,
