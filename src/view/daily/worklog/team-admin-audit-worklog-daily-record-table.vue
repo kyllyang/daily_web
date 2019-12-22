@@ -96,7 +96,7 @@
 </template>
 <script>
 import { getDataDictByCode, getDataDictByCodeForChildren } from '@/api/daily/evo-sys'
-import { findOrgEmployee } from '@/api/daily/org-employee'
+import { listOrgEmployee } from '@/api/daily/org-employee'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
 import { pageAuditWorklogDailyRecordMember, auditWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
 import expandRow from './audit-worklog-daily-record-table-expand.vue'
@@ -351,7 +351,7 @@ export default {
       })
     },
     loadEmployeeList () {
-      findOrgEmployee({ includeSelf: false }).then(res => {
+      listOrgEmployee({ includeSelf: false }).then(res => {
         this.employeeList = res.data
       })
     },

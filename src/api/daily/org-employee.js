@@ -8,7 +8,7 @@ export const pageOrgEmployee = (query) => {
   })
 }
 
-export const findOrgEmployee = (query) => {
+export const listOrgEmployee = (query) => {
   return axios.request({
     url: '/daily/organization/employee/list/info',
     data: query,

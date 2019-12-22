@@ -2,18 +2,6 @@
   <Form ref="formData" :model="formData" :rules="formRule" :label-width="100">
     <Row>
       <Col span="12">
-        <FormItem label="编号" prop="code">
-          <Input type="text" v-model="formData.code"></Input>
-        </FormItem>
-      </Col>
-      <Col span="12">
-        <FormItem label="名称" prop="name">
-          <Input type="text" v-model="formData.name"></Input>
-        </FormItem>
-      </Col>
-    </Row>
-    <Row>
-      <Col span="12">
         <FormItem label="所属系统" prop="systemCode">
           <Select v-model="formData.systemCode" filterable clearable>
             <Option v-for="(item, index) in systemList" :value="item.code" :label="item.name" :key="index">
@@ -21,6 +9,18 @@
               <span style="float:right;color:#ccc">{{ item.companyNameText }}</span>
             </Option>
           </Select>
+        </FormItem>
+      </Col>
+      <Col span="12">
+        <FormItem label="编号" prop="code">
+          <Input type="text" v-model="formData.code"></Input>
+        </FormItem>
+      </Col>
+    </Row>
+    <Row>
+      <Col span="12">
+        <FormItem label="名称" prop="name">
+          <Input type="text" v-model="formData.name"></Input>
         </FormItem>
       </Col>
       <Col span="12">
@@ -53,15 +53,15 @@
     </Row>
     <Row>
       <Col span="12">
-        <FormItem label="项目负责人" prop="principalCode">
-          <Select v-model="formData.principalCode" placeholder="全部" filterable clearable>
+        <FormItem label="项目负责人" prop="principalCodes">
+          <Select v-model="formData.principalCodes" multiple filterable clearable>
             <Option v-for="(item, index) in orgEmployeeList" :value="item.code" :label="item.name" :key="index">{{ item.name }}</Option>
           </Select>
         </FormItem>
       </Col>
       <Col span="12">
-        <FormItem label="团队负责人" prop="teamPrincipalCode">
-          <Select v-model="formData.teamPrincipalCode" placeholder="全部" filterable clearable>
+        <FormItem label="项目成员" prop="employeeCodes">
+          <Select v-model="formData.employeeCodes" multiple filterable clearable>
             <Option v-for="(item, index) in orgEmployeeList" :value="item.code" :label="item.name" :key="index">{{ item.name }}</Option>
           </Select>
         </FormItem>
@@ -70,14 +70,14 @@
     <Row>
       <Col span="12">
         <FormItem label="是否上线" prop="onlineStatus">
-          <Select v-model="formData.onlineStatus" placeholder="全部" clearable>
+          <Select v-model="formData.onlineStatus" clearable>
             <Option v-for="(item, index) in onlineStatusDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
           </Select>
         </FormItem>
       </Col>
       <Col span="12">
         <FormItem label="项目状态" prop="projectStatus">
-          <Select v-model="formData.projectStatus" placeholder="全部" clearable>
+          <Select v-model="formData.projectStatus" clearable>
             <Option v-for="(item, index) in projectStatusDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
           </Select>
         </FormItem>
@@ -86,7 +86,7 @@
     <Row>
       <Col span="12">
         <FormItem label="结算状态" prop="settleStatus">
-          <Select v-model="formData.settleStatus" placeholder="全部" clearable>
+          <Select v-model="formData.settleStatus" clearable>
             <Option v-for="(item, index) in settleStatusDataDicts" :value="item.key" :key="index">{{ item.value }}</Option>
           </Select>
         </FormItem>
@@ -120,9 +120,9 @@
 <script>
 import { mapMutations } from 'vuex'
 import { getDataDictByCode } from '@/api/daily/evo-sys'
-import { findOrgEmployee } from '@/api/daily/org-employee'
-import { listCustomerEmployee } from '@/api/daily/customer-employee'
 import { listProjectSystem } from '@/api/daily/project-system'
+import { listCustomerEmployee } from '@/api/daily/customer-employee'
+import { listOrgEmployee } from '@/api/daily/org-employee'
 import { checkByBackend, createProjectSystemItem, updateProjectSystemItem, getProjectSystemItem } from '@/api/daily/project-system-item'
 
 export default {
@@ -136,14 +136,14 @@ export default {
       orgEmployeeList: [],
       formData: {
         id: null,
+        systemCode: '',
         code: '',
         name: '',
-        systemCode: '',
         fromDepartment: '',
         customerItCodes: [],
         customerBizCodes: [],
-        principalCode: '',
-        teamPrincipalCode: '',
+        principalCodes: [],
+        employeeCodes: [],
         onlineStatus: '',
         projectStatus: '',
         settleStatus: '',
@@ -152,17 +152,44 @@ export default {
         remark: ''
       },
       formRule: {
+        systemCode: [
+          { type: 'string', required: true, message: '不能为空', trigger: 'blur' }
+        ],
         code: [
           { type: 'string', required: true, max: 100, message: '不能为空，且最大长度不能超过100个字符', trigger: 'blur' }
         ],
         name: [
           { type: 'string', required: true, max: 50, message: '不能为空，且最大长度不能超过50个字符', trigger: 'blur' }
         ],
-        systemCode: [
-          { type: 'string', required: true, message: '不能为空', trigger: 'blur' }
-        ],
         fromDepartment: [
           { type: 'string', max: 50, message: '最大长度不能超过50个字符', trigger: 'blur' }
+        ],
+        customerItCodes: [
+          { required: true, message: '不能为空' }
+        ],
+        customerBizCodes: [
+          { required: true, message: '不能为空' }
+        ],
+        principalCodes: [
+          { required: true, message: '不能为空' }
+        ],
+        employeeCodes: [
+          { required: true, message: '不能为空' }
+        ],
+        onlineStatus: [
+          { type: 'string', required: true, message: '不能为空' }
+        ],
+        projectStatus: [
+          { type: 'string', required: true, message: '不能为空' }
+        ],
+        settleStatus: [
+          { type: 'string', required: true, message: '不能为空' }
+        ],
+        planOnlineDate: [
+          { type: 'string', required: true, message: '不能为空' }
+        ],
+        realOnlineDate: [
+          { type: 'string', required: true, message: '不能为空' }
         ],
         remark: [
           { type: 'string', max: 200, message: '最大长度不能超过200个字符', trigger: 'blur' }
@@ -196,7 +223,7 @@ export default {
       })
     },
     loadSystemList () {
-      listProjectSystem().then(res => {
+      listProjectSystem({}).then(res => {
         this.systemList = res.data
       })
     },
@@ -206,7 +233,7 @@ export default {
       })
     },
     loadOrgEmployeeList () {
-      findOrgEmployee({}).then(res => {
+      listOrgEmployee({}).then(res => {
         this.orgEmployeeList = res.data
       })
     },

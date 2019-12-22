@@ -61,7 +61,7 @@
 <script>
 import { mapMutations } from 'vuex'
 import { getDataDictByCodeForChildren } from '@/api/daily/evo-sys'
-import { findOrgEmployee } from '@/api/daily/org-employee'
+import { listOrgEmployee } from '@/api/daily/org-employee'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
 import { checkByBackend, createWorklogDailyRecord, updateWorklogDailyRecord, getWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
 
@@ -167,7 +167,7 @@ export default {
       })
     },
     loadEmployeeList () {
-      findOrgEmployee().then(res => {
+      listOrgEmployee({}).then(res => {
         this.employeeList = res.data
       })
     },

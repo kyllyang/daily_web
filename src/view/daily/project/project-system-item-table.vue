@@ -33,15 +33,15 @@
               </FormItem>
             </Col>
             <Col span="8">
-              <FormItem label="项目负责人" prop="principalCode">
-                <Select v-model="formData.principalCode" placeholder="全部" filterable clearable>
+              <FormItem label="项目负责人" prop="principalCodes">
+                <Select v-model="formData.principalCodes" multiple filterable clearable>
                   <Option v-for="(item, index) in orgEmployeeList" :value="item.code" :label="item.name" :key="index">{{ item.name }}</Option>
                 </Select>
               </FormItem>
             </Col>
             <Col span="8">
-              <FormItem label="团队负责人" prop="teamPrincipalCode">
-                <Select v-model="formData.teamPrincipalCode" placeholder="全部" filterable clearable>
+              <FormItem label="项目成员" prop="employeeCodes">
+                <Select v-model="formData.employeeCodes" multiple filterable clearable>
                   <Option v-for="(item, index) in orgEmployeeList" :value="item.code" :label="item.name" :key="index">{{ item.name }}</Option>
                 </Select>
               </FormItem>
@@ -129,8 +129,8 @@
 </template>
 <script>
 import { getDataDictByCode } from '@/api/daily/evo-sys'
-import { findOrgEmployee } from '@/api/daily/org-employee'
 import { listProjectSystem } from '@/api/daily/project-system'
+import { listOrgEmployee } from '@/api/daily/org-employee'
 import { pageProjectSystemItem, deleteProjectSystemItem } from '@/api/daily/project-system-item'
 
 export default {
@@ -146,8 +146,8 @@ export default {
         code: '',
         name: '',
         systemCode: '',
-        principalCode: '',
-        teamPrincipalCode: '',
+        principalCodes: [],
+        employeeCodes: [],
         fromDepartment: '',
         onlineStatus: '',
         projectStatus: '',
@@ -185,33 +185,28 @@ export default {
         },
         {
           align: 'left',
-          width: 120,
           title: '编号',
           key: 'code'
         },
         {
           align: 'left',
-          width: 120,
           title: '名称',
           key: 'name'
         },
         {
           align: 'left',
-          width: 120,
           title: '所属系统',
           key: 'systemName'
         },
         {
           align: 'left',
-          width: 120,
           title: '项目负责人',
-          key: 'principalName'
+          key: 'principalNameText'
         },
         {
           align: 'left',
-          width: 120,
-          title: '团队负责人',
-          key: 'teamPrincipalName'
+          title: '项目成员',
+          key: 'employeeNameText'
         },
         {
           align: 'left',
@@ -220,7 +215,6 @@ export default {
         },
         {
           align: 'center',
-          width: 120,
           title: '是否上线',
           key: 'onlineStatus',
           render: (h, params) => {
@@ -236,7 +230,6 @@ export default {
         },
         {
           align: 'center',
-          width: 120,
           title: '项目状态',
           key: 'projectStatus',
           render: (h, params) => {
@@ -252,7 +245,6 @@ export default {
         },
         {
           align: 'center',
-          width: 120,
           title: '结算状态',
           key: 'settleStatus',
           render: (h, params) => {
@@ -268,13 +260,11 @@ export default {
         },
         {
           align: 'center',
-          width: 120,
           title: '计划上线时间',
           key: 'planOnlineDate'
         },
         {
           align: 'center',
-          width: 120,
           title: '实际上线时间',
           key: 'realOnlineDate'
         }
@@ -369,12 +359,12 @@ export default {
       })
     },
     loadSystemList () {
-      listProjectSystem().then(res => {
+      listProjectSystem({}).then(res => {
         this.systemList = res.data
       })
     },
     loadOrgEmployeeList () {
-      findOrgEmployee({}).then(res => {
+      listOrgEmployee({}).then(res => {
         this.orgEmployeeList = res.data
       })
     },
@@ -386,8 +376,8 @@ export default {
         code: this.formData.code,
         name: this.formData.name,
         systemCode: this.formData.systemCode,
-        principalCode: this.formData.principalCode,
-        teamPrincipalCode: this.formData.teamPrincipalCode,
+        principalCodes: this.formData.principalCodes,
+        employeeCodes: this.formData.employeeCodes,
         fromDepartment: this.formData.fromDepartment,
         onlineStatus: this.formData.onlineStatus,
         projectStatus: this.formData.projectStatus,

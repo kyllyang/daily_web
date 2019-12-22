@@ -110,7 +110,7 @@
 </template>
 <script>
 import { getDataDictByCode, getDataDictByCodeForChildren } from '@/api/daily/evo-sys'
-import { findOrgEmployee } from '@/api/daily/org-employee'
+import { listOrgEmployee } from '@/api/daily/org-employee'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
 import { pageWorklogDailyRecordSelfMember, deleteWorklogDailyRecord, exportExcelWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
 import IMG_WDRS0001 from '@/assets/images/daily/WDRS0001.png'
@@ -369,7 +369,7 @@ export default {
       })
     },
     loadEmployeeList () {
-      findOrgEmployee().then(res => {
+      listOrgEmployee({}).then(res => {
         this.employeeList = res.data
       })
     },
