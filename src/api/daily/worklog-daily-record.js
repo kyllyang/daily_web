@@ -8,41 +8,9 @@ export const pageWorklogDailyRecord = (query) => {
   })
 }
 
-export const pageWorklogDailyRecordSelf = (query) => {
-  return axios.request({
-    url: '/daily/worklog/daily-record/self/page/info',
-    data: query,
-    method: 'post'
-  })
-}
-
-export const pageWorklogDailyRecordSelfMember = (query) => {
-  return axios.request({
-    url: '/daily/worklog/daily-record/self-member/page/info',
-    data: query,
-    method: 'post'
-  })
-}
-
 export const pageAuditWorklogDailyRecord = (query) => {
   return axios.request({
     url: '/daily/worklog/daily-record/audit/page/info',
-    data: query,
-    method: 'post'
-  })
-}
-
-export const pageAuditWorklogDailyRecordMember = (query) => {
-  return axios.request({
-    url: '/daily/worklog/daily-record/member/audit/page/info',
-    data: query,
-    method: 'post'
-  })
-}
-
-export const pageWorklogDailyRecordSelfStatistics = (query) => {
-  return axios.request({
-    url: '/daily/worklog/daily-record/self/page/info/statistics',
     data: query,
     method: 'post'
   })

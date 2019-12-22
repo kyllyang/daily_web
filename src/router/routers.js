@@ -90,14 +90,14 @@ export default [
         component: () => import('@/view/daily/mine/worklog-daily-record-form.vue')
       },
       {
-        path: 'team_admin_audit_worklog',
-        name: 'team_admin_audit_worklog',
+        path: 'audit_worklog',
+        name: 'audit_worklog',
         meta: {
           icon: 'md-funnel',
           title: '日报审核',
           access: ['TEAM_ADMIN']
         },
-        component: () => import('@/view/daily/worklog/team-admin-audit-worklog-daily-record-table.vue')
+        component: () => import('@/view/daily/mine/worklog-daily-record-audit-table.vue')
       },
       {
         path: 'my_process',
