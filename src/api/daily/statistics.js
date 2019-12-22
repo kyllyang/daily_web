@@ -1,5 +1,19 @@
 import axios from '@/libs/api.request'
 
+export const getWorklogMineTodayFilled = (workDate) => {
+  return axios.request({
+    url: '/daily/statistics/worklog/mine/' + workDate + '/filled',
+    method: 'get'
+  })
+}
+
+export const getWorklogMineTodayResidue = (workDate) => {
+  return axios.request({
+    url: '/daily/statistics/worklog/mine/' + workDate + '/residue',
+    method: 'get'
+  })
+}
+
 export const pageStatisticsProjectSystemItemManhour = (query) => {
   return axios.request({
     url: '/daily/statistics/worklog/project-system-item-manhour/page/info',

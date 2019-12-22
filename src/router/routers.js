@@ -87,7 +87,7 @@ export default [
           title: '日报填写',
           access: ['TEAM_ADMIN', 'EMPLOYEE']
         },
-        component: () => import('@/view/daily/worklog/my-worklog-daily-record-form.vue')
+        component: () => import('@/view/daily/mine/worklog-daily-record-form.vue')
       },
       {
         path: 'team_admin_audit_worklog',

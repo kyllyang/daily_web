@@ -17,8 +17,6 @@
       <Col span="12" align="right">
         <Tag type="dot" color="primary">已填写{{ filledMinute }}分钟</Tag>
         <Tag type="dot" color="success">剩余{{ residueMinute }}分钟</Tag>
-        <!--<Tag type="dot" color="error">加班{{ overTimeMinute }}分钟</Tag>-->
-        <!--<Tag type="dot" color="warning">空闲{{ freeMinute }}分钟</Tag>-->
       </Col>
     </Row>
     <Row>
@@ -40,8 +38,8 @@
     </Row>
     <Row>
       <Col span="12">
-        <FormItem label="任务分类" prop="taskCategorys">
-          <Cascader v-model="formData.taskCategorys" :data="taskCategoryDataDicts" trigger="hover"></Cascader>
+        <FormItem label="任务分类" prop="taskCategories">
+          <Cascader v-model="formData.taskCategories" :data="taskCategoryDataDicts" trigger="hover"></Cascader>
         </FormItem>
       </Col>
       <Col span="12">
@@ -67,7 +65,8 @@
 import { mapMutations } from 'vuex'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
 import { getDataDictByCodeForChildren } from '@/api/daily/evo-sys'
-import { pageWorklogDailyRecordSelfStatistics, checkByBackend, createWorklogDailyRecord, updateWorklogDailyRecord, getWorklogDailyRecord, deleteWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
+import { pageWorklogDailyRecord, checkByBackend, createWorklogDailyRecord, updateWorklogDailyRecord, getWorklogDailyRecord, deleteWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
+import { getWorklogMineTodayFilled, getWorklogMineTodayResidue } from '@/api/daily/statistics'
 import { formatDate, newDate, addHour, addDate } from '@/libs/util'
 
 export default {
@@ -79,7 +78,7 @@ export default {
         callback()
       }
     }
-    const taskCategorysValidator = (rule, value, callback) => {
+    const taskCategoriesValidator = (rule, value, callback) => {
       if (value[0] === '' || value[1] === '') {
         callback(new Error('不能为空'))
       } else if (value.length < 2) {
@@ -101,8 +100,6 @@ export default {
     return {
       filledMinute: 0,
       residueMinute: 0,
-      overTimeMinute: 0,
-      freeMinute: 0,
       taskCategoryDataDicts: [],
       systemItemList: [],
       submitText: '新增',
@@ -116,7 +113,7 @@ export default {
         startTime: '',
         endTime: '',
         remark: '',
-        taskCategorys: [],
+        taskCategories: [],
         workTimes: ['08:00', '09:00']
       },
       formRule: {
@@ -129,9 +126,9 @@ export default {
         moduleName: [
           { type: 'string', required: true, max: 100, message: '不能为空，且最大长度不能超过100个字符', trigger: 'blur' }
         ],
-        taskCategorys: [
+        taskCategories: [
           { type: 'array', required: true, trigger: 'blur' },
-          { type: 'string', validator: taskCategorysValidator, trigger: 'blur' }
+          { type: 'string', validator: taskCategoriesValidator, trigger: 'blur' }
         ],
         workTimes: [
           { type: 'array', required: true, trigger: 'blur' },
@@ -172,7 +169,7 @@ export default {
         },
         {
           align: 'left',
-          width: 150,
+          width: 200,
           title: '任务分类',
           key: 'taskCategory',
           render: (h, params) => {
@@ -281,7 +278,7 @@ export default {
       })
     },
     loadSystemItemList () {
-      listProjectSystemItem().then(res => {
+      listProjectSystemItem({ includeTakePartIn: true }).then(res => {
         this.systemItemList = res.data
       })
     },
@@ -289,21 +286,20 @@ export default {
       if (this.loading) return
       this.loading = true
 
-      pageWorklogDailyRecordSelfStatistics({
-        employeeCode: this.formData.employeeCode,
-        currentWorkDate: this.formData.workDate,
+      pageWorklogDailyRecord({
+        onlyMine: true,
+        workDate: this.formData.workDate,
         pageNo: 1,
         pageSize: 65535,
         pageSort: 'code',
         pageOrder: 'asc'
       }).then(res => {
-        this.data = res.data.pageList.dataList
-        this.totalRecord = res.data.pageList.totalRecord
-        this.filledMinute = res.data.filledMinute
-        this.residueMinute = res.data.residueMinute
-        this.overTimeMinute = res.data.overTimeMinute
-        this.freeMinute = res.data.freeMinute
+        this.data = res.data.dataList
+        this.totalRecord = res.data.totalRecord
         this.loading = false
+
+        getWorklogMineTodayFilled(this.formData.workDate).then(res => { this.filledMinute = res.data })
+        getWorklogMineTodayResidue(this.formData.workDate).then(res => { this.residueMinute = res.data })
       })
     },
     loadForm (id) {
@@ -326,7 +322,7 @@ export default {
     handleSubmit () {
       this.$refs['formData'].validate((valid) => {
         if (valid) {
-          this.formData.taskCategory = this.formData.taskCategorys[1]
+          this.formData.taskCategory = this.formData.taskCategories[1]
           this.formData.startTime = this.formData.workTimes[0]
           this.formData.endTime = this.formData.workTimes[1]
 
