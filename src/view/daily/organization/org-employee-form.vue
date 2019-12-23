@@ -247,7 +247,7 @@ export default {
         outTime: '',
         job: '',
         status: '',
-        teamCodes: '',
+        teamCodes: [],
         roleCode: '',
         education: '',
         university: '',
@@ -297,7 +297,7 @@ export default {
           { type: 'string', required: true, message: '不能为空' }
         ],
         teamCodes: [
-          { type: 'string', required: true, validator: teamCodesValidator, trigger: 'blur' }
+          { required: true, validator: teamCodesValidator, trigger: 'blur' }
         ],
         roleCode: [
           { type: 'string', required: true, message: '不能为空' }

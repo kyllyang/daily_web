@@ -184,7 +184,7 @@ export default {
         {
           align: 'left',
           title: '负责人',
-          key: 'principalName'
+          key: 'principalNameText'
         },
         {
           align: 'left',

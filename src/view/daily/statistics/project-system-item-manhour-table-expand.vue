@@ -30,7 +30,7 @@
     <Row v-for="(item, index) in row.jobExpandList" :key="index + 'job'">
       <Col span="4">
         <span class="expand-key">岗位：</span>
-        <span class="expand-value">{{ toOtherText(item.jobName) }}</span>
+        <span class="expand-value">{{ toOtherText(item.jobValue) }}</span>
       </Col>
       <Col span="4">
         <span class="expand-key">工时：</span>
@@ -66,7 +66,7 @@ export default {
       return toMinutesText(minutes)
     },
     toOtherText (name) {
-      return name === null ? '未分类' : name
+      return name === null || name === '' ? '未分类' : name
     }
   }
 }

@@ -74,8 +74,7 @@ export default [
     name: 'my_work',
     meta: {
       icon: 'md-menu',
-      title: '我的工作',
-      access: ['TEAM_ADMIN', 'EMPLOYEE']
+      title: '我的工作'
     },
     component: Main,
     children: [
@@ -84,8 +83,7 @@ export default [
         name: 'edit_worklog',
         meta: {
           icon: 'md-funnel',
-          title: '日报填写',
-          access: ['TEAM_ADMIN', 'EMPLOYEE']
+          title: '日报填写'
         },
         component: () => import('@/view/daily/mine/worklog-daily-record-form.vue')
       },
@@ -104,8 +102,7 @@ export default [
         name: 'my_process',
         meta: {
           icon: 'md-funnel',
-          title: '我的申请',
-          access: ['TEAM_ADMIN', 'EMPLOYEE']
+          title: '我的申请'
         },
         component: () => import('@/view/daily/blank.vue')
       },
@@ -114,8 +111,7 @@ export default [
         name: 'my_task',
         meta: {
           icon: 'md-funnel',
-          title: '我的任务',
-          access: ['TEAM_ADMIN', 'EMPLOYEE']
+          title: '我的任务'
         },
         component: () => import('@/view/daily/blank.vue')
       },
@@ -125,7 +121,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '我的团队',
-          access: ['TEAM_ADMIN', 'EMPLOYEE']
+          access: ['TEAM_ADMIN']
         },
         component: () => import('@/view/daily/organization/my-org-employee-table.vue')
       }
@@ -136,8 +132,7 @@ export default [
     name: 'worklog',
     meta: {
       icon: 'md-menu',
-      title: '工作记录',
-      access: ['TEAM_ADMIN', 'EMPLOYEE']
+      title: '工作记录'
     },
     component: Main,
     children: [
@@ -146,8 +141,7 @@ export default [
         name: 'worklog_daily_record',
         meta: {
           icon: 'md-funnel',
-          title: '日报管理',
-          access: ['TEAM_ADMIN', 'EMPLOYEE']
+          title: '日报管理'
         },
         component: () => import('@/view/daily/worklog/worklog-daily-record-table.vue')
       },
@@ -156,8 +150,7 @@ export default [
         name: 'worklog_sign_in',
         meta: {
           icon: 'md-funnel',
-          title: '签到记录',
-          access: ['TEAM_ADMIN', 'EMPLOYEE']
+          title: '签到记录'
         },
         component: () => import('@/view/daily/blank.vue')
       }
@@ -233,7 +226,7 @@ export default [
     meta: {
       icon: 'md-menu',
       title: '项目建设',
-      access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
+      access: ['TEAM_ADMIN']
     },
     component: Main,
     children: [
@@ -243,7 +236,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '系统管理',
-          access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
+          access: ['TEAM_ADMIN']
         },
         component: () => import('@/view/daily/project/project-system-table.vue')
       },
@@ -253,7 +246,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '项目管理',
-          access: ['COMPANY_ADMIN', 'TEAM_ADMIN']
+          access: ['TEAM_ADMIN']
         },
         component: () => import('@/view/daily/project/project-system-item-table.vue')
       }
@@ -270,24 +263,24 @@ export default [
     component: Main,
     children: [
       {
-        path: 'team_admin_statistics_project_system_item_manhour',
-        name: 'team_admin_statistics_project_system_item_manhour',
+        path: 'statistics_project_system_item_manhour',
+        name: 'statistics_project_system_item_manhour',
         meta: {
           icon: 'md-funnel',
           title: '项目工时',
           access: ['TEAM_ADMIN']
         },
-        component: () => import('@/view/daily/statistics/team-admin-project-system-item-manhour-table.vue')
+        component: () => import('@/view/daily/statistics/project-system-item-manhour-table.vue')
       },
       {
-        path: 'team_admin_statistics_employee_manhour',
-        name: 'team_admin_statistics_employee_manhour',
+        path: 'statistics_employee_manhour',
+        name: 'statistics_employee_manhour',
         meta: {
           icon: 'md-funnel',
           title: '员工工时',
           access: ['TEAM_ADMIN']
         },
-        component: () => import('@/view/daily/statistics/team-admin-employee-manhour-table.vue')
+        component: () => import('@/view/daily/statistics/employee-manhour-table.vue')
       },
       {
         path: 'statistics_worklog_summary',

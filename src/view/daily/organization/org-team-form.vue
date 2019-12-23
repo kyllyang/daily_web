@@ -2,6 +2,18 @@
   <Form ref="formData" :model="formData" :rules="formRule" :label-width="100">
     <Row>
       <Col span="12">
+        <FormItem label="编号" prop="code">
+          <Input type="text" v-model="formData.code"></Input>
+        </FormItem>
+      </Col>
+      <Col span="12">
+        <FormItem label="名称" prop="name">
+          <Input type="text" v-model="formData.name"></Input>
+        </FormItem>
+      </Col>
+    </Row>
+    <Row>
+      <Col span="12">
         <FormItem label="上级团队" prop="parentCode">
           <Select v-model="formData.parentCode" clearable>
             <Option v-for="(item, index) in teamList" :value="item.code" :label="item.name" :key="index">
@@ -11,16 +23,11 @@
           </Select>
         </FormItem>
       </Col>
-    </Row>
-    <Row>
       <Col span="12">
-        <FormItem label="编号" prop="code">
-          <Input type="text" v-model="formData.code"></Input>
-        </FormItem>
-      </Col>
-      <Col span="12">
-        <FormItem label="名称" prop="name">
-          <Input type="text" v-model="formData.name"></Input>
+        <FormItem label="项目负责人" prop="principalCodes">
+          <Select v-model="formData.principalCodes" multiple filterable clearable>
+            <Option v-for="(item, index) in orgEmployeeList" :value="item.code" :label="item.name" :key="index">{{ item.name }}</Option>
+          </Select>
         </FormItem>
       </Col>
     </Row>
@@ -61,6 +68,7 @@
 <script>
 import { mapMutations } from 'vuex'
 import { getDataDictByCode } from '@/api/daily/evo-sys'
+import { listOrgEmployee } from '@/api/daily/org-employee'
 import { listOrgTeam, checkByBackend, createOrgTeam, updateOrgTeam, getOrgTeam } from '@/api/daily/org-team'
 
 export default {
@@ -69,23 +77,27 @@ export default {
       propertyDataDicts: [],
       statusDataDicts: [],
       teamList: [],
+      orgEmployeeList: [],
       formData: {
         id: null,
-        parentCode: 'GL',
         code: '',
         name: '',
+        parentCode: 'GL',
+        principalCodes: [],
         property: '',
         status: '',
-        principalCode: '',
         skill: '',
         remark: ''
       },
       formRule: {
-        parentCode: [
-          { type: 'string', required: true, message: '不能为空' }
-        ],
         code: [
           { type: 'string', required: true, max: 10, message: '不能为空，且最大长度不能超过10个字符', trigger: 'blur' }
+        ],
+        parentCode: [
+          { required: true, message: '不能为空' }
+        ],
+        principalCodes: [
+          { required: true, message: '不能为空' }
         ],
         name: [
           { type: 'string', required: true, max: 10, message: '不能为空，且最大长度不能超过10个字符', trigger: 'blur' }
@@ -116,6 +128,11 @@ export default {
     loadTeamList () {
       listOrgTeam({}).then(res => {
         this.teamList = res.data
+      })
+    },
+    loadOrgEmployeeList () {
+      listOrgEmployee({}).then(res => {
+        this.orgEmployeeList = res.data
       })
     },
     loadForm () {
@@ -187,6 +204,7 @@ export default {
     this.loadPropertyDataDict()
     this.loadStatusDataDict()
     this.loadTeamList()
+    this.loadOrgEmployeeList()
 
     if (this.$route.params.id) {
       this.loadForm()

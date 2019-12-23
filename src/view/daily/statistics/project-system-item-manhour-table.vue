@@ -182,7 +182,7 @@ export default {
       this.loadData()
     },
     loadSystemItemList () {
-      listProjectSystemItem().then(res => {
+      listProjectSystemItem({}).then(res => {
         this.systemItemList = res.data
       })
     },
