@@ -44,7 +44,7 @@
 </template>
 <script>
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
-import { pageStatisticsProjectSystemItemManhourSelf } from '@/api/daily/statistics'
+import { pageProjectSystemItemManhour } from '@/api/daily/statistics'
 import { toMinutesText } from '@/libs/util'
 import expandRow from './project-system-item-manhour-table-expand.vue'
 
@@ -177,7 +177,7 @@ export default {
       if (this.loading) return
       this.loading = true
 
-      pageStatisticsProjectSystemItemManhourSelf({
+      pageProjectSystemItemManhour({
         systemItemCode: this.formData.systemItemCode,
         pageNo: this.pageNo,
         pageSize: this.pageSize,

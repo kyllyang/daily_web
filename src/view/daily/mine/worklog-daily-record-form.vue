@@ -66,7 +66,7 @@ import { mapMutations } from 'vuex'
 import { listProjectSystemItem } from '@/api/daily/project-system-item'
 import { getDataDictByCodeForChildren } from '@/api/daily/evo-sys'
 import { pageWorklogDailyRecord, checkByBackend, createWorklogDailyRecord, updateWorklogDailyRecord, getWorklogDailyRecord, deleteWorklogDailyRecord } from '@/api/daily/worklog-daily-record'
-import { getWorklogMineTodayFilled, getWorklogMineTodayResidue } from '@/api/daily/statistics'
+import { getMineFilled, getMineResidue } from '@/api/daily/statistics'
 import { formatDate, newDate, addHour, addDate } from '@/libs/util'
 
 export default {
@@ -298,8 +298,8 @@ export default {
         this.totalRecord = res.data.totalRecord
         this.loading = false
 
-        getWorklogMineTodayFilled(this.formData.workDate).then(res => { this.filledMinute = res.data })
-        getWorklogMineTodayResidue(this.formData.workDate).then(res => { this.residueMinute = res.data })
+        getMineFilled(this.formData.workDate).then(res => { this.filledMinute = res.data })
+        getMineResidue(this.formData.workDate).then(res => { this.residueMinute = res.data })
       })
     },
     loadForm (id) {

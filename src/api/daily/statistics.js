@@ -1,112 +1,67 @@
 import axios from '@/libs/api.request'
 
-export const getWorklogMineTodayFilled = (workDate) => {
+export const getMineFilled = (workDate) => {
   return axios.request({
     url: '/daily/statistics/worklog/mine/' + workDate + '/filled',
     method: 'get'
   })
 }
 
-export const getWorklogMineTodayResidue = (workDate) => {
+export const getMineResidue = (workDate) => {
   return axios.request({
     url: '/daily/statistics/worklog/mine/' + workDate + '/residue',
     method: 'get'
   })
 }
 
-export const pageStatisticsProjectSystemItemManhour = (query) => {
+export const getEmployeeOnJobCount = () => {
   return axios.request({
-    url: '/daily/statistics/worklog/project-system-item-manhour/page/info',
+    url: '/daily/statistics/organization/employee/onjob',
+    method: 'get'
+  })
+}
+
+export const getCurrentMonthManHourShouldFill = () => {
+  return axios.request({
+    url: '/daily/statistics/worklog/currentmonth/manhour/shouldfill',
+    method: 'get'
+  })
+}
+
+export const getCurrentMonthManHourAlreadyFill = () => {
+  return axios.request({
+    url: '/daily/statistics/worklog/currentmonth/manhour/alreadyfill',
+    method: 'get'
+  })
+}
+
+export const getCurrentMonthManHourAlreadyApprove = () => {
+  return axios.request({
+    url: '/daily/statistics/worklog/currentmonth/manhour/alreadyapprove',
+    method: 'get'
+  })
+}
+
+export const pageProjectSystemItemManhour = (query) => {
+  return axios.request({
+    url: '/daily/statistics/worklog/project-system-item/manhour/page/info',
     data: query,
     method: 'post'
   })
 }
 
-export const pageStatisticsProjectSystemItemManhourSelf = (query) => {
+export const pageEmployeeManhour = (query) => {
   return axios.request({
-    url: '/daily/statistics/worklog/project-system-item-manhour/self/page/info',
+    url: '/daily/statistics/worklog/org-employee/manhour/page/info',
     data: query,
     method: 'post'
   })
 }
 
-export const listStatisticsEmployeeManhourYear = (query) => {
+export const pageWorklogSummary = (query) => {
   return axios.request({
-    url: '/daily/statistics/worklog/employee-manhour/year',
-    data: query,
-    method: 'get'
-  })
-}
-
-export const pageStatisticsEmployeeManhour = (query) => {
-  return axios.request({
-    url: '/daily/statistics/worklog/employee-manhour/page/info',
+    url: '/daily/statistics/worklog/summary/page/info',
     data: query,
     method: 'post'
-  })
-}
-
-export const pageStatisticsEmployeeManhourSelf = (query) => {
-  return axios.request({
-    url: '/daily/statistics/worklog/employee-manhour/self/page/info',
-    data: query,
-    method: 'post'
-  })
-}
-
-export const pageStatisticsWorklogSummary = (query) => {
-  return axios.request({
-    url: '/daily/statistics/worklog/worklog-summary/page/info',
-    data: query,
-    method: 'post'
-  })
-}
-
-export const countStatisticsAmountEmployeeOnjobCount = () => {
-  return axios.request({
-    url: '/daily/statistics/organization/employee/amount/onjob',
-    method: 'get'
-  })
-}
-
-export const countStatisticsAmountCurrentMonthManHourShouldFillSum = () => {
-  return axios.request({
-    url: '/daily/statistics/worklog/amount/currentmonth/manhour/shouldfill/sum',
-    method: 'get'
-  })
-}
-
-export const countStatisticsAmountCurrentMonthManHourAlreadyFillSum = () => {
-  return axios.request({
-    url: '/daily/statistics/worklog/amount/currentmonth/manhour/alreadyfill/sum',
-    method: 'get'
-  })
-}
-
-export const countStatisticsAmountCurrentMonthManHourAlreadyApproveSum = () => {
-  return axios.request({
-    url: '/daily/statistics/worklog/amount/currentmonth/manhour/alreadyapprove/sum',
-    method: 'get'
-  })
-}
-
-export const countStatisticsAmountCurrentMonthManHourShouldFillSumSelf = () => {
-  return axios.request({
-    url: '/daily/statistics/worklog/amount/currentmonth/manhour/shouldfill/sum',
-    method: 'get'
-  })
-}
-
-export const countStatisticsAmountCurrentMonthManHourAlreadyFillSumSelf = () => {
-  return axios.request({
-    url: '/daily/statistics/worklog/amount/currentmonth/manhour/alreadyfill/sum',
-    method: 'get'
-  })
-}
-
-export const countStatisticsAmountCurrentMonthManHourAlreadyApproveSumSelf = () => {
-  return axios.request({
-    url: '/daily/statistics/worklog/amount/currentmonth/manhour/alreadyapprove/sum',
-    method: 'get'
   })
 }

@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { countStatisticsAmountEmployeeOnjobCount, countStatisticsAmountCurrentMonthManHourShouldFillSum, countStatisticsAmountCurrentMonthManHourAlreadyFillSum, countStatisticsAmountCurrentMonthManHourAlreadyApproveSum, countStatisticsAmountCurrentMonthManHourShouldFillSumSelf, countStatisticsAmountCurrentMonthManHourAlreadyFillSumSelf, countStatisticsAmountCurrentMonthManHourAlreadyApproveSumSelf } from '@/api/daily/statistics'
+import { getEmployeeOnJobCount, getCurrentMonthManHourShouldFill, getCurrentMonthManHourAlreadyFill, getCurrentMonthManHourAlreadyApprove } from '@/api/daily/statistics'
 import InforCard from '_c/info-card'
 import CountTo from '_c/count-to'
 import { ChartPie, ChartBar } from '_c/charts'
@@ -72,66 +72,34 @@ export default {
     }
   },
   methods: {
-    loadStatisticsAmountEmployeeOnjobCount () {
-      countStatisticsAmountEmployeeOnjobCount().then(res => {
+    loadEmployeeOnJobCount () {
+      getEmployeeOnJobCount().then(res => {
         this.inforCardData[0].count = res.data
       })
     },
-    loadStatisticsAmountCurrentMonthManHourShouldFillSum () {
-      countStatisticsAmountCurrentMonthManHourShouldFillSum().then(res => {
+    loadCurrentMonthManHourShouldFill () {
+      getCurrentMonthManHourShouldFill().then(res => {
         this.inforCardData[1].count = res.data
+        this.loadCurrentMonthManHourAlreadyFill()
+        this.loadCurrentMonthManHourAlreadyApprove()
       })
     },
-    loadStatisticsAmountCurrentMonthManHourAlreadyFillSum () {
-      countStatisticsAmountCurrentMonthManHourAlreadyFillSum().then(res => {
+    loadCurrentMonthManHourAlreadyFill () {
+      getCurrentMonthManHourAlreadyFill().then(res => {
         this.inforCardData[2].count = Math.floor(res.data / 60 * 100000) / 100000
         this.inforCardData[3].count = this.inforCardData[1].count - this.inforCardData[2].count
       })
     },
-    loadStatisticsAmountCurrentMonthManHourAlreadyApproveSum () {
-      countStatisticsAmountCurrentMonthManHourAlreadyApproveSum().then(res => {
-        this.inforCardData[4].count = Math.floor(res.data / 60 * 100000) / 100000
-        this.inforCardData[5].count = this.inforCardData[1].count - this.inforCardData[4].count
-      })
-    },
-    loadStatisticsAmountCurrentMonthManHourShouldFillSumSelf () {
-      countStatisticsAmountCurrentMonthManHourShouldFillSumSelf().then(res => {
-        this.inforCardData[1].count = res.data
-      })
-    },
-    loadStatisticsAmountCurrentMonthManHourAlreadyFillSumSelf () {
-      countStatisticsAmountCurrentMonthManHourAlreadyFillSumSelf().then(res => {
-        this.inforCardData[2].count = Math.floor(res.data / 60 * 100000) / 100000
-        this.inforCardData[3].count = this.inforCardData[1].count - this.inforCardData[2].count
-      })
-    },
-    loadStatisticsAmountCurrentMonthManHourAlreadyApproveSumSelf () {
-      countStatisticsAmountCurrentMonthManHourAlreadyApproveSumSelf().then(res => {
+    loadCurrentMonthManHourAlreadyApprove () {
+      getCurrentMonthManHourAlreadyApprove().then(res => {
         this.inforCardData[4].count = Math.floor(res.data / 60 * 100000) / 100000
         this.inforCardData[5].count = this.inforCardData[1].count - this.inforCardData[4].count
       })
     }
   },
   mounted () {
-    this.loadStatisticsAmountEmployeeOnjobCount()
-
-    let isCompanyAdmin = false
-    for (let index in this.$store.state.user.access) {
-      if (this.$store.state.user.access[index] === 'COMPANY_ADMIN') {
-        isCompanyAdmin = true
-        break
-      }
-    }
-
-    if (isCompanyAdmin) {
-      this.loadStatisticsAmountCurrentMonthManHourShouldFillSum()
-      this.loadStatisticsAmountCurrentMonthManHourAlreadyFillSum()
-      this.loadStatisticsAmountCurrentMonthManHourAlreadyApproveSum()
-    } else {
-      this.loadStatisticsAmountCurrentMonthManHourShouldFillSumSelf()
-      this.loadStatisticsAmountCurrentMonthManHourAlreadyFillSumSelf()
-      this.loadStatisticsAmountCurrentMonthManHourAlreadyApproveSumSelf()
-    }
+    this.loadEmployeeOnJobCount()
+    this.loadCurrentMonthManHourShouldFill()
   }
 }
 </script>

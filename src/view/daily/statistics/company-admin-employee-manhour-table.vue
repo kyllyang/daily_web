@@ -52,7 +52,7 @@
 </template>
 <script>
 import { listOrgEmployee } from '@/api/daily/org-employee'
-import { listStatisticsEmployeeManhourYear, pageStatisticsEmployeeManhour } from '@/api/daily/statistics'
+import { getYearList, pageEmployeeManhour } from '@/api/daily/statistics'
 import expandRow from './project-system-item-manhour-table-expand.vue'
 
 export default {
@@ -156,7 +156,7 @@ export default {
       })
     },
     loadYearList () {
-      listStatisticsEmployeeManhourYear().then(res => {
+      getYearList().then(res => {
         this.yearList = res.data
       })
     },
@@ -164,7 +164,7 @@ export default {
       if (this.loading) return
       this.loading = true
 
-      pageStatisticsEmployeeManhour({
+      pageEmployeeManhour({
         employeeCodes: this.formData.employeeCodes,
         year: this.formData.year,
         pageNo: this.pageNo,

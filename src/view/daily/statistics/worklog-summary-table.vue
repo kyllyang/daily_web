@@ -113,7 +113,7 @@ import { listOrgEmployee } from '@/api/daily/org-employee'
 import { listOrgTeam } from '@/api/daily/org-team'
 import { getSystemHolidays } from '@/api/daily/system-holidays'
 import { formatDate, newDate, addDate } from '@/libs/util'
-import { pageStatisticsWorklogSummary } from '@/api/daily/statistics'
+import { pageWorklogSummary } from '@/api/daily/statistics'
 
 export default {
   data () {
@@ -416,7 +416,7 @@ export default {
       if (this.loading) return
       this.loading = true
 
-      pageStatisticsWorklogSummary({
+      pageWorklogSummary({
         employeeCodes: this.formData.employeeCodes,
         teamCodes: this.formData.teamCodes,
         startWorkDate: this.formData.workDate[0],

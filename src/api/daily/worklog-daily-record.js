@@ -16,6 +16,13 @@ export const pageAuditWorklogDailyRecord = (query) => {
   })
 }
 
+export const getYearList = () => {
+  return axios.request({
+    url: '/daily/worklog/daily-record/year',
+    method: 'get'
+  })
+}
+
 export const checkByBackend = (formData) => {
   return axios.request({
     url: '/daily/worklog/daily-record/check',
