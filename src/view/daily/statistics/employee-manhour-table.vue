@@ -95,19 +95,64 @@ export default {
           key: 'year'
         },
         {
-          align: 'center',
+          align: 'right',
           title: '一月',
-          key: '1',
-          render: (h, params) => {
-            let text
-            for (let index in params.row.monthList) {
-              if (params.row.monthList[index].name === '1') {
-                text = params.row.monthList[index].minutes
-                break
-              }
-            }
-            return h('div', text)
-          }
+          key: 'month1'
+        },
+        {
+          align: 'right',
+          title: '二月',
+          key: 'month2'
+        },
+        {
+          align: 'right',
+          title: '三月',
+          key: 'month3'
+        },
+        {
+          align: 'right',
+          title: '四月',
+          key: 'month4'
+        },
+        {
+          align: 'right',
+          title: '五月',
+          key: 'month5'
+        },
+        {
+          align: 'right',
+          title: '六月',
+          key: 'month6'
+        },
+        {
+          align: 'right',
+          title: '七月',
+          key: 'month7'
+        },
+        {
+          align: 'right',
+          title: '八月',
+          key: 'month8'
+        },
+        {
+          align: 'right',
+          title: '九月',
+          key: 'month9'
+        },
+        {
+          align: 'right',
+          title: '十月',
+          key: 'month10'
+        },
+        {
+          align: 'right',
+          title: '十一月',
+          key: 'month11'
+        },
+        {
+          align: 'right',
+          title: '十二月',
+          key: 'month12'
         },
         {
           align: 'right',
@@ -173,28 +218,6 @@ export default {
         pageSort: 'code',
         pageOrder: 'asc'
       }).then(res => {
-        this.columns.splice(4, this.columns.length - 1 - 4)
-        for (let i = 1; i <= 12; i++) {
-          this.columns.splice(4 + (i - 1), 0, {
-            align: 'center',
-            title: i + '月',
-            key: 'month_' + i
-          })
-        }
-
-        for (let index in res.data.dataList) {
-          for (let i = 1; i <= 12; i++) {
-            let minutes = ''
-            for (let m in res.data.dataList[index].monthList) {
-              if (res.data.dataList[index].monthList[m].name === ('' + i)) {
-                minutes = res.data.dataList[index].monthList[m].minutes
-                break
-              }
-            }
-            this.$set(res.data.dataList[index], 'month_' + i, minutes === '' ? 0 : minutes)
-          }
-        }
-
         this.data = res.data.dataList
         this.totalRecord = res.data.totalRecord
         this.loading = false
