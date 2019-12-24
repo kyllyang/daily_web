@@ -85,7 +85,7 @@ export default {
       this.$refs['formData'].resetFields()
     },
     loadSystemItemList () {
-      listProjectSystemItem().then(res => {
+      listProjectSystemItem({}).then(res => {
         this.systemItemList = res.data
       })
     }
