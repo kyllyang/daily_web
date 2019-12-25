@@ -67,7 +67,7 @@ export const updateOrgEmployeePassowrd = (id, password) => {
 
 export const deleteOrgEmployee = (id) => {
   return axios.request({
-    url: '/daily/organization/org-employee/' + id,
+    url: '/daily/organization/employee/' + id,
     method: 'delete'
   })
 }
