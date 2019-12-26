@@ -188,9 +188,6 @@ export default {
         planOnlineDate: [
           { type: 'string', required: true, message: '不能为空' }
         ],
-        realOnlineDate: [
-          { type: 'string', required: true, message: '不能为空' }
-        ],
         remark: [
           { type: 'string', max: 200, message: '最大长度不能超过200个字符', trigger: 'blur' }
         ]
