@@ -17,6 +17,7 @@
       <Col span="12" align="right">
         <Tag type="dot" color="primary">已填写{{ filledMinute }}分钟</Tag>
         <Tag type="dot" color="success">剩余{{ residueMinute }}分钟</Tag>
+        <Tag type="dot" color="warning">加班{{ overTimeMinute }}分钟</Tag>
       </Col>
     </Row>
     <Row>
@@ -100,6 +101,7 @@ export default {
     return {
       filledMinute: 0,
       residueMinute: 0,
+      overTimeMinute: 0,
       taskCategoryDataDicts: [],
       systemItemList: [],
       submitText: '新增',
@@ -299,8 +301,18 @@ export default {
         this.totalRecord = res.data.totalRecord
         this.loading = false
 
-        getMineFilled(this.formData.workDate).then(res => { this.filledMinute = res.data })
-        getMineResidue(this.formData.workDate).then(res => { this.residueMinute = res.data })
+        getMineFilled(this.formData.workDate).then(res => {
+          this.filledMinute = res.data
+        })
+        getMineResidue(this.formData.workDate).then(res => {
+          if (res.data < 0) {
+            this.residueMinute = 0
+            this.overTimeMinute = Math.abs(res.data)
+          } else {
+            this.residueMinute = res.data
+            this.overTimeMinute = 0
+          }
+        })
       })
     },
     loadForm (id) {
