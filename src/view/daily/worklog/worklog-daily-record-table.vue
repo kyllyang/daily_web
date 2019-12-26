@@ -454,6 +454,8 @@ export default {
         taskCategory: this.formData.taskCategory,
         remark: this.formData.remark,
         status: this.formData.status,
+        onlyMine: true,
+        includeTakePartIn: true,
         pageNo: this.pageNo,
         pageSize: this.pageSize,
         pageSort: 'code',

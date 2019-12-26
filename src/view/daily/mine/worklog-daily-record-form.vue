@@ -288,6 +288,7 @@ export default {
 
       pageWorklogDailyRecord({
         onlyMine: true,
+        includeTakePartIn: true,
         workDate: this.formData.workDate,
         pageNo: 1,
         pageSize: 65535,
