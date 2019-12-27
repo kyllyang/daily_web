@@ -16,6 +16,13 @@ export const listProjectSystemItem = (query) => {
   })
 }
 
+export const getCode = (systemCode) => {
+  return axios.request({
+    url: '/daily/project/system-item/new-code/' + systemCode,
+    method: 'get'
+  })
+}
+
 export const checkByBackend = (formData) => {
   return axios.request({
     url: '/daily/project/system-item/check',

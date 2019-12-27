@@ -3,7 +3,7 @@
     <Row>
       <Col span="12">
         <FormItem label="所属系统" prop="systemCode">
-          <Select v-model="formData.systemCode" filterable clearable>
+          <Select v-model="formData.systemCode" filterable clearable @on-change="loadCode">
             <Option v-for="(item, index) in systemList" :value="item.code" :label="item.name" :key="index">
               <span>{{ item.name }}</span>
               <span style="float:right;color:#ccc">{{ item.companyNameText }}</span>
@@ -123,7 +123,7 @@ import { getDataDictByCode } from '@/api/daily/evo-sys'
 import { listProjectSystem } from '@/api/daily/project-system'
 import { listCustomerEmployee } from '@/api/daily/customer-employee'
 import { listOrgEmployee } from '@/api/daily/org-employee'
-import { checkByBackend, createProjectSystemItem, updateProjectSystemItem, getProjectSystemItem } from '@/api/daily/project-system-item'
+import { getCode, checkByBackend, createProjectSystemItem, updateProjectSystemItem, getProjectSystemItem } from '@/api/daily/project-system-item'
 
 export default {
   data () {
@@ -230,9 +230,18 @@ export default {
       })
     },
     loadOrgEmployeeList () {
-      listOrgEmployee({}).then(res => {
+      listOrgEmployee({ all: true }).then(res => {
         this.orgEmployeeList = res.data
       })
+    },
+    loadCode () {
+      if (this.formData.systemCode) {
+        getCode(this.formData.systemCode).then(res => {
+          this.formData.code = res.data
+        });
+      } else {
+        this.formData.code = ''
+      }
     },
     loadForm () {
       getProjectSystemItem(this.$route.params.id).then(res => {
