@@ -42,8 +42,8 @@
                 </FormItem>
               </Col>
               <Col span="8">
-                <FormItem label="项目名称" prop="systemItemCode">
-                  <Select v-model="formData.systemItemCode" multiple filterable clearable>
+                <FormItem label="项目名称" prop="systemItemCodes">
+                  <Select v-model="formData.systemItemCodes" multiple filterable clearable>
                     <Option v-for="(item, index) in systemItemList" :value="item.code" :label="item.name" :key="index">
                       <span>{{ item.name }}</span>
                       <span style="float:right;color:#ccc">{{ item.systemName }}</span>
@@ -59,8 +59,8 @@
             </Row>
             <Row>
               <Col span="8">
-                <FormItem label="任务分类" prop="taskCategory">
-                  <Cascader :data="taskCategoryDataDicts" trigger="hover" change-on-select></Cascader>
+                <FormItem label="任务分类" prop="taskCategories">
+                  <Cascader v-model="formData.taskCategories" :data="taskCategoryDataDicts" trigger="hover" change-on-select></Cascader>
                 </FormItem>
               </Col>
               <Col span="8">
@@ -158,7 +158,7 @@ export default {
         systemCodes: [],
         systemItemCodes: [],
         moduleName: '',
-        taskCategory: '',
+        taskCategories: [],
         remark: '',
         status: '',
         fileName: '日报明细'
@@ -342,8 +342,7 @@ export default {
       }
     },
     handleExportExcel () {
-      if (this.loading) return
-      this.loading = true
+      this.$Spin.show()
 
       exportExcelWorklogDailyRecord({
         employeeCodes: this.formData.employeeCodes,
@@ -353,7 +352,7 @@ export default {
         systemCodes: this.formData.systemCodes,
         systemItemCodes: this.formData.systemItemCodes,
         moduleName: this.formData.moduleName,
-        taskCategory: this.formData.taskCategory,
+        taskCategory: this.formData.taskCategories[1],
         remark: this.formData.remark,
         status: this.formData.status,
         fileName: this.formData.fileName,
@@ -372,7 +371,7 @@ export default {
         document.body.removeChild(downloadElement)
         window.URL.revokeObjectURL(href)
 
-        this.loading = false
+        this.$Spin.hide()
       })
     },
     handleQuery () {
@@ -451,11 +450,9 @@ export default {
         systemCodes: this.formData.systemCodes,
         systemItemCodes: this.formData.systemItemCodes,
         moduleName: this.formData.moduleName,
-        taskCategory: this.formData.taskCategory,
+        taskCategory: this.formData.taskCategories[1],
         remark: this.formData.remark,
         status: this.formData.status,
-        onlyMine: true,
-        includeTakePartIn: true,
         pageNo: this.pageNo,
         pageSize: this.pageSize,
         pageSort: 'code',

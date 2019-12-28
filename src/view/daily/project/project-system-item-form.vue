@@ -238,7 +238,7 @@ export default {
       if (this.formData.systemCode) {
         getCode(this.formData.systemCode).then(res => {
           this.formData.code = res.data
-        });
+        })
       } else {
         this.formData.code = ''
       }

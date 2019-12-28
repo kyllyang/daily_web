@@ -21,6 +21,7 @@
                 <Select v-model="formData.systemCode" filterable clearable>
                   <Option v-for="(item, index) in systemList" :value="item.code" :label="item.name" :key="index">
                     <span>{{ item.name }}</span>
+                    <span style="float:right;color:#ccc">{{ item.code }}</span>
                   </Option>
                 </Select>
               </FormItem>
@@ -122,7 +123,7 @@ export default {
       this.formData.endWorkDate = time
     },
     loadSystemList () {
-      listProjectSystem().then(res => {
+      listProjectSystem({}).then(res => {
         this.systemList = res.data
       })
     }
