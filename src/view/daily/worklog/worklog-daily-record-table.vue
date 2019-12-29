@@ -434,7 +434,7 @@ export default {
       })
     },
     loadSystemItemList () {
-      listProjectSystemItem({ includeTakePartIn: true }).then(res => {
+      listProjectSystemItem({}).then(res => {
         this.systemItemList = res.data
       })
     },
